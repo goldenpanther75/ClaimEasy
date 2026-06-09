@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Car Insurance Quotes | ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="comparison_shared.css">
+    <link rel="stylesheet" href="car_comparison.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Urgency Header -->
+    <div class="urgency-header" role="alert">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Your policy expires in less than 4 hours. Get your
+        policy in 10
+        minutes now.
+    </div>
+
+    <!-- Main Header -->
+    <header class="header" role="banner" style="padding: 10px 0; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="index.html" aria-label="ClaimEasy Home">
+                    <span class="logo-text" aria-hidden="true">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">
+                Need Help? <strong style="color:var(--primary-color);">1800-208-8787</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Filter Bar -->
+    <div class="filter-bar-container">
+        <div class="container filter-content">
+            <div class="filters-left">
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sort-select">
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="idv-high">IDV: High to Low</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Plan Type</label>
+                    <select id="plan-type-filter">
+                        <option value="Comprehensive">Comprehensive</option>
+                        <option value="Third Party">Third Party</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filters-right">
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="zero-dep">
+                    <label for="zero-dep">Zero Depreciation</label>
+                </div>
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="roadside-assist">
+                    <label for="roadside-assist">24x7 RSA</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicle Details Bar -->
+    <div class="vehicle-details-bar" role="region" aria-label="Vehicle Details">
+        <div class="container vehicle-info-grid">
+            <div class="vehicle-item">
+                <span>Registration</span>
+                <strong id="vehicle-reg-no">DL-10-SB-1234</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Car Model</span>
+                <strong id="vehicle-model">Maruti Swift VXI</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Fuel Type</span>
+                <strong id="vehicle-fuel">Petrol</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Existing NCB</span>
+                <strong id="vehicle-ncb">20% (Yes)</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Policy Expiry</span>
+                <strong style="color:var(--urgency-red);" id="vehicle-expiry">Today</strong>
+            </div>
+            <div class="vehicle-item" style="display:flex; align-items:center;">
+                <a href="#" class="edit-link" id="edit-vehicle-btn" aria-label="Edit Vehicle Details"><i class="fas fa-pencil-alt" aria-hidden="true"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="comparison-layout container">
+
+        <!-- Left Column: Plans -->
+        <main class="plans-column" id="main-content">
+            <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="font-size:1.5rem;">Showing <span id="plan-count">5</span> Plans for your Car</h2>
+                <span style="font-size:0.9rem; color:#666;">Prices exclude GST</span>
+            </div>
+
+            <div id="car-plans-container" role="list"><div class="comparison-card" role="listitem">
+            
+            <div class="insurer-logo-round" aria-hidden="true">
+                <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+            </div>
+        
+            <div>
+                <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                <span style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Comprehensive</span>
+            </div>
+            <div>
+                <span style="display:block; font-size:0.8rem; color:#888;">IDV (Insured Value)</span>
+                <span class="idv-value" aria-label="IDV: ₹ 8,00,00,000">₹ 8,00,00,000</span>
+            </div>
+            <div class="plan-features">
+                 <ul aria-label="Plan Features">
+                    <li><i class="fas fa-check" aria-hidden="true"></i> Govt. Owned</li><li><i class="fas fa-check" aria-hidden="true"></i> High Trust</li><li><i class="fas fa-check" aria-hidden="true"></i> Wide Network</li>
+                 </ul>
+                 <div style="font-size:0.8rem; margin-top:5px; color:#555;"><i class="fas fa-wrench" style="color:var(--secondary-color);" aria-hidden="true"></i> 2000+ Garages</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="premium-price" aria-label="Premium: ₹ 5,500">₹ 5,500</div>
+                <button onclick="buyCarPlan(5)" class="btn btn-primary" style="margin-top:10px; width:100%;" aria-label="Buy ClaimEasy plan for ₹ 5500">Buy Now</button>
+            </div>
+        </div><div class="comparison-card" role="listitem">
+            
+            <div class="insurer-logo-round" aria-hidden="true">
+                <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+            </div>
+        
+            <div>
+                <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                <span style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Comprehensive</span>
+            </div>
+            <div>
+                <span style="display:block; font-size:0.8rem; color:#888;">IDV (Insured Value)</span>
+                <span class="idv-value" aria-label="IDV: ₹ 6,00,00,000">₹ 6,00,00,000</span>
+            </div>
+            <div class="plan-features">
+                 <ul aria-label="Plan Features">
+                    <li><i class="fas fa-check" aria-hidden="true"></i> Smartphone Self-Inspection</li><li><i class="fas fa-check" aria-hidden="true"></i> Super Fast Claims</li><li><i class="fas fa-check" aria-hidden="true"></i> Advance Cash</li>
+                 </ul>
+                 <div style="font-size:0.8rem; margin-top:5px; color:#555;"><i class="fas fa-wrench" style="color:var(--secondary-color);" aria-hidden="true"></i> 4500+ Garages</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="premium-price" aria-label="Premium: ₹ 5,999">₹ 5,999</div>
+                <button onclick="buyCarPlan(4)" class="btn btn-primary" style="margin-top:10px; width:100%;" aria-label="Buy ClaimEasy plan for ₹ 5999">Buy Now</button>
+            </div>
+        </div><div class="comparison-card" role="listitem">
+            
+            <div class="insurer-logo-round" aria-hidden="true">
+                <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+            </div>
+        
+            <div>
+                <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                <span style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Comprehensive</span>
+            </div>
+            <div>
+                <span style="display:block; font-size:0.8rem; color:#888;">IDV (Insured Value)</span>
+                <span class="idv-value" aria-label="IDV: ₹ 2,00,00,000">₹ 2,00,00,000</span>
+            </div>
+            <div class="plan-features">
+                 <ul aria-label="Plan Features">
+                    <li><i class="fas fa-check" aria-hidden="true"></i> Instant Policy</li><li><i class="fas fa-check" aria-hidden="true"></i> Zero Paperwork</li><li><i class="fas fa-check" aria-hidden="true"></i> Free Pick &amp; Drop</li>
+                 </ul>
+                 <div style="font-size:0.8rem; margin-top:5px; color:#555;"><i class="fas fa-wrench" style="color:var(--secondary-color);" aria-hidden="true"></i> 3500+ Garages</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="premium-price" aria-label="Premium: ₹ 6,250">₹ 6,250</div>
+                <button onclick="buyCarPlan(1)" class="btn btn-primary" style="margin-top:10px; width:100%;" aria-label="Buy ClaimEasy plan for ₹ 6250">Buy Now</button>
+            </div>
+        </div><div class="comparison-card" role="listitem">
+            
+            <div class="insurer-logo-round" aria-hidden="true">
+                <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+            </div>
+        
+            <div>
+                <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                <span style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Comprehensive</span>
+            </div>
+            <div>
+                <span style="display:block; font-size:0.8rem; color:#888;">IDV (Insured Value)</span>
+                <span class="idv-value" aria-label="IDV: ₹ 5,00,00,000">₹ 5,00,00,000</span>
+            </div>
+            <div class="plan-features">
+                 <ul aria-label="Plan Features">
+                    <li><i class="fas fa-check" aria-hidden="true"></i> Live Video Inspection</li><li><i class="fas fa-check" aria-hidden="true"></i> InstaProtect</li><li><i class="fas fa-check" aria-hidden="true"></i> Roadside Assistance</li>
+                 </ul>
+                 <div style="font-size:0.8rem; margin-top:5px; color:#555;"><i class="fas fa-wrench" style="color:var(--secondary-color);" aria-hidden="true"></i> 5500+ Garages</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="premium-price" aria-label="Premium: ₹ 6,890">₹ 8,890</div>
+                <button onclick="buyCarPlan(3)" class="btn btn-primary" style="margin-top:10px; width:100%;" aria-label="Buy ClaimEasy plan for ₹ 6890">Buy Now</button>
+            </div>
+        </div><div class="comparison-card" role="listitem">
+            
+            <div class="insurer-logo-round" aria-hidden="true">
+                <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+            </div>
+        
+            <div>
+                <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                <span style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Comprehensive</span>
+            </div>
+            <div>
+                <span style="display:block; font-size:0.8rem; color:#888;">IDV (Insured Value)</span>
+                <span class="idv-value" aria-label="IDV: ₹ 4,00,00,000">₹ 4,00,00,000</span>
+            </div>
+            <div class="plan-features">
+                 <ul aria-label="Plan Features">
+                    <li><i class="fas fa-check" aria-hidden="true"></i> Overnight Repair</li><li><i class="fas fa-check" aria-hidden="true"></i> Unlimited Claims</li><li><i class="fas fa-check" aria-hidden="true"></i> Doorstep Repair</li>
+                 </ul>
+                 <div style="font-size:0.8rem; margin-top:5px; color:#555;"><i class="fas fa-wrench" style="color:var(--secondary-color);" aria-hidden="true"></i> 6800+ Garages</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="premium-price" aria-label="Premium: ₹ 7,100">₹ 7,100</div>
+                <button onclick="buyCarPlan(2)" class="btn btn-primary" style="margin-top:10px; width:100%;" aria-label="Buy ClaimEasy plan for ₹ 7100">Buy Now</button>
+            </div>
+        </div></div>
+        </main>
+
+        <!-- Right Column: Sidebar -->
+        <aside aria-label="Features and Help" class="sidebar-column">
+            <!-- Value Added Features -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-shield-alt" aria-hidden="true"></i> Assured Delivery</h4>
+                <ul class="feature-list-sidebar">
+                    <li><i class="fas fa-check-circle" style="color:green;" aria-hidden="true"></i> 24/7 Claims Support
+                    </li>
+                    <li><i class="fas fa-check-circle" style="color:green;" aria-hidden="true"></i> Dedicated Claim
+                        Manager</li>
+                    <li><i class="fas fa-check-circle" style="color:green;" aria-hidden="true"></i> Quick Settlement
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Price Guarantee -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-tags" aria-hidden="true"></i> Best Price Promise</h4>
+                <p style="font-size:0.85rem; color:#666;">We guarantee the lowest price for your profile.</p>
+                <button class="match-price-btn" aria-label="Match my price request">Match my price</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Support Widget -->
+    <button aria-label="Open Chat Support" style="position:fixed; bottom:30px; right:30px; background:var(--primary-color); color:white; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 5px 15px rgba(0,0,0,0.2); cursor:pointer; border:none; z-index:100;">
+        <i class="fas fa-comments" style="font-size:1.5rem;" aria-hidden="true"></i>
+    </button>
+
+    <!-- Edit Vehicle Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-edit-modal">×</button>
+            <h3>Edit Vehicle Details</h3>
+            <form id="edit-vehicle-form">
+                <div class="form-group">
+                    <label>Registration Number</label>
+                    <input type="text" id="edit-reg-input" required="" style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Car Model</label>
+                    <input type="text" id="edit-model-input" required="" placeholder="e.g. Hyundai Creta 1.6 SX">
+                </div>
+                <div class="form-group">
+                    <label>Fuel Type</label>
+                    <select id="edit-fuel-input" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="CNG">CNG</option>
+                        <option value="Electric">Electric</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Existing NCB</label>
+                    <select id="edit-ncb-input" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="0%">0%</option>
+                        <option value="20%">20%</option>
+                        <option value="25%">25%</option>
+                        <option value="35%">35%</option>
+                        <option value="45%">45%</option>
+                        <option value="50%">50%</option>
+                    </select>
+                </div>
+                <!-- Simple Text for Expiry for now to match "Today" or Date -->
+                <div class="form-group">
+                    <label>Policy Expiry</label>
+                    <select id="edit-expiry-input" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Today">Today</option>
+                        <option value="Tomorrow">Tomorrow</option>
+                        <option value="Expired">Expired (&gt;90 days)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Save Details</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="car_comparison.js"></script>
+
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body></html>

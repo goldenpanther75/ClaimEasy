@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Claim website</title>
+    <meta name="description"
+        content="Compare and buy insurance policies online. Life, Health, Car, Travel & more. Get the best quotes instantly.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons (using FontAwesome CDN for demo purposes, or SVG in production) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Sticky Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img class="logo-img" style="display: none; max-height: 40px; border-radius: 4px;" alt="Logo">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="products.html" class="nav-link">Insurance Products</a></li>
+                    <li><a href="renew.html" class="nav-link">Renew Your Policy</a></li>
+                    <li><a href="claims.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="support.html" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+
+                <a href="login.html" class="btn btn-outline small" id="login-btn">Log In</a>
+                <div id="user-profile" style="display:none; align-items:center; gap:10px; cursor:pointer;">
+                    <span id="user-name" style="font-weight:600; color:#0065ff;">User</span>
+                    <i class="fas fa-user-circle" style="font-size:1.5rem; color:#0065ff;"></i>
+                </div>
+                <!-- Logout Dropdown (Simple) -->
+                <div id="logout-menu"
+                    style="display:none; position:absolute; top:60px; right: 20px; background:white; padding:10px; border:1px solid #ddd; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                    <button id="logout-btn"
+                        style="background:none; border:none; color:#dc3545; cursor:pointer;">Logout</button>
+                </div>
+
+                <button class="mobile-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <img class="logo-img" style="display: none; max-height: 30px; border-radius: 4px;" alt="Logo">
+                <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                <button class="close-menu"><i class="fas fa-times"></i></button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="#">Insurance Products</a></li>
+                <li><a href="#">Renew Policy</a></li>
+                <li><a href="claims.html">Claim Assistance</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Protect Your Family's Future</h1>
+                <p class="hero-sub">Get <span class="highlight" id="dynamic-hero-coverage">₹5 Cr</span> Term Insurance
+                    Cover @ just <span class="highlight"><span id="dynamic-hero-price">₹490</span>/month*</span></p>
+                <ul class="hero-features">
+                    <li><i class="fas fa-check-circle"></i> Tax Benefits up to ₹46,800*</li>
+                    <li><i class="fas fa-check-circle"></i> Claims settled in 24 hours*</li>
+                </ul>
+                <a href="" class="btn btn-primary btn-lg pulse-animation"
+                    style="display:inline-block; text-decoration:none;">View Plans</a>
+            </div>
+            <div class="hero-image">
+                <!-- Using a placeholder/gradient abstract shape for now if no image provided, but CSS will handle a nice graphic -->
+                <div class="hero-graphic">
+                    <div class="shield-icon"><i class="fas fa-shield-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Promo Banner Container -->
+    <div id="dynamic-promo-banner" class="container" style="margin-top: 20px;"></div>
+
+    <!-- Insurance Products Grid -->
+    <section class="products-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>What are you looking for?</h2>
+                <p>Choose from our wide range of insurance products</p>
+            </div>
+            <div class="products-grid">
+                <a href="TermLife.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3>Term Life</h3>
+                    <p class="text-green">Upto 15% Discount</p>
+                    <div class="hover-overlay"></div>
+                </a>
+                <a href="health_insurance.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-user-md"></i></div>
+                    <h3>Health Insurance</h3>
+                    <p class="text-green">Cashless Treatment</p>
+                    <div class="hover-overlay"></div>
+                </a>
+                <a href="car_insurance.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-car"></i></div>
+                    <h3>Car Insurance</h3>
+                    <p class="text-green">Save upto 85%*</p>
+                    <div class="hover-overlay"></div>
+                </a>
+                <a href="bike_insurance.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-motorcycle"></i></div>
+                    <h3>Bike Insurance</h3>
+                    <p class="text-green">Instant Policy</p>
+                    <div class="hover-overlay"></div>
+                </a>
+                <a href="travel_insurance.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-plane"></i></div>
+                    <h3>Travel Insurance</h3>
+                    <p class="text-green">COVID-19 Covered</p>
+                    <div class="hover-overlay"></div>
+                </a>
+                <a href="home_insurance.html" class="product-card"
+                    style="display: block; color: inherit; text-decoration: none;">
+                    <div class="card-icon"><i class="fas fa-home"></i></div>
+                    <h3>Home Insurance</h3>
+                    <p class="text-green">Protect your assets</p>
+                    <div class="hover-overlay"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Scroll Section -->
+    <section class="promo-section section-padding bg-light">
+        <div class="container">
+            <div class="section-header text-left">
+                <h2>Best Offers for You</h2>
+            </div>
+            <div class="promo-scroll-container" id="promo-scroll">
+                <button class="scroll-btn left" id="scroll-left"><i class="fas fa-chevron-left"></i></button>
+                <div class="promo-cards-wrapper">
+                    <!-- Card 1: Term Life -->
+                    <div class="promo-card gradient-1">
+                        <h4>1 Crore Term Life</h4>
+                        <p>Secure your family at just ₹490/month*</p>
+                        <button class="btn btn-sm btn-light" onclick="window.location.href='TermLife.html'">View
+                            Plans</button>
+                    </div>
+                    <!-- Card 2: Health -->
+                    <div class="promo-card gradient-2">
+                        <h4>Health Insurance</h4>
+                        <p>Cashless treatment at 5000+ hospitals</p>
+                        <button class="btn btn-sm btn-light"
+                            onclick="window.location.href='health_insurance.html'">Check Now</button>
+                    </div>
+                    <!-- Card 3: Car -->
+                    <div class="promo-card gradient-3">
+                        <h4>Car Insurance</h4>
+                        <p>Save up to 85% on Own Damage premium</p>
+                        <button class="btn btn-sm btn-light" onclick="window.location.href='car_insurance.html'">Get
+                            Quote</button>
+                    </div>
+                    <!-- Card 4: Investment -->
+                    <div class="promo-card gradient-4">
+                        <h4>Investment Plans</h4>
+                        <p>High returns with tax saving benefits</p>
+                        <!-- Existing button kept as is -->
+                        <button class="btn btn-sm btn-light"
+                            onclick="document.getElementById('calc-modal').style.display='flex'">Calculate</button>
+                    </div>
+                    <!-- Card 5: Bike -->
+                    <div class="promo-card gradient-1"> <!-- Recycling gradient-1 for variety -->
+                        <div class="card-badge">Hot Deal</div>
+                        <h4>Bike Insurance</h4>
+                        <p>Instant policy renewal starting ₹1.5/day*</p>
+                        <button class="btn btn-sm btn-light" onclick="window.location.href='bike_insurance.html'">Renew
+                            Now</button>
+                    </div>
+                    <!-- Card 6: Travel -->
+                    <div class="promo-card gradient-2">
+                        <h4>Travel Insurance</h4>
+                        <p>Files claims for flight delays & luggage loss</p>
+                        <button class="btn btn-sm btn-light"
+                            onclick="window.location.href='travel_insurance.html'">Check Rates</button>
+                    </div>
+                    <!-- Card 7: Home -->
+                    <div class="promo-card gradient-3">
+                        <h4>Home Insurance</h4>
+                        <p>Protect your home against fire & theft</p>
+                        <button class="btn btn-sm btn-light"
+                            onclick="window.location.href='home_insurance.html'">Protect Now</button>
+                    </div>
+                    <!-- Card 8: Retirement -->
+                    <div class="promo-card gradient-4">
+                        <h4>Retirement Plans</h4>
+                        <p>Guaranteed pension for life. Plan today!</p>
+                        <button class="btn btn-sm btn-light"
+                            onclick="document.getElementById('calc-modal').style.display='flex'">Plan Now</button>
+                    </div>
+                </div>
+                <button class="scroll-btn right" id="scroll-right"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section section-padding">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h3>Unbiased Advice</h3>
+                    <p>We provide objective information to help you buy.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-thumbs-up"></i></div>
+                    <h3>100% Reliable</h3>
+                    <p>Regulated by IRDAI. Trusted by millions.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                    <h3>Claims Support</h3>
+                    <p>We stand by you during claims.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-smile"></i></div>
+                    <h3>Happy to Help</h3>
+                    <p>Every day of the week.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insurance Tools Section -->
+    <section class="calculators-section section-padding bg-darker">
+        <div class="container">
+            <div class="section-header text-white">
+                <h2>Smart Insurance Tools</h2>
+                <p>Plan your protection with our smart tools</p>
+            </div>
+            <div class="calc-grid">
+                <div class="calc-card" onclick="window.location.href='TermLife.html'">
+                    <i class="fas fa-calculator"></i>
+                    <span>Premium Calculator</span>
+                </div>
+                <div class="calc-card" onclick="window.location.href='health_insurance.html'">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Human Life Value</span>
+                </div>
+                <div class="calc-card" onclick="document.getElementById('calc-modal').style.display='flex'">
+                    <i class="fas fa-search-dollar"></i>
+                    <span>Tax Saver Tool</span>
+                </div>
+                <div class="calc-card" onclick="window.location.href='track_claim.html'">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Track Claim Status</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Promo -->
+    <section class="app-promo section-padding">
+        <div class="container app-container">
+            <div class="app-image">
+                <!-- Phone Mockup represented by CSS/Icon -->
+                <div class="phone-mockup">
+                    <div class="screen" style="background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
+                        <div class="shield-container">
+                            <i class="fas fa-shield-alt shield-bg"></i>
+                            <i class="fas fa-check shield-check"></i>
+                        </div>
+                        <h3 style="margin-top: 15px; color: #0065ff;">Active Protection</h3>
+                        <div class="loading-bar">
+                            <div class="loading-progress"></div>
+                        </div>
+                        <div class="policy-item">
+                            <i class="fas fa-car"></i> <span>Car Policy</span>
+                        </div>
+                        <div class="policy-item">
+                            <i class="fas fa-heartbeat"></i> <span>Health Plan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-image">
+                <div class="app-img-1-wrapper" style="z-index: 1; position: relative;">
+                    <img src="hero-image.jpg" alt="ClaimEasy App"
+                        style="max-width: 280px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-right: -40px; display: block;">
+                </div>
+                <div class="app-img-2-wrapper" style="z-index: 2; position: relative; margin-top: 40px;">
+                    <img src="hero-image-2.jpg" class="app-img-2" alt="ClaimEasy App 2"
+                        style="max-width: 280px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: block;">
+                </div>
+            </div>
+            <div class="app-content">
+                <h2>Get the ClaimEasy App</h2>
+                <p>Manage all your policies in one place. Track claims, renew instantly.</p>
+                <div class="store-buttons">
+                    <button class="btn-store"><i class="fab fa-google-play"></i> Google Play</button>
+                    <button class="btn-store"><i class="fab fa-apple"></i> App Store</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials section-padding bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Customer Stories</h2>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-track" id="testimonial-track">
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"I was confused about which term plan to buy. ClaimEasy helped me compare 20+ plans and I
+                            saved 15% on my premium. The process was completely paperless!"</p>
+                        <div class="user-info">
+                            <div class="avatar">R</div>
+                            <div class="user-details">
+                                <span class="name">Rahul Sharma</span>
+                                <span class="location">Delhi, India</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p>"My car insurance claim was settled in just 3 days! The support team was very helpful and
+                            guided me through every step. Highly recommended for hassle-free claims."</p>
+                        <div class="user-info">
+                            <div class="avatar">S</div>
+                            <div class="user-details">
+                                <span class="name">Sneha Gupta</span>
+                                <span class="location">Mumbai, Maharashtra</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"The investment calculator is a game changer. It helped me plan my retirement corpus
+                            accurately. I started my SIP immediately through their platform."</p>
+                        <div class="user-info">
+                            <div class="avatar">A</div>
+                            <div class="user-details">
+                                <span class="name">Amit Verma</span>
+                                <span class="location">Bangalore, Karnataka</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"My luggage was lost during a trip to Europe. ClaimEasy reimbursed me within 48 hours. It
+                            truly saved my vacation from being a disaster!"</p>
+                        <div class="user-info">
+                            <div class="avatar">P</div>
+                            <div class="user-details">
+                                <span class="name">Priya Singh</span>
+                                <span class="location">Gurgaon, Haryana</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p>"A short circuit caused fire damage in my kitchen. The home insurance plan covered all repair
+                            costs. The surveyor was very professional."</p>
+                        <div class="user-info">
+                            <div class="avatar">V</div>
+                            <div class="user-details">
+                                <span class="name">Vikram Malhotra</span>
+                                <span class="location">Pune, Maharashtra</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p>"The cashless claim process at Apollo Hospital was seamless. Didn't have to pay a single
+                            rupee upfront. Thank you ClaimEasy for the support!"</p>
+                        <div class="user-info">
+                            <div class="avatar">A</div>
+                            <div class="user-details">
+                                <span class="name">Anjali Desai</span>
+                                <span class="location">Hyderabad, Telangana</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button id="prev-btn"><i class="fas fa-arrow-left"></i></button>
+                    <button id="play-pause-btn"><i class="fas fa-pause"></i></button>
+                    <button id="next-btn"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Footer Banner Container -->
+    <div id="dynamic-footer-banner" style="background: #fdfdfd;"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Investment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="#">Glossary</a></li>
+                        <li><a href="#">Insurance Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Quote Modal -->
+    <div class="modal-overlay" id="quote-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h3>Get a Quote</h3>
+            <form id="quote-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" required placeholder="Enter mobile number">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">View Prices</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Calculator Modal -->
+    <div class="modal-overlay" id="calc-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-calc">&times;</button>
+            <h3 id="calc-title">Calculator</h3>
+            <div class="calc-body">
+                <div class="form-group">
+                    <label>Investment Amount (Monthly)</label>
+                    <input type="number" id="calc-amount" value="5000">
+                </div>
+                <div class="form-group">
+                    <label>Duration (Years)</label>
+                    <input type="range" id="calc-duration" min="1" max="30" value="10">
+                    <span id="duration-val">10 Years</span>
+                </div>
+                <div class="calc-result">
+                    <p>Estimated Returns:</p>
+                    <h2 id="calc-output">₹ 0</h2>
+                </div>
+                <button class="btn btn-outline btn-block" id="calc-btn">Calculate</button>
+            </div>
+        </div>
+        <!-- Payment Success Modal -->
+        <div class="modal-overlay" id="payment-success-modal">
+            <div class="modal-content success-modal">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Policy Issued Successfully!</h3>
+                <p class="success-sub">Your policy has been activated.</p>
+
+                <!-- Policy Timeline -->
+                <div class="policy-timeline-container">
+                    <div class="timeline-dates">
+                        <div class="date-item">
+                            <span class="label">Start Date</span>
+                            <span class="value" id="policy-start-date">--/--/----</span>
+                        </div>
+                        <div class="date-item text-right">
+                            <span class="label">Expiry Date</span>
+                            <span class="value" id="policy-end-date">--/--/----</span>
+                        </div>
+                    </div>
+                    <div class="timeline-visual">
+                        <div class="timeline-bar"></div>
+                        <div class="timeline-progress"></div>
+                        <div class="timeline-dot start"></div>
+                        <div class="timeline-dot end"></div>
+                    </div>
+                    <div class="timeline-duration" id="policy-duration-text">1 Year Protection</div>
+                </div>
+
+                <!-- WhatsApp Notification -->
+            <div class="email-alert">
+                <i class="fab fa-google"></i>
+                <span>Policy details & Timeline sent to <strong id="user-email">your gmail</strong></span>
+            </div>
+
+                <button class="btn btn-primary btn-block" onclick="window.location.href='index.html'">Go to
+                    Home</button>
+            </div>
+        </div>
+
+        
+        <!-- Chatbot Widget -->
+        <script src="chatbot_widget.js"></script>
+
+        
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+<script>
+    // Check Login Status
+    document.addEventListener('DOMContentLoaded', () => {
+        const userStr = localStorage.getItem('user');
+        const loginBtn = document.getElementById('login-btn');
+        const userProfile = document.getElementById('user-profile');
+        const userName = document.getElementById('user-name');
+        const logoutMenu = document.getElementById('logout-menu');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        if (userStr) {
+            const user = JSON.parse(userStr);
+            loginBtn.style.display = 'none';
+            userProfile.style.display = 'flex';
+            userName.textContent = `Hello, ${user.name.split(' ')[0]}`; // First name only
+
+            // Toggle Logout
+            userProfile.addEventListener('click', () => {
+                logoutMenu.style.display = logoutMenu.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Logout Logic
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('user');
+                window.location.reload();
+            });
+        }
+
+        // Check for Welcome Back Message (from Login redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('login_success') === 'true') {
+            // Simple toast or alert
+            const toast = document.createElement('div');
+            toast.textContent = 'Welcome back!';
+            toast.style.cssText = 'position:fixed; top:80px; right:20px; background:#28a745; color:white; padding:10px 20px; border-radius:5px; z-index:1000; animation: fadeIn 0.5s;';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    });
+</script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+
+</html>

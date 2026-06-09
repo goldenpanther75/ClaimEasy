@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File a Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .claim-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .file-upload-box {
+            border: 2px dashed #ddd;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--primary-color);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="claim_intimation.html" class="active" style="color:var(--primary-color);">File
+                            Claim</a></li>
+                    <li><a href="support.html">Support</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="claim-container">
+        <div class="form-header">
+            <h2>Claim Intimation</h2>
+            <p style="color:#666;">Submit your claim details and we'll get back to you shortly.</p>
+        </div>
+
+        <form id="claim-form">
+            <div class="form-group">
+                <label>Policy Number</label>
+                <input type="text" id="policyNumber" class="form-control" placeholder="Enter your policy number"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Policy Holder Name</label>
+                <input type="text" id="holderName" class="form-control" placeholder="Enter policy holder name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Registered Mobile Number</label>
+                <input type="tel" id="mobile" class="form-control" placeholder="Enter 10-digit mobile number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Type of Claim</label>
+                <select class="form-control" id="claim-type">
+                    <option value="health_claim.html">Health Insurance Claim</option>
+                    <option value="car_claim.html">Car Insurance Claim</option>
+                    <option value="bike_claim.html">Bike Insurance Claim</option>
+                    <option value="travel_claim.html">Travel Insurance Claim</option>
+                    <option value="home_claim.html">Home Insurance Claim</option>
+                    <option value="TermLife_claim.html">Term Life Claim</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Continue to Claim Form</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('claim-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = document.querySelector('.btn-submit');
+            const claimType = document.getElementById('claim-type').value;
+            const policyNumber = document.getElementById('policyNumber').value;
+            const holderName = document.getElementById('holderName').value;
+            const mobile = document.getElementById('mobile').value;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ policyNumber, mobile })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Save details to localStorage to pre-fill the next form
+                    const tempClaimDetails = {
+                        policyNumber: policyNumber,
+                        holderName: holderName, // Using user entered name, but we could use result.holderName if we wanted to enforce it
+                        mobile: mobile
+                    };
+                    localStorage.setItem('tempClaimDetails', JSON.stringify(tempClaimDetails));
+
+                    // Success visual
+                    btn.innerHTML = '<i class="fas fa-check"></i> Verified! Redirecting...';
+                    btn.style.background = '#28a745';
+
+                    setTimeout(() => {}, 300);
+                } else {
+                    alert(result.message || 'Verification failed. Please check your Policy Number and Mobile.');
+                    btn.innerHTML = 'Continue to Claim Form';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error("Verification error:", error);
+                alert('Server error during verification. Please try again later.');
+                btn.innerHTML = 'Continue to Claim Form';
+                btn.disabled = false;
+            }
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

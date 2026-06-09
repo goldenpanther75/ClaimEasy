@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term life Insurance- compare & buy online.</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="promo-page">
+
+    <!-- Simple Promo Header -->
+    <header class="promo-header">
+        <div class="container header-flex">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div class="slogan-container">
+                <span class="slogan-text">HAR FAMILY HOGI INSURED</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="promo-hero">
+        <div class="container hero-layout">
+            <!-- Left Side Content -->
+            <div class="promo-content">
+                <h1 class="main-headline">
+                    ₹1 Crore life cover starting from <br>
+                    <span class="highlight-text">₹490/month*</span>
+                </h1>
+
+                <!-- Festive Banner -->
+                <div class="festive-banner shake-animation">
+                    <div class="banner-title">GST Bachat Utsav</div>
+                    <div class="banner-offer">18% GST Now <span class="big-zero">0%</span></div>
+                    <div class="banner-sub">Limited Period Offer!</div>
+                </div>
+
+                <div class="trust-points">
+                    <p><i class="fas fa-check-circle"></i> Tax Benefits up to ₹46,800 u/s 80C</p>
+                    <p><i class="fas fa-check-circle"></i> Claims settled in 24 hours*</p>
+                </div>
+            </div>
+
+            <!-- Right Side Form -->
+            <div class="promo-form-container">
+                <div class="lead-form-card">
+                    <div class="form-header">
+                        <h3>Get Free Quotes</h3>
+                        <p>Compare & Buy directly from insurers</p>
+                    </div>
+                    <form id="promo-lead-form">
+                        <div class="form-group row">
+                            <div class="col-half">
+                                <label class="radio-label">Gender</label>
+                                <div class="gender-toggle">
+                                    <label class="radio-btn">
+                                        <input type="radio" name="gender" value="male" checked>
+                                        <span>Male</span>
+                                    </label>
+                                    <label class="radio-btn">
+                                        <input type="radio" name="gender" value="female">
+                                        <span>Female</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="promo-name" placeholder="Your Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="promo-dob" required placeholder="DD/MM/YYYY">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <div class="mobile-input-group">
+                                <select class="country-code">
+                                    <option value="+91">+91 (IND)</option>
+                                    <option value="+1">+1 (USA)</option>
+                                </select>
+                                <input type="tel" id="promo-mobile" placeholder="Mobile Number" required>
+                            </div>
+                        </div>
+
+                        <div class="form-cta">
+                            <button type="submit" class="btn btn-orange btn-block btn-lg"
+                                style="text-decoration:none; display:block; text-align:center; border:none; width:100%; cursor:pointer;">View
+                                Plans <i class="fas fa-arrow-right"></i></button>
+                        </div>
+
+                        <div class="form-disclaimer">
+                            <p class="expert-note"><i class="fas fa-user-shield"></i> Only certified experts will assist
+                                you</p>
+                            <label class="whatsapp-optin">
+                                <input type="checkbox" checked>
+                                <span>Get updates on <i class="fab fa-whatsapp text-green"></i> WhatsApp</span>
+                            </label>
+                        </div>
+                    </form>
+                    <script>
+                        document.getElementById('promo-lead-form').addEventListener('submit', async function (e) {
+                            e.preventDefault();
+                            const btn = this.querySelector('button[type="submit"]');
+                            const originalHTML = btn.innerHTML;
+                            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                            btn.disabled = true;
+
+                            const formData = {
+                                type: 'Term Life Promo Lead',
+                                name: document.getElementById('promo-name').value,
+                                dob: document.getElementById('promo-dob').value,
+                                mobile: document.getElementById('promo-mobile').value,
+                                gender: this.querySelector('input[name="gender"]:checked').value,
+                                status: 'Lead Generated'
+                            };
+
+                            try {
+                                const response = await fetch('http://13.126.167.8:5000/api/policies', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(formData)
+                                });
+
+                                if (response.ok) {
+                                    window.location.href = 'TermLife_quote.html';
+                                } else {
+                                    alert('Error submitting details.');
+                                }
+                            } catch (error) {
+                                console.error(error);
+                                alert('Backend connection failed.');
+                            } finally {
+                                btn.innerHTML = originalHTML;
+                                btn.disabled = false;
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Footer -->
+    <footer class="stats-footer">
+        <div class="container">
+            <div class="stats-header">
+                <h2>India's Leading Digital Insurance Platform</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3>12.02 Crore</h3>
+                    <p>Registered Consumers</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-handshake"></i>
+                    <h3>51</h3>
+                    <p>Insurance Partners</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-file-contract"></i>
+                    <h3>5.9 Crore</h3>
+                    <p>Policies Sold</p>
+                </div>
+            </div>
+            <div class="footer-links-row">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Disclaimers</a>
+            </div>
+            <p class="copyright">© 2024 ClaimEasy. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

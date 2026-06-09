@@ -1,0 +1,251 @@
+/* Bike Insurance Page Styles */
+:root {
+    --bike-orange: #ff5722;
+    --bike-bg-light: #fff5f2;
+    --btn-orange: #ff5722;
+}
+
+body {
+    background-color: white;
+}
+
+/* Header Tweaks */
+.car-header-tagline {
+    font-size: 0.9rem;
+    color: #666;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #ccc;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.t-shield {
+    color: var(--secondary-color);
+    margin-right: 5px;
+}
+
+/* Hero Section */
+.bike-hero {
+    padding: 60px 0 80px;
+    background: linear-gradient(105deg, #fff 50%, var(--bike-bg-light) 50%);
+    position: relative;
+    overflow: hidden;
+}
+
+.bike-hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.bike-hero-image {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blob-bg {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: #ffebe6;
+    border-radius: 50%;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bike-hero-content {
+    flex: 1;
+    max-width: 500px;
+    z-index: 2;
+}
+
+.bike-hero-content h1 {
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: var(--dark-bg);
+    margin-bottom: 10px;
+}
+
+.highlight-orange {
+    color: var(--bike-orange);
+}
+
+.sub-text {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.timer-badge {
+    background: #fff3e0;
+    color: #e65100;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Quote Form Card */
+.quote-form-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eef1f5;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.car-input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    font-size: 1.2rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    background: #fdfdfd;
+}
+
+.car-input:focus {
+    border-color: var(--bike-orange);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.1);
+}
+
+.car-icon-input {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #999;
+}
+
+.btn-view-prices {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: var(--btn-orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+}
+
+.btn-view-prices:hover {
+    background: #e64a19;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+}
+
+.form-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.new-car-link {
+    color: var(--bike-orange);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.help-link {
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Features Strip */
+.features-strip {
+    background: white;
+    padding: 40px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.features-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.feature-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feature-icon-box {
+    width: 50px;
+    height: 50px;
+    background: #fff5f2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bike-orange);
+    font-size: 1.5rem;
+}
+
+.feature-text h4 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.feature-text p {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .bike-hero {
+        background: linear-gradient(180deg, #fff 0%, var(--bike-bg-light) 100%);
+        padding: 40px 0;
+    }
+
+    .bike-hero-container {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .bike-hero-content {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+
+    .bike-hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .sub-text {
+        justify-content: center;
+    }
+
+    .car-header-tagline {
+        display: none;
+    }
+}

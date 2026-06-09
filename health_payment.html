@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - ClaimEasy</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        /* Header Specifics */
+        .payment-header {
+            background: #fff;
+            padding: 15px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-box {
+            background: #fff0f0;
+            color: #d32f2f;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* Layout */
+        .payment-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Left Panel: Payment Modes */
+        .payment-panel {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .payment-modes-wrapper {
+            display: flex;
+            min-height: 400px;
+        }
+
+        .sidebar-tabs {
+            width: 200px;
+            background: #f8f9fa;
+            border-right: 1px solid #eee;
+        }
+
+        .tab-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #555;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tab-item:hover {
+            background: #eee;
+        }
+
+        .tab-item.active {
+            background: #fff;
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+            font-weight: 600;
+            box-shadow: -5px 0 10px rgba(0, 0, 0, 0.02);
+            position: relative;
+            z-index: 1;
+            margin-right: -1px;
+        }
+
+        .tab-content-area {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Bank Grid */
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .bank-option {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90px;
+        }
+
+        .bank-option:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .bank-option.selected {
+            border-color: var(--primary-color);
+            background: #f0f7ff;
+        }
+
+        .bank-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .bank-name {
+            font-size: 0.8rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .other-banks-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .alert-box {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pay-btn-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        /* Right Panel: Order Summary */
+        .order-summary-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .summary-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            position: relative;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .order-id {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .summary-row.total {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .savings-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+            font-weight: 600;
+        }
+
+        .collapsible {
+            background: #fff;
+            border: none;
+            text-align: left;
+            width: 100%;
+            padding: 15px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+
+        @media (max-width: 900px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-modes-wrapper {
+                flex-direction: column;
+            }
+
+            .sidebar-tabs {
+                width: 100%;
+                display: flex;
+                overflow-x: auto;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .tab-item {
+                flex: 0 0 auto;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                margin-right: 0;
+                margin-bottom: -1px;
+            }
+
+        }
+
+        .collapsible {
+            background-color: transparent;
+            color: #333;
+            cursor: pointer;
+            padding: 15px 0;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="payment-header">
+        <div class="container header-content">
+            <div class="logo-text">Claim<span class="highlight">Easy</span> <span
+                    style="font-size:0.9rem; color:#666; font-weight:400;">| Secure Payment</span></div>
+            <div class="timer-box">
+                <i class="fas fa-clock"></i>
+                Session Expires in <span id="timer" style="margin-left: 5px;">14:59</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="payment-container">
+        <!-- Left Panel: Payment Options -->
+        <div class="payment-panel">
+            <div class="payment-modes-wrapper">
+                <!-- Sidebar Tabs -->
+                <div class="sidebar-tabs">
+                    <div class="tab-item active" data-target="netbanking"> NetBanking <i class="fas fa-chevron-right"
+                            style="font-size:0.8rem;"></i></div>
+                    <div class="tab-item" data-target="upi"> UPI / QR</div>
+                    <div class="tab-item" data-target="cards"> Credit / Debit Card</div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="tab-content-area">
+                    <!-- NetBanking Section -->
+                    <div id="netbanking" class="mode-section active">
+                        <h3 class="section-title">Select your Bank</h3>
+
+                        <div class="bank-grid">
+                            <div class="bank-option" onclick="selectBank(this)">
+                                <i class="fas fa-university bank-icon" style="color:#004c8f;"></i>
+                                <span class="bank-name">HDFC</span>
+                            </div>
+                            <div class="bank-option" onclick="selectBank(this)">
+                                <i class="fas fa-university bank-icon" style="color:#f27e00;"></i>
+                                <span class="bank-name">ICICI</span>
+                            </div>
+                            <div class="bank-option" onclick="selectBank(this)">
+                                <i class="fas fa-university bank-icon" style="color:#0091d3;"></i>
+                                <span class="bank-name">SBI</span>
+                            </div>
+                            <div class="bank-option" onclick="selectBank(this)">
+                                <i class="fas fa-university bank-icon" style="color:#ed1b24;"></i>
+                                <span class="bank-name">Kotak</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px; font-size: 0.9rem; color:#666;">Or select other bank</div>
+                        <select class="other-banks-select">
+                            <option value="">Select Bank</option>
+                            <option value="Axis">Axis Bank</option>
+                            <option value="PNB">PNB</option>
+                        </select>
+
+                        <div class="pay-btn-container">
+                            <button class="btn btn-primary btn-block" onclick="processPayment(event)">Pay Securely
+                                ₹14,250</button>
+                        </div>
+                    </div>
+
+                    <!-- UPI Section -->
+                    <div id="upi" class="mode-section">
+                        <h3 class="section-title">Enter UPI ID</h3>
+                        <div class="form-group">
+                            <input type="text" placeholder="Ex: mobileNumber@upi"
+                                style="width:100%; padding: 12px; border:1px solid #ccc; border-radius:4px;">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="processPayment(event)">Verify & Pay</button>
+                        <p style="margin-top:15px; font-size:0.85rem; color:#666;">Google Pay, PhonePe, Paytm, BHIM
+                            supported.</p>
+                    </div>
+
+                    <!-- Card Section -->
+                    <div id="cards" class="mode-section">
+                        <h3 class="section-title">Enter Card Details</h3>
+                        <div class="form-group" style="margin-bottom:15px;">
+                            <input type="text" placeholder="Card Number"
+                                style="width:100%; padding: 12px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;">
+                            <div style="display:flex; gap:10px;">
+                                <input type="text" placeholder="MM/YY"
+                                    style="width:50%; padding: 12px; border:1px solid #ccc; border-radius:4px;">
+                                <input type="password" placeholder="CVV"
+                                    style="width:50%; padding: 12px; border:1px solid #ccc; border-radius:4px;">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="processPayment(event)">Pay ₹14,250</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Order Summary -->
+        <div class="order-summary-panel">
+            <div class="summary-card">
+                <div class="summary-header">
+                    <strong>Order Summary</strong>
+                    <span class="order-id">ID: CE-HLT-9921</span>
+                </div>
+                <div class="summary-row">
+                    <span>Health Plan 1 Yr</span>
+                    <span>₹12,076</span>
+                </div>
+                <div class="summary-row">
+                    <span>GST (18%)</span>
+                    <span>₹2,174</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total To Pay</span>
+                    <span>₹14,250</span>
+                </div>
+
+                <div
+                    style="margin-top:15px; font-size:0.85rem; color:#2e7d32; background:#e8f5e9; padding:8px; border-radius:4px; text-align:center;">
+                    <i class="fas fa-check-circle"></i> Best Price Guaranteed
+                </div>
+            </div>
+
+            <!-- Detailed Plan Breakdown -->
+            <div class="summary-card">
+                <h4 style="margin-bottom:15px; font-size:1rem;">Plan Details</h4>
+                <div class="plan-details-box" style="background:#fafafa; padding:15px; border-radius:6px;">
+                    <div style="margin-bottom:5px; font-weight:600;">ClaimEasy ReAssure 2.0</div>
+                    <div style="font-size:0.9rem; color:#666; margin-bottom:10px;">Sum Insured: ₹1 Crore</div>
+                    <div class="plan-row">
+                        <span style="color:#666;">Members:</span>
+                        <span id="summ-members" style="font-weight:500;">Self, Spouse, Son</span>
+                    </div>
+                    <div style="font-size:0.8rem; color:#666; margin-top:5px;">
+                        <i class="fas fa-map-marker-alt"></i> City: <span id="summ-city">Mumbai</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proposer Details -->
+            <div class="summary-card" style="padding: 0 20px;">
+                <button class="collapsible" onclick="toggleProposer()">
+                    Proposer Details
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="proposer-content" style="padding-bottom:15px; display:none;">
+                    <p style="font-size:0.9rem; color:#666; margin-top:10px;">
+                        <strong>Name:</strong> <span id="summ-name">Rahul Sharma</span><br>
+                        <strong>Email:</strong> <span id="summ-email">rahul.s@gmail.com</span><br>
+                        <strong>Phone:</strong> <span id="summ-phone">+91 98765 43210</span>
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="triggerDownload()" class="btn btn-primary btn-block"
+                style="background:transparent; border:1px solid #0065ff; color:#0065ff; margin-top:20px;">
+                <i class="fas fa-download"></i> Download Application
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Tab Switching
+        const tabs = document.querySelectorAll('.tab-item');
+        const sections = document.querySelectorAll('.mode-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                tab.classList.add('active');
+                const target = tab.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+
+        // Bank Selection
+        function selectBank(el) {
+            document.querySelectorAll('.bank-option').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        // Proposer Toggle
+        function toggleProposer() {
+            const content = document.getElementById('proposer-content');
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Timer
+        let time = 899; // 15 mins
+        setInterval(() => {
+            const min = Math.floor(time / 60);
+            const sec = time % 60;
+            if (document.getElementById('timer')) document.getElementById('timer').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            if (time > 0) time--;
+        }, 1000);
+
+        // Payment Simulation with Timeline
+        function processPayment(event) {
+            const btn = (event && event.target) ? event.target.closest('button') : document.querySelector('.btn-primary');
+            if (!btn) return;
+            const originalContent = btn.innerHTML;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                try {
+                // Get Health Data
+                const plan = JSON.parse(localStorage.getItem('selected_health_plan')) || { planName: 'Health Insurance', idv: 'N/A' };
+                const user = JSON.parse(localStorage.getItem('health_application_data')) || { Phone: 'your number' };
+
+                // Calculate Policy Schedule (Global Engine)
+                const schedule = ClaimEasyDates.getPolicySchedule(plan.duration || 1);
+
+                const loggedInUser = JSON.parse(localStorage.getItem('user')) || {};
+                const finalUserData = { ...user };
+                if (!finalUserData.email && !finalUserData.Email) {
+                    finalUserData.email = loggedInUser.email;
+                }
+
+                // Update Modal UI
+                if (document.getElementById('policy-start-date')) document.getElementById('policy-start-date').innerText = schedule.formattedStart;
+                if (document.getElementById('policy-end-date')) document.getElementById('policy-end-date').innerText = schedule.formattedEnd;
+                if (document.getElementById('policy-duration-text')) document.getElementById('policy-duration-text').innerText = schedule.durationText;
+                if (document.getElementById('user-email-confirm')) {
+                    const confirmEmail = finalUserData.email || finalUserData.Email || 'your email';
+                    document.getElementById('user-email-confirm').innerText = confirmEmail;
+                }
+
+                // Show Modal
+                const modal = document.getElementById('payment-success-modal');
+                if (modal) modal.style.display = 'flex';
+
+                // Dispatch Email Receipt Backend Trigger
+                console.log("[Payment] Triggering receipt for:", finalUserData.email);
+
+                fetch('http://13.126.167.8:5000/api/policies/send-receipt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        policyType: 'Health',
+                        planData: plan,
+                        userData: finalUserData
+                    })
+                })
+                .then(response => {
+                    console.log("[Payment] Receipt API Response:", response.status);
+                    return response.json();
+                })
+                .then(data => console.log("[Payment] Receipt API Data:", data))
+                .catch(err => console.error("[Payment] Receipt API Fetch Error:", err));
+
+                } catch (err) {
+                    console.error("[Payment] Critical Simulation Error:", err);
+                } finally {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }
+            }, 300);
+        }
+
+        function triggerDownload() {
+            const plan = JSON.parse(localStorage.getItem('selected_health_plan')) || { provider: 'ClaimEasy', planName: 'Comprehensive', sumInsured: '1Cr' };
+            const user = JSON.parse(localStorage.getItem('health_application_data')) || { Name: 'Rahul Sharma', Phone: '9876543210', Email: 'rahul.s@gmail.com', Members: 'Self, Spouse, Son' };
+            downloadPolicyDetails('Health', plan, user);
+        }
+
+        // Populate Proposer Details
+        (function loadProposerDetails() {
+            const userData = JSON.parse(localStorage.getItem('health_application_data')) || {};
+            const planData = JSON.parse(localStorage.getItem('selected_health_plan')) || {};
+            
+            // Proposer details
+            const loggedInUser = JSON.parse(localStorage.getItem('user')) || {};
+            const displayEmail = userData.email || loggedInUser.email || 'N/A';
+
+            if (document.getElementById('summ-name')) document.getElementById('summ-name').innerText = userData.ownerName || userData.fullName || userData.name || loggedInUser.name || 'N/A';
+            if (document.getElementById('summ-email')) document.getElementById('summ-email').innerText = displayEmail;
+            if (document.getElementById('summ-phone')) document.getElementById('summ-phone').innerText = userData.mobile || userData.phone || loggedInUser.phone || 'N/A';
+            
+            // Health details
+            if (document.getElementById('summ-members')) {
+                document.getElementById('summ-members').innerText = userData.membersSelected || userData.insuring || 'Self';
+            }
+            if (document.getElementById('summ-city')) {
+                document.getElementById('summ-city').innerText = userData.city || 'Mumbai';
+            }
+        })();
+    </script>
+    <script src='download_utils.js'></script>
+
+    <!-- Payment Success Modal -->
+    <div class="modal-overlay" id="payment-success-modal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Policy Issued Successfully!</h3>
+            <p class="success-sub">Your Health Policy is now active.</p>
+
+            <div class="policy-timeline-container timeline-card">
+                <div class="timeline-dates">
+                    <div class="date-item">
+                        <span class="label">Start Date</span>
+                        <span class="value" id="policy-start-date">--/--/----</span>
+                    </div>
+                    <div class="date-item text-right">
+                        <span class="label">Expiry Date</span>
+                        <span class="value" id="policy-end-date">--/--/----</span>
+                    </div>
+                </div>
+                <div class="timeline-visual">
+                    <div class="timeline-progress" style="width:0; animation:fillTimeline 1.5s forwards;"></div>
+                </div>
+                <div class="timeline-duration" id="policy-duration-text">Protection Active</div>
+            </div>
+
+            <div class="email-alert">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Policy summary & Attached PDF sent to <strong id="user-email-confirm">your email</strong></span>
+            </div>
+
+            <button class="btn btn-orange btn-block" onclick="window.location.href='index.html'">Go to Home</button>
+        </div>
+    </div>
+
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

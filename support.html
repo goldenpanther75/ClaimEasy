@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Center - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="support.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header (Reused) -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="products.html" class="nav-link">Insurance Products</a></li>
+                    <li><a href="renew.html" class="nav-link">Renew Your Policy</a></li>
+                    <li><a href="claims.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="support.html" class="nav-link active">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Support Hero -->
+    <section class="support-hero">
+        <div class="container text-center" style="position:relative;">
+            <h1>How can we <span class="highlight-white">help you?</span></h1>
+            <p>Search for answers, browse topics, or contact our team.</p>
+            <div class="support-search-bar" style="position:relative; z-index:1001;">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Type your question here... (e.g. 'How to file a claim')">
+                <button class="btn btn-primary">Search</button>
+                <div id="search-results-dropdown"
+                    style="display:none; position:absolute; top:100%; left:0; width:100%; background:white; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.1); margin-top:10px; max-height:300px; overflow-y:auto; text-align:left; padding:10px; border:1px solid #eee;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+                <p>Most frequent requests managed instantly</p>
+            </div>
+            <div class="quick-actions-grid">
+                <div class="action-card">
+                    <div class="icon-box"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <h3>Track Claim</h3>
+                    <p>Check the status of your ongoing claim</p>
+                    <a href="claims.html" class="action-link">Track Now &rarr;</a>
+                </div>
+                <div class="action-card">
+                    <div class="icon-box"><i class="fas fa-download"></i></div>
+                    <h3>Download Policy</h3>
+                    <p>Get a copy of your policy document</p>
+                    <a href="#" class="action-link"
+                        onclick="alert('Please login to the customer portal to download historical policies.')">Download
+                        &rarr;</a>
+                </div>
+                <div class="action-card">
+                    <div class="icon-box"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Renew Policy</h3>
+                    <p>Quick renewal for your expiring plans</p>
+                    <a href="renew.html" class="action-link">Renew Now &rarr;</a>
+                </div>
+                <div class="action-card">
+                    <div class="icon-box"><i class="fas fa-user-edit"></i></div>
+                    <h3>Update Details</h3>
+                    <p>Change address, nominee, or contact info</p>
+                    <a href="#" class="action-link" onclick="toggleChat()">Contact Support &rarr;</a>
+                </div>
+                <div class="action-card">
+                    <div class="icon-box"><i class="fas fa-ban"></i></div>
+                    <h3>Cancel Policy</h3>
+                    <p>Submit a request to cancel your policy</p>
+                    <a href="cancel_insurance.html" class="action-link" style="color: #dc3545;">Cancel Now &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Topics / FAQs -->
+    <section class="section-padding bg-light" id="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I file a cashless claim?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To file a cashless claim, visit the network hospital and present your ClaimEasy health card.
+                            The hospital will contact our TPA to authorize the treatment. Once approved, the bills are
+                            settled directly.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I cancel my policy and get a refund?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel your policy within the free-look period (usually 15 days from receipt of
+                            policy documents). A pro-rata premium will be refunded after deducting stamp duty and
+                            medical/risk charges.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is a No Claim Bonus (NCB)?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>NCB is a reward for not making any claim in the preceding years. It can be used to get a
+                            discount on the renewal premium or to increase the sum insured amount, depending on the
+                            product.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How can I add a family member to my health policy?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can usually add a family member (spouse or child) during the policy renewal. In case of
+                            marriage or childbirth, some policies allow mid-term inclusion. Please update your details
+                            using the 'Update Details' section.</p>
+                    </div>
+                </div>
+                <!-- Added FAQs -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I track my claim status?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can track your claim status by visiting the <a href="claims.html">Claim Assistance</a>
+                            page. Enter your claim number or policy number to see real-time updates.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How can I download my policy copy?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Log in to your account, go to the 'My Policies' section, and click on the 'Download' icon
+                            next to your active policy. You can also request a copy via WhatsApp.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What documents are needed for a car insurance claim?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Typically, you need the Policy Copy, Registration Certificate (RC), Driving License (DL) of
+                            the driver, and a filled Claim Form. For accidents, an FIR might be required.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How to contact customer support?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can contact us via our Toll-Free number 1800-208-8787, email us at support@claimeasy.com,
+                            or use the Chat feature on this page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Channels -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Still need help?</h2>
+                <p>Connect with our support team directly</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-comments"></i></div>
+                    <h3>Chat with Us</h3>
+                    <p>Instant answers 24/7</p>
+                    <button class="btn btn-outline" onclick="alert('Please use the Chatbot on the bottom right.')">Start
+                        Chat</button>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                    <h3>Call Support</h3>
+                    <p>Mon - Sun, 9am - 9pm</p>
+                    <a href="tel:1800-123-4567" class="btn btn-outline">1800-123-4567</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h3>WhatsApp</h3>
+                    <p>Chat on the go</p>
+                    <a href="#" class="btn btn-outline">Message Us</a>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <h3>Email Us</h3>
+                    <p>Response within 24 hrs</p>
+                    <a href="mailto:support@claim-easy.com" class="btn btn-outline">Write Email</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Reused) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget (Reused from index, simplified inline trigger) -->
+    <script>
+        // Extended Knowledge Base (Simulating a larger database)
+        const knowledgeBase = [
+            {
+                id: 'kb-1',
+                question: 'How do I file a cashless claim?',
+                answer: 'To file a cashless claim, visit the network hospital and present your ClaimEasy health card. The hospital will contact our TPA to authorize the treatment. Once approved, the bills are settled directly.'
+            },
+            {
+                id: 'kb-2',
+                question: 'Can I cancel my policy and get a refund?',
+                answer: 'Yes, you can cancel your policy within the free-look period (usually 15 days from receipt of policy documents). A pro-rata premium will be refunded after deducting stamp duty and medical/risk charges.'
+            },
+            {
+                id: 'kb-3',
+                question: 'What is a No Claim Bonus (NCB)?',
+                answer: 'NCB is a reward for not making any claim in the preceding years. It can be used to get a discount on the renewal premium or to increase the sum insured amount, depending on the product.'
+            },
+            {
+                id: 'kb-4',
+                question: 'How can I add a family member to my health policy?',
+                answer: 'You can usually add a family member (spouse or child) during the policy renewal. In case of marriage or childbirth, some policies allow mid-term inclusion. Please update your details using the "Update Details" section.'
+            },
+            {
+                id: 'kb-5',
+                question: 'How do I track my claim status?',
+                answer: 'You can track your claim status by visiting the <a href="claims.html">Claim Assistance</a> page. Enter your claim number or policy number to see real-time updates.'
+            },
+            {
+                id: 'kb-6',
+                question: 'How can I download my policy copy?',
+                answer: 'Log in to your account, go to the "My Policies" section, and click on the "Download" icon next to your active policy. You can also request a copy via WhatsApp.'
+            },
+            {
+                id: 'kb-7',
+                question: 'What documents are needed for a car insurance claim?',
+                answer: 'Typically, you need the Policy Copy, Registration Certificate (RC), Driving License (DL) of the driver, and a filled Claim Form. For accidents, an FIR might be required.'
+            },
+            {
+                id: 'kb-8',
+                question: 'How to contact customer support?',
+                answer: 'You can contact us via our Toll-Free number 1800-208-8787, email us at support@claimeasy.com, or use the Chat feature on this page.'
+            },
+            // --- Extended Questions (Not initially visible) ---
+            {
+                id: 'kb-9',
+                question: 'What is IDV in car insurance?',
+                answer: 'IDV stands for Insured Declared Value. It is the maximum sum assured fixed by the insurer which is provided on theft or total loss of the vehicle. It is calculated based on the manufacturer’s listed selling price minus depreciation.'
+            },
+            {
+                id: 'kb-10',
+                question: 'Are pre-existing diseases covered in health insurance?',
+                answer: 'Yes, most health insurance plans cover pre-existing diseases after a waiting period, which typically ranges from 2 to 4 years regarding the specific policy terms.'
+            },
+            {
+                id: 'kb-11',
+                question: 'How can I pay my premium?',
+                answer: 'You can pay your premium online using Credit/Debit cards, Net Banking, UPI, or Wallets. Visit the "Renew policy" section or use the payment link sent to your registered email.'
+            },
+            {
+                id: 'kb-12',
+                question: 'What is a deductible?',
+                answer: 'A deductible is the amount you pay for covered health care services before your insurance plan starts to pay. For example, if your deductible is ₹5,000, you pay the first ₹5,000 of covered services yourself.'
+            },
+            {
+                id: 'kb-13',
+                question: 'Is travel insurance mandatory?',
+                answer: 'Travel insurance is mandatory for visiting certain countries (like Schengen countries). For others, it is highly recommended to cover medical emergencies, trip cancellations, and lost baggage.'
+            },
+            {
+                id: 'kb-14',
+                question: 'What is zero depreciation cover?',
+                answer: 'Zero Depreciation (Zero Dep) is an add-on cover for car insurance. It ensures that you receive the full claim amount without any deduction for the depreciation of replaced parts.'
+            },
+            {
+                id: 'kb-15',
+                question: 'Can I port my health insurance policy?',
+                answer: 'Yes, you can port your health insurance policy to another insurer without losing benefits like the waiting period credit and NCB, provided you apply at least 45 days before renewal.'
+            }
+        ];
+
+        // Search Logic
+        const searchInput = document.querySelector('.support-search-bar input');
+        const searchBtn = document.querySelector('.support-search-bar button');
+        const dropdown = document.getElementById('search-results-dropdown');
+        const faqContainer = document.querySelector('.faq-container');
+
+        // Initial mapping of DOM elements to KB IDs (for scrolling to existing ones)
+        // We'll trust the question text matching or just re-render.
+        // Easier approach: On search selection, if it's not in DOM, prepend it.
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            if (!query) {
+                dropdown.style.display = 'none';
+                return;
+            }
+
+            const keywords = query.split(/\s+/).filter(word => word.length > 2);
+
+            const results = knowledgeBase.filter(item => {
+                const text = (item.question + ' ' + item.answer).toLowerCase();
+                if (text.includes(query)) return true;
+                if (keywords.length > 0 && keywords.some(k => text.includes(k))) return true;
+                return false;
+            });
+
+            // Display Results
+            dropdown.innerHTML = '';
+            if (results.length > 0) {
+                dropdown.style.display = 'block';
+                const ul = document.createElement('ul');
+                ul.style.listStyle = 'none';
+                ul.style.padding = '0';
+                ul.style.margin = '0';
+
+                results.forEach(res => {
+                    const li = document.createElement('li');
+                    li.style.padding = '10px';
+                    li.style.borderBottom = '1px solid #eee';
+                    li.style.cursor = 'pointer';
+                    li.innerHTML = `<strong style="display:block; color:var(--primary-color);">${res.question}</strong><p style="font-size:0.85rem; color:#666; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${res.answer}</p>`;
+                    li.addEventListener('mouseover', () => li.style.background = '#f9f9f9');
+                    li.addEventListener('mouseout', () => li.style.background = 'white');
+
+                    li.addEventListener('click', () => {
+                        displayAnswer(res);
+                        dropdown.style.display = 'none';
+                        searchInput.value = ''; // Clear search after selection
+                    });
+                    ul.appendChild(li);
+                });
+                dropdown.appendChild(ul);
+            } else {
+                dropdown.style.display = 'block';
+                dropdown.innerHTML = '<div style="padding:15px; color:#666; text-align:center;">No direct matches found. Try <a href="#" onclick="toggleChat()">Chatting with us</a> for assistance.</div>';
+            }
+        }
+
+        function displayAnswer(kbItem) {
+            // Check if already in DOM (by question text, as IDs might vary in initial HTML)
+            const existingItems = document.querySelectorAll('.faq-item');
+            let targetItem = null;
+
+            existingItems.forEach(item => {
+                const qText = item.querySelector('.faq-question span').innerText;
+                if (qText === kbItem.question) {
+                    targetItem = item;
+                }
+            });
+
+            if (!targetItem) {
+                // Create new Item
+                const newItem = document.createElement('div');
+                newItem.className = 'faq-item';
+                newItem.id = 'dynamic-' + kbItem.id;
+                newItem.innerHTML = `
+                    <div class="faq-question">
+                        <span>${kbItem.question}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>${kbItem.answer}</p>
+                    </div>
+                `;
+
+                // Add click listener
+                newItem.querySelector('.faq-question').addEventListener('click', () => {
+                    const allItems = document.querySelectorAll('.faq-item');
+                    allItems.forEach(i => { if (i !== newItem) i.classList.remove('active'); });
+                    newItem.classList.toggle('active');
+                });
+
+                // Prepend to list so user sees it top
+                faqContainer.prepend(newItem);
+                targetItem = newItem;
+            }
+
+            // Scroll and Expand
+            // Close others first
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+            targetItem.classList.add('active');
+            targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Highlight
+            targetItem.style.transition = 'background 0.5s';
+            targetItem.style.background = '#e3f2fd'; // Light blue highlight
+            setTimeout(() => targetItem.style.background = 'white', 2000);
+        }
+
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('input', performSearch);
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.support-search-bar')) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Toggle existing FAQs
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                faqItems.forEach(i => { if (i !== item) i.classList.remove('active'); });
+                item.classList.toggle('active');
+            });
+        });
+
+        // Mock Chat
+        function toggleChat() {
+            // Check if Main chatbot exists (from index.html copy-paste? No, support.html doesn't have it yet)
+            // Just alert for now as per previous implementation
+            alert('Opening Chat Interface...\n(Chat widget functionalities are fully implemented on Home Page)');
+        }
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

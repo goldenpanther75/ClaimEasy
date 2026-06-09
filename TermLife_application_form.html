@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term Life Insurance Application - ClaimEasy</title>
+    <!-- Standardized Scripts -->
+    <script src="auth_guard.js"></script>
+    <script src="autofill.js"></script>
+    <script src="validation.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .form-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--off-white);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-label input {
+            width: auto;
+            margin: 0;
+            accent-color: var(--primary-color);
+        }
+
+        .premium-box {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a3a6c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .premium-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .declaration {
+            background: var(--off-white);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .declaration input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .premium-box {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sticky Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#" class="nav-link">Insurance Products <i class="fas fa-chevron-down"></i></a></li>
+                    <li><a href="#" class="nav-link">Renew Your Policy <i class="fas fa-chevron-down"></i></a></li>
+                    <li><a href="#" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="#" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+                <button class="mobile-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                <button class="close-menu"><i class="fas fa-times"></i></button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="#">Insurance Products</a></li>
+                <li><a href="#">Renew Policy</a></li>
+                <li><a href="#">Claim Assistance</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Insurance Policy Application Form</h2>
+                <p>Please fill in the details below to proceed.</p>
+            </div>
+
+            <form id="application-form">
+
+                <!-- Personal Details -->
+                <div class="form-section">
+                    <h3>Personal Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="name@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" placeholder="10-digit mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Aadhaar Card Number</label>
+                            <input type="text" placeholder="12-digit Aadhaar number" pattern="\d{12}"
+                                title="Please enter valid 12 digit Aadhaar number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PAN Card Number</label>
+                            <input type="text" id="panNumber" placeholder="10-character PAN"
+                                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required title="Enter valid PAN">
+                        </div>
+                        <div class="form-group">
+                            <label>Marital Status</label>
+                            <select required id="maritalStatus">
+                                <option value="">Select Status</option>
+                                <option>Single</option>
+                                <option>Married</option>
+                                <option>Divorced</option>
+                                <option>Widowed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Annual Income</label>
+                            <select required>
+                                <option value="">Select Income Range</option>
+                                <option>Less than 5 Lakhs</option>
+                                <option>5 - 10 Lakhs</option>
+                                <option>10 - 15 Lakhs</option>
+                                <option>15 Lakhs+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Occupation</label>
+                            <select required>
+                                <option value="">Select Occupation</option>
+                                <option>Salaried</option>
+                                <option>Self Employed</option>
+                                <option>Business Owner</option>
+                                <option>Professional</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Education</label>
+                            <select required>
+                                <option value="">Select Education</option>
+                                <option>High School</option>
+                                <option>Graduate</option>
+                                <option>Post Graduate</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" placeholder="Current City" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PIN Code</label>
+                            <input type="number" placeholder="6-digit PIN" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nationality</label>
+                            <input type="text" value="Indian" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="male" checked> Male
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tobacco User?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="tobacco" value="no" checked> No
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="tobacco" value="yes"> Yes
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plan Details -->
+                <div class="form-section">
+                    <h3>Plan Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Life Cover Amount</label>
+                            <select required>
+                                <option>₹ 50 Lakhs</option>
+                                <option>₹ 75 Lakhs</option>
+                                <option>₹ 1 Crore</option>
+                                <option>₹ 2 Crores</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Coverage Till Age</label>
+                            <select required>
+                                <option>60 Years</option>
+                                <option>70 Years</option>
+                                <option>80 Years</option>
+                                <option>99 Years</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Premium Payment Term</label>
+                            <select required>
+                                <option>Regular Pay (Until 60)</option>
+                                <option>Limited Pay (10 Years)</option>
+                                <option>Limited Pay (5 Years)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Calculation -->
+                <div class="premium-box">
+                    <div>
+                        <h3>Total Monthly Premium</h3>
+                        <p style="opacity: 0.8; margin-top: 5px;">Includes all taxes</p>
+                    </div>
+                    <div class="premium-amount">₹ 416</div>
+                </div>
+
+                <!-- Declaration -->
+                <div class="declaration">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the terms and conditions of the policy and confirm that the details
+                        provided above are accurate.</label>
+                </div>
+
+                <!-- Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-outline btn-lg">Edit Details</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Investment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="#">Glossary</a></li>
+                        <li><a href="#">Insurance Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PolicyBazaar Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Form specific overrides for Select elements to match input style */
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            font-family: var(--font-family);
+        }
+    </style>
+    <script>
+        document.getElementById('application-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Validation Logic integration
+            if (typeof ClaimEasyValidation !== 'undefined') {
+                const validation = ClaimEasyValidation.validate();
+                if (!validation.isValid) {
+                    ClaimEasyValidation.showAlert(validation);
+                    return;
+                }
+            }
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            const selects = this.querySelectorAll('select');
+
+            // Gather data from the form
+            const formData = {
+                type: 'General Insurance Application',
+                fullName: this.querySelector('input[placeholder="Enter full name"]').value,
+                dob: this.querySelector('input[type="date"]').value,
+                email: this.querySelector('input[type="email"]').value,
+                mobile: this.querySelector('input[type="tel"]').value,
+                panNumber: document.getElementById('panNumber').value,
+                maritalStatus: document.getElementById('maritalStatus').value,
+                annualIncome: selects[1].value,
+                occupation: selects[2].value,
+                city: this.querySelector('input[placeholder="Current City"]').value,
+                pincode: this.querySelector('input[placeholder="6-digit PIN"]').value,
+                gender: this.querySelector('input[name="gender"]:checked').value,
+                tobacco: this.querySelector('input[name="tobacco"]:checked').value,
+                coverAmount: selects[4].value,
+                coverageAge: selects[5].value,
+                paymentTerm: selects[6].value,
+                premium: window.currentPremium || 416, // Dynamic or fallback
+                status: 'Pending Payment'
+            };
+
+            // Save to LocalStorage for PDF Download
+            localStorage.setItem('termlife_application_data', JSON.stringify(formData));
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = 'TermLife_payment.html?policyId=' + result.policyId;
+                } else {
+                    alert('Error submitting application: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to backend.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+
+        });
+
+        // Load Plan Details from LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const planData = localStorage.getItem('selected_termlife_plan');
+            if (planData) {
+                const plan = JSON.parse(planData);
+
+                // Update Premium Box
+                const premiumBox = document.querySelector('.premium-box');
+                if (premiumBox) {
+                    const amountDiv = premiumBox.querySelector('.premium-amount');
+                    const descP = premiumBox.querySelector('p');
+
+                    const monthlyPremium = parseInt(plan.monthlyPremium); // it's likely a number or numeric string
+                    const netMonthly = Math.round(monthlyPremium / 1.18);
+                    const gstMonthly = monthlyPremium - netMonthly;
+
+                    if (amountDiv) amountDiv.textContent = '₹ ' + monthlyPremium.toLocaleString(); // Monthly
+                    if (descP) {
+                        descP.innerHTML = `Selected Plan: ${plan.provider} - ${plan.lifeCover} Cover<br>
+                                            <span style="font-size:0.85rem; opacity:0.9;">(Net: ₹${netMonthly.toLocaleString()} + GST: ₹${gstMonthly.toLocaleString()})</span>`;
+                    }
+
+                    // Update internal form global variable
+                    window.currentPremium = monthlyPremium;
+                }
+            }
+        });
+    </script>
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

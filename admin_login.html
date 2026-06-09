@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ClaimEasy Super Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b1e3b 0%, #1a3c6e 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .admin-logo {
+            color: #0065ff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .admin-badge {
+            background: #eef4ff;
+            color: #0065ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-login-card">
+        <div class="logo">
+            <span class="logo-text">Claim<span class="highlight">Easy</span></span> <span
+                style="font-size: 1.2rem; color: #666; font-weight: 500;">Admin</span>
+        </div>
+        <span class="admin-badge">ADMINISTRATION PORTAL</span>
+
+        <form id="admin-login-form">
+            <div class="form-group text-left">
+                <label for="email">Email ID</label>
+                <input type="email" id="email" required placeholder="goldenpanther75@gmail.com">
+            </div>
+            <div class="form-group text-left">
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+
+            <div id="2fa-section"
+                style="display:none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">Enter 2FA Code sent to your mobile</p>
+                <div class="form-group text-left">
+                    <label>2FA Code</label>
+                    <input type="text" id="2fa-code" placeholder="123456" maxlength="6"
+                        style="text-align: center; letter-spacing: 5px; font-size: 1.2rem;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">Authenticate
+                Admin</button>
+            <p style="margin-top:15px; font-size:0.8rem;"><a href="#" onclick="showForgot()">Forgot Password?</a></p>
+            <p id="error-msg" style="color: red; margin-top: 15px; font-size: 0.9rem;"></p>
+        </form>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+        <div style="background:white; padding:30px; border-radius:12px; width:350px; text-align:center;">
+            <h3>Reset Password</h3>
+            <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Enter your Admin Email to receive a reset link.
+            </p>
+            <input type="email" id="forgot-email" placeholder="admin@claimeasy.com"
+                style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd; border-radius:6px;">
+            <button class="btn btn-primary btn-block" onclick="sendReset()">Send Link</button>
+            <button class="btn btn-outline btn-block" style="margin-top:10px;"
+                onclick="document.getElementById('forgot-modal').style.display='none'">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('admin-login-form');
+        const twoFaSection = document.getElementById('2fa-section');
+        const emailInput = document.getElementById('email');
+        const passInput = document.getElementById('password');
+        const twoFaInput = document.getElementById('2fa-code');
+        const btn = form.querySelector('button[type="submit"]');
+        const errorMsg = document.getElementById('error-msg');
+
+        function showForgot() {
+            document.getElementById('forgot-modal').style.display = 'flex';
+        }
+
+        function sendReset() {
+            const e = document.getElementById('forgot-email').value;
+            if (e) {
+                alert(`[Simulation] Password reset link sent to ${e}`);
+                document.getElementById('forgot-modal').style.display = 'none';
+            } else {
+                alert("Please enter email");
+            }
+        }
+
+        let step = 1; // 1: Creds, 2: 2FA
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMsg.innerText = '';
+
+            if (step === 1) {
+                // Verify Credentials
+                btn.innerText = "Verifying...";
+                btn.disabled = true;
+
+                try {
+                    const response = await fetch('http://13.126.167.8:5000/api/admin/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: emailInput.value,
+                            password: passInput.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        try {
+                            const otpResponse = await fetch('http://13.126.167.8:5000/api/auth/send-otp', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ identifier: emailInput.value })
+                            });
+                            if (otpResponse.ok) {
+                                step = 2;
+                                emailInput.disabled = true;
+                                passInput.disabled = true;
+                                twoFaSection.style.display = 'block';
+                                document.querySelector('#2fa-section p').innerText = `Enter OTP sent to ${emailInput.value}`;
+                                btn.innerText = "Verify OTP Code";
+                                btn.disabled = false;
+                                errorMsg.style.color = "green";
+                                errorMsg.innerText = `OTP Sent to your email!`;
+                            } else {
+                                throw new Error("Failed to send OTP");
+                            }
+                        } catch (err) {
+                            console.error('OTP send error:', err);
+                            btn.innerText = "Authenticate Admin";
+                            btn.disabled = false;
+                        }
+                    } else {
+                        errorMsg.style.color = "red";
+                        errorMsg.innerText = data.error || "Login Failed";
+                        btn.innerText = "Authenticate Admin";
+                        btn.disabled = false;
+                    }
+                } catch (err) {
+                    console.error('Connection error:', err);
+                    btn.innerText = "Authenticate Admin";
+                    btn.disabled = false;
+                }
+            } else {
+                // Verify 2FA
+                btn.innerText = "Verifying...";
+                btn.disabled = true;
+
+                try {
+                    const cleanOtp = twoFaInput.value.replace(/\s/g, '');
+                    const verifyResponse = await fetch('http://13.126.167.8:5000/api/auth/verify-otp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ identifier: emailInput.value, otp: cleanOtp })
+                    });
+
+                    const verifyData = await verifyResponse.json();
+
+                    if (verifyResponse.ok && verifyData.success) {
+                        // Login Complete
+                        localStorage.setItem('adminUser', JSON.stringify({
+                            email: emailInput.value,
+                            role: 'admin',
+                            token: 'verified-admin-token-xyz'
+                        }));
+                        window.location.href = 'admin_dashboard.html';
+                    } else {
+                        errorMsg.innerText = "Invalid OTP Code";
+                        btn.innerText = "Verify OTP Code";
+                        btn.disabled = false;
+                    }
+                } catch (err) {
+                    errorMsg.innerText = "Error verifying OTP.";
+                    btn.innerText = "Verify OTP Code";
+                    btn.disabled = false;
+                }
+            }
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

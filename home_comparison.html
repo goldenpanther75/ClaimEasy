@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Home Insurance Quotes | ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="comparison_shared.css">
+    <link rel="stylesheet" href="home_comparison.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Urgency Header -->
+    <div class="urgency-header" role="alert">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Protect your home from Monsoons. Get policy in 5
+        miznutes.
+    </div>
+
+    <!-- Main Header -->
+    <header class="header" role="banner" style="padding: 10px 0; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="index.html" aria-label="ClaimEasy Home">
+                    <span class="logo-text" aria-hidden="true">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">
+                Need Help? <strong style="color:var(--home-primary);">1800-208-8787</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Filter Bar -->
+    <div class="filter-bar-container">
+        <div class="container filter-content">
+            <div class="filters-left">
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sort-select">
+                        <option value="relevance">Relevance</option>
+                        <option value="price-low">Premium: Low to High</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sum Insured</label>
+                    <select id="sum-insured-filter">
+                        <option value="All">Show All Plans</option>
+                        <option value="1Cr">₹ 1 Crore</option>
+                        <option value="2Cr">₹ 2 Crores</option>
+                        <option value="3Cr">₹ 3 Crores</option>
+                        <option value="4Cr">₹ 4 Crores</option>
+                        <option value="6Cr">₹ 6 Crores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Tenure</label>
+                    <select id="tenure-filter">
+                        <option value="1">1 Year</option>
+                        <option value="3">3 Years</option>
+                        <option value="5">5 Years</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filters-right">
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="burglary-cover">
+                    <label for="burglary-cover">Burglary Cover</label>
+                </div>
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="natural-calamity">
+                    <label for="natural-calamity">Natural Calamities</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vehicle/Property Details Bar -->
+    <div class="vehicle-details-bar" role="region" aria-label="Property Details">
+        <div class="container vehicle-info-grid">
+            <div class="vehicle-item">
+                <span>Property Value</span>
+                <strong id="property-value">₹ 50,00,000</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Structure Value</span>
+                <strong id="structure-value">₹ 35,00,000</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Content Value</span>
+                <strong id="content-value">₹ 15,00,000</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Pincode</span>
+                <strong id="property-pincode">400001</strong>
+            </div>
+            <div class="vehicle-item" style="display:flex; align-items:center;">
+                <a href="#" class="edit-link" id="edit-property-btn" aria-label="Edit Property Details"><i
+                        class="fas fa-pencil-alt" aria-hidden="true"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Comparison Section -->
+    <div class="comparison-layout container">
+
+        <!-- Left Column: Plan Cards -->
+        <div class="plans-column">
+            <div class="results-header">
+                <h3>Showing <span id="plan-count">0</span> Plans for your Home</h3>
+                <div class="sort-options">
+                    <span>Sort by:</span>
+                    <select id="sort-select-results">
+                        <option value="relevance">Relevance</option>
+                        <option value="price-low">Premium: Low to High</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Container for JS injected cards -->
+            <div id="home-plans-container" role="list">
+                <!-- Plans will be rendered here by JS -->
+            </div>
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <aside aria-label="Filters and Features" class="sidebar-column">
+
+            <!-- Talk to Expert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-user-tie" aria-hidden="true"></i> Home Insurance Experts</h4>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Need help valuing your property? We are
+                    here.</p>
+                <div class="contact-btns">
+                    <button class="call-btn"><i class="fas fa-phone"></i> Request Call</button>
+                    <button class="chat-btn"><i class="fas fa-comment-alt"></i> Chat Now</button>
+                </div>
+            </div>
+
+            <!-- Price Hike Alert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-chart-line" aria-hidden="true"></i> Premium Alert!</h4>
+                <p style="font-size:0.9rem; color:#666;">Home insurance rates may increase due to recent flood data in
+                    your area.
+                </p>
+                <button class="match-price-btn" style="width:100%; margin-top:10px;">Lock Price Now</button>
+            </div>
+
+            <!-- Mini Testimonial -->
+            <div class="sidebar-box" style="background:#fff3e0; border-color:#ffe0b2;">
+                <div style="color:#e65100; font-size:1.5rem; margin-bottom:5px;"><i class="fas fa-quote-left"></i></div>
+                <p style="font-size:0.9rem; font-style:italic; color:#555;">"ClaimEasy helped me claim ₹2 Lakhs for
+                    water damage quickly. Best decision!"</p>
+                <div style="margin-top:10px; font-weight:600; font-size:0.85rem; color:#333;">- Anjali P., Mumbai</div>
+            </div>
+        </aside>
+    </div>
+    </div>
+
+
+
+    <!-- Edit Property Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-edit-modal">&times;</button>
+            <h3>Edit Property Details</h3>
+            <form id="edit-prop-form">
+                <div class="form-group">
+                    <label>Property Type</label>
+                    <select id="edit-type-input"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Owned Apartment">Owned Apartment</option>
+                        <option value="Rented Apartment">Rented Apartment</option>
+                        <option value="Independent House">Independent House</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location (City, Pincode)</label>
+                    <input type="text" id="edit-loc-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Structure Value</label>
+                    <input type="text" id="edit-struct-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Content Value</label>
+                    <input type="text" id="edit-content-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Policy Tenure</label>
+                    <select id="edit-tenure-input"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="1 Year">1 Year</option>
+                        <option value="3 Years">3 Years</option>
+                        <option value="5 Years">5 Years</option>
+                        <option value="10 Years">10 Years</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Save Details</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="home_comparison.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

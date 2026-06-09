@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Term Life Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="autofill.js" defer></script>
+    <script src="validation.js" defer></script>
+    <style>
+        .claim-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .claim-btn {
+            background: #333;
+            /* Black for Life */
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .claim-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="TermLife_easyclaim.html" class="logo-text">
+                Claim<span class="highlight">Easy</span>
+            </a>
+            <a href="index.html" class="btn btn-outline" style="padding: 8px 16px;">Back to Home</a>
+        </div>
+    </header>
+
+    <div class="claim-container">
+        <div class="form-header">
+            <div style="font-size: 3rem; color: #333; margin-bottom: 15px;"><i class="fas fa-file-invoice"></i></div>
+            <h2>File Term Life Claim</h2>
+            <p>We are sorry for your loss. Please provide the details below to initiate the claim process.</p>
+        </div>
+
+        <form id="claim-form">
+            <div class="form-group">
+                <label for="policyNumber">Policy Number</label>
+                <input type="text" id="policyNumber" placeholder="Enter Policy Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="claimantName">Claimant Name</label>
+                <input type="text" id="claimantName" placeholder="Full Name of Claimant" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Registered Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Mobile Number linked to Policy" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount Claimed (₹)</label>
+                <input type="number" id="amount" placeholder="e.g. 5000000" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="dod">Date of Demise</label>
+                <input type="date" id="dod" required>
+            </div>
+
+            <!-- Documentation Upload Section -->
+            <div
+                style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #ddd;">
+                <h4 style="margin-bottom: 15px; color: #333;">Upload Documents & Photos</h4>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Death Certificate (Issued by Local Authority)</label>
+                    <input type="file" id="deathCert" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Original Policy Document</label>
+                    <input type="file" id="policyDoc" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Claimant's Photo ID & Address Proof</label>
+                    <input type="file" id="claimantId" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Medical Records / Hospital Discharge Summary (if
+                        applicable)</label>
+                    <input type="file" id="medicalRecords" required accept="image/*,.pdf" multiple style="padding: 5px;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-block claim-btn" style="font-size: 1.1rem; margin-top: 10px;">Initiate
+                Claim</button>
+        </form>
+    </div>
+
+    <script src="upload_utils.js"></script>
+    <script>
+        // Check for pre-filled data from Claim Intimation page
+        document.addEventListener('DOMContentLoaded', () => {
+            const tempClaimDetails = localStorage.getItem('tempClaimDetails');
+            if (tempClaimDetails) {
+                const details = JSON.parse(tempClaimDetails);
+                if (details.policyNumber && document.getElementById('policyNumber')) 
+                    document.getElementById('policyNumber').value = details.policyNumber;
+                if (details.mobile && document.getElementById('mobile')) 
+                    document.getElementById('mobile').value = details.mobile;
+                if (details.holderName && document.getElementById('claimantName')) 
+                    document.getElementById('claimantName').value = details.holderName;
+
+                localStorage.removeItem('tempClaimDetails');
+            }
+        });
+
+        document.getElementById('claim-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Indian Standard Format Validation
+            const validation = ClaimEasyValidation.validate();
+            if (!validation.isValid) {
+                ClaimEasyValidation.showAlert(validation);
+                return;
+            }
+
+            const dodStr = document.getElementById('dod').value;
+            if (dodStr) {
+                const dod = new Date(dodStr);
+                const today = new Date();
+                if (dod > today) {
+                    alert('Date of demise cannot be in the future.');
+                    return;
+                }
+            }
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading & Submitting...';
+            btn.disabled = true;
+
+            try {
+                // Upload Files
+                const deathCertFile = document.getElementById('deathCert').files[0];
+                const policyDocFile = document.getElementById('policyDoc').files[0];
+                const claimantIdFile = document.getElementById('claimantId').files[0];
+                const medicalRecordsFiles = document.getElementById('medicalRecords').files;
+
+                const deathCertPath = deathCertFile ? await uploadFile(deathCertFile) : "Not Uploaded";
+                const policyDocPath = policyDocFile ? await uploadFile(policyDocFile) : "Not Uploaded";
+                const claimantIdPath = claimantIdFile ? await uploadFile(claimantIdFile) : "Not Uploaded";
+                const medicalRecordsPaths = await uploadFiles(medicalRecordsFiles);
+
+                const formData = {
+                    type: 'TermLife',
+                    policyNumber: document.getElementById('policyNumber').value,
+                    amount: document.getElementById('amount').value,
+                    claimantName: document.getElementById('claimantName').value,
+                    mobile: document.getElementById('mobile').value,
+                    dateOfDemise: document.getElementById('dod').value,
+                    documents: {
+                        deathCertificate: deathCertPath,
+                        originalPolicy: policyDocPath,
+                        claimantId: claimantIdPath,
+                        medicalRecords: medicalRecordsPaths.length > 0 ? medicalRecordsPaths : ["Not Uploaded"]
+                    }
+                };
+
+                const response = await fetch('http://13.126.167.8:5000/api/claims', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Claim Intimation Successful! Claim ID: ' + result.claimId);
+                    window.location.href = 'TermLife_easyclaim.html';
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

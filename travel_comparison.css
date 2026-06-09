@@ -1,0 +1,9 @@
+/* Travel Comparison Specific Styles */
+:root {
+    --theme-primary: #00bcd4;
+    --theme-bg-light: #e0f7fa;
+    --btn-bg-color: #ffc107;
+    /* High Contrast Yellow */
+    --btn-text-color: #000;
+    /* Black Text */
+}

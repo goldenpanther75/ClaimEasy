@@ -1,0 +1,213 @@
+/* Support Page Specific Styles */
+
+/* Hero Section */
+.support-hero {
+    background: linear-gradient(135deg, #0065ff 0%, #00d287 100%);
+    padding: 100px 0;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.support-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.highlight-white {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.support-hero p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.support-search-bar {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 50px;
+    padding: 8px 8px 8px 25px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.support-search-bar i {
+    color: #999;
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.support-search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #333;
+}
+
+.support-search-bar button {
+    border-radius: 40px;
+    padding: 12px 30px;
+}
+
+/* Quick Actions */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.action-card {
+    background: white;
+    border: 1px solid #eee;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: #0065ff;
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background: #eef4ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #0065ff;
+    font-size: 1.5rem;
+}
+
+.action-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.action-card p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.action-link {
+    color: #0065ff;
+    font-weight: 600;
+}
+
+/* FAQ Section */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 20px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #333;
+}
+
+.faq-question i {
+    color: #999;
+    transition: transform 0.3s;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.faq-answer p {
+    padding: 20px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+    color: #0065ff;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    /* Adjust if needed */
+}
+
+/* Contact Grid */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.contact-card {
+    text-align: center;
+    padding: 30px 20px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: white;
+}
+
+.contact-icon {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.contact-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.contact-card p {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .support-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}

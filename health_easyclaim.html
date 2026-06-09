@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="easyclaim_style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logo-easy {
+            color: var(--health-primary, #FF6B6B);
+        }
+
+        /* Custom color for Health */
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="index.html" class="logo">
+            <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+        </a>
+        <div class="tagline-badge">
+            Cashless Treatment Everywhere
+        </div>
+    </header>
+
+    <!-- Background Shapes -->
+    <div class="shape shape-1" style="background: rgba(255, 107, 107, 0.1);"></div>
+    <div class="shape shape-2"></div>
+
+    <!-- Main Hero -->
+    <main class="hero-container">
+        <div class="actions-grid">
+            <!-- Take Insurance Button -->
+            <button class="action-card" id="btn-take">
+                <div class="icon-wrapper">
+                    <i class="fas fa-heartbeat"></i>
+                    <i class="fas fa-check"
+                        style="font-size: 1.5rem; position: absolute; margin-left: -10px; margin-top: 10px;"></i>
+                </div>
+                <span class="action-text">Buy Health Policy</span>
+            </button>
+
+            <!-- Claim Insurance Button -->
+            <button class="action-card" id="btn-claim">
+                <div class="icon-wrapper">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <span class="action-text">File Health Claim</span>
+            </button>
+
+            <!-- Track Insurance Button -->
+            <button class="action-card" id="btn-track">
+                <div class="icon-wrapper">
+                    <i class="fas fa-file-medical-alt"></i>
+                </div>
+                <span class="action-text">Track Claim</span>
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('btn-take').addEventListener('click', () => {
+                window.location.href = 'health_comparison.html';
+            });
+            document.getElementById('btn-claim').addEventListener('click', () => {
+                window.location.href = 'health_claim.html';
+            });
+            document.getElementById('btn-track').addEventListener('click', () => {
+                window.location.href = 'health_track.html';
+            });
+            // Animation
+            const cards = document.querySelectorAll('.action-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * (index + 1));
+            });
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

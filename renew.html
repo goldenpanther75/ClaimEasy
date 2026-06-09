@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renew Policy - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .renew-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .success-box {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--bg-light);">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="products.html" class="nav-link">Insurance Products</a></li>
+                    <li><a href="renew.html" class="nav-link active">Renew Your Policy</a></li>
+                    <li><a href="claims.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="support.html" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="renew-container">
+            <div class="text-center" style="margin-bottom: 30px;">
+                <h2 style="color: var(--primary-color);">Renew Your Policy</h2>
+                <p>Enter your policy details to proceed with renewal.</p>
+            </div>
+
+            <form id="renew-form">
+                <div class="form-group">
+                    <label>Policy Type</label>
+                    <select id="policyType">
+                        <option value="car">Car Insurance</option>
+                        <option value="bike">Bike Insurance</option>
+                        <option value="health">Health Insurance</option>
+                        <option value="term">Term Life Insurance</option>
+                        <option value="travel">Travel Insurance</option>
+                        <option value="home">Home Insurance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Policy Number</label>
+                    <input type="text" placeholder="e.g. POL-12345678" required>
+                </div>
+                <div class="form-group">
+                    <label>Registration Number / Mobile Number</label>
+                    <input type="text" placeholder="Enter vehicle no. or mobile no." required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Search Policy</button>
+            </form>
+
+            <div id="success-msg" class="success-box">
+                <i class="fas fa-check-circle"></i> Policy Found! <br>
+                Redirecting to payment gateway...
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 50px;">
+        <div class="container">
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('renew-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const policyType = document.getElementById('policyType').value;
+            const policyNumber = this.querySelector('input[type="text"]').value;
+            const mobile = this.querySelectorAll('input[type="text"]')[1].value;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+            btn.disabled = true;
+            document.getElementById('success-msg').style.display = 'none';
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies/renew-check', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ policyNumber, mobile })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    // Save details for payment page
+                    localStorage.setItem('renewalDetails', JSON.stringify(result.policy));
+
+                    document.getElementById('success-msg').style.display = 'block';
+                    document.getElementById('success-msg').innerHTML = `<i class="fas fa-check-circle"></i> Policy Found! <br> Redirecting to payment...`;
+
+                    setTimeout(() => {}, 300);
+                } else {
+                    alert(result.message || "Policy not found. Please check your details.");
+                    btn.innerHTML = 'Search Policy';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error("Renewal Check Error:", error);
+                alert("Server error. Please try again.");
+                btn.innerHTML = 'Search Policy';
+                btn.disabled = false;
+            }
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

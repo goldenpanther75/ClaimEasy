@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Policy - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="support.css"> <!-- Reusing support styles for consistency -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cancel-form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            margin: -50px auto 50px;
+            /* Overlap hero */
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #0d47a1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0d47a1;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header (Reused) -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="products.html" class="nav-link">Insurance Products</a></li>
+                    <li><a href="renew.html" class="nav-link">Renew Your Policy</a></li>
+                    <li><a href="claims.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="support.html" class="nav-link active">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="support-hero" style="min-height: 250px; padding-bottom: 80px;">
+        <div class="container text-center">
+            <h1>Cancel <span class="highlight-white">Policy</span></h1>
+            <p>We're sorry to see you go. Please fill in the details below to process your cancellation.</p>
+        </div>
+    </section>
+
+    <!-- Cancellation Form -->
+    <section class="section-padding" style="padding-top: 0;">
+        <div class="container">
+            <div class="cancel-form-container">
+                <div class="alert-info">
+                    <i class="fas fa-info-circle"></i> <strong>Note:</strong> Cancellations during the free-look period
+                    (15 days) are eligible for a refund. Pro-rata refunds apply for other cases based on policy terms.
+                </div>
+
+                <form id="cancel-form">
+                    <div class="form-group">
+                        <label>Policy Number</label>
+                        <input type="text" class="form-control"
+                            placeholder="Enter your policy number (e.g., POL-123456)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Policy Type</label>
+                        <select class="form-control" required>
+                            <option value="">Select Policy Type</option>
+                            <option value="Health">Health Insurance</option>
+                            <option value="Car">Car Insurance</option>
+                            <option value="Bike">Bike Insurance</option>
+                            <option value="Life">Term Life Insurance</option>
+                            <option value="Travel">Travel Insurance</option>
+                            <option value="Home">Home Insurance</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Reason for Cancellation</label>
+                        <select class="form-control" id="reason-select" required>
+                            <option value="">Select a reason</option>
+                            <option value="sold_vehicle">Sold Vehicle / Asset</option>
+                            <option value="found_better">Found a better deal separately</option>
+                            <option value="expensive">Premium is too high</option>
+                            <option value="service_issue">Unhappy with service</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="other-reason-group" style="display:none;">
+                        <label>Please specify details</label>
+                        <textarea class="form-control" rows="3"
+                            placeholder="Tell us more about why you're cancelling..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Registered Email ID</label>
+                        <input type="email" class="form-control" placeholder="name@example.com" required>
+                    </div>
+
+                    <button type="submit" class="btn-danger">Submit Cancellation Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Reused) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle 'Other' text area
+        document.getElementById('reason-select').addEventListener('change', function () {
+            const otherGroup = document.getElementById('other-reason-group');
+            if (this.value === 'other') {
+                otherGroup.style.display = 'block';
+                otherGroup.querySelector('textarea').required = true;
+            } else {
+                otherGroup.style.display = 'none';
+                otherGroup.querySelector('textarea').required = false;
+            }
+        });
+
+        // Form Submission
+        document.getElementById('cancel-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerText;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+            // Simulate API call
+            setTimeout(() => {}, 300);
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

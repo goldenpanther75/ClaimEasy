@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance Application - ClaimEasy</title>
+    <!-- Standardized Scripts -->
+    <script src="auth_guard.js"></script>
+    <script src="autofill.js"></script>
+    <script src="validation.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .form-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--off-white);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-label input {
+            width: auto;
+            margin: 0;
+            accent-color: var(--primary-color);
+        }
+
+        .premium-box {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a3a6c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .premium-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .declaration {
+            background: var(--off-white);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .declaration input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+        }
+
+        /* Health Specific Styles */
+        .member-checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .member-option {
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-option.selected {
+            background: #eef4ff;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .disease-tag {
+            background: #ffecec;
+            color: #d31145;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            border: 1px solid #ffccd5;
+        }
+
+        @media (max-width: 768px) {
+            .premium-box {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Form specific overrides for Select elements */
+        select,
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div class="header-actions">
+                <span style="font-weight:600; color:var(--text-light);">Application Step 2/3</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Health Insurance Application</h2>
+                <p>Complete your details to secure your family's health.</p>
+            </div>
+
+            <form id="health-application-form">
+
+                <!-- Proposer Details -->
+                <div class="form-section">
+                    <h3>Proposer Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="proposerName" placeholder="Enter full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" id="mobileNumber" placeholder="10-digit mobile number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="emailAddress" placeholder="name@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Aadhaar Card Number</label>
+                            <input type="text" id="aadhaarNumber" placeholder="12-digit Aadhaar number" pattern="\d{12}"
+                                title="Please enter valid 12 digit Aadhaar number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="number" id="pincode" placeholder="6-digit PIN" required>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="city" placeholder="Resulting City" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PAN Card Number</label>
+                            <input type="text" id="panNumber" placeholder="10-character PAN"
+                                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" required title="Enter valid PAN (e.g., ABCDE1234F)">
+                        </div>
+                        <div class="form-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="height" placeholder="e.g., 175" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="e.g., 70" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insured Members -->
+                <div class="form-section">
+                    <h3>Members to be Insured</h3>
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="margin-bottom:15px; display:block;">Select members:</label>
+                        <div class="member-checkbox-group">
+                            <div class="member-option selected"><i class="fas fa-check"></i> Self</div>
+                            <div class="member-option"><i class="fas fa-plus"></i> Spouse</div>
+                            <div class="member-option"><i class="fas fa-plus"></i> Son</div>
+                            <div class="member-option"><i class="fas fa-plus"></i> Daughter</div>
+                            <div class="member-option"><i class="fas fa-plus"></i> Father</div>
+                            <div class="member-option"><i class="fas fa-plus"></i> Mother</div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic fields for members could go here, for now simple placeholder -->
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Gender (Proposer)</label>
+                            <div class="radio-group">
+                                <label class="radio-label"><input type="radio" name="gender" checked> Male</label>
+                                <label class="radio-label"><input type="radio" name="gender"> Female</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Marital Status</label>
+                            <select>
+                                <option>Married</option>
+                                <option>Unmarried</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical History -->
+                <div class="form-section">
+                    <h3>Medical History</h3>
+                    <div class="form-group">
+                        <label>Does any member have a pre-existing medical condition? (Diabetes, BP, Asthma,
+                            etc.)</label>
+                        <div class="radio-group" style="margin-top:15px;">
+                            <label class="radio-label" onclick="toggleDiseases(false)">
+                                <input type="radio" name="disease" value="no" checked> No, we are healthy
+                            </label>
+                            <label class="radio-label" onclick="toggleDiseases(true)">
+                                <input type="radio" name="disease" value="yes"> Yes
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="disease-list"
+                        style="display:none; margin-top:20px; padding:20px; background:#f9f9f9; border-radius:8px;">
+                        <label style="margin-bottom:10px; display:block; font-weight:600;">Select Conditions:</label>
+                        <label class="radio-label" style="margin-bottom:10px;"><input type="checkbox"> Diabetes</label>
+                        <label class="radio-label" style="margin-bottom:10px;"><input type="checkbox"> Hypertension
+                            (BP)</label>
+                        <label class="radio-label" style="margin-bottom:10px;"><input type="checkbox"> Thyroid</label>
+                        <label class="radio-label" style="margin-bottom:10px;"><input type="checkbox"> Asthma</label>
+                        <label class="radio-label"><input type="checkbox"> Other Surgical History</label>
+                    </div>
+                </div>
+
+                <!-- Nominee Details -->
+                <div class="form-section">
+                    <h3>Nominee Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nominee Name</label>
+                            <input type="text" placeholder="Name of nominee">
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship</label>
+                            <select>
+                                <option>Spouse</option>
+                                <option>Child</option>
+                                <option>Parent</option>
+                                <option>Sibling</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Calculation -->
+                <div class="premium-box">
+                    <div>
+                        <h3>Total Monthly Premium</h3>
+                        <p style="opacity: 0.8; margin-top: 5px;">Includes all taxes</p>
+                    </div>
+                    <div class="premium-amount">₹ 14,250</div>
+                </div>
+
+                <!-- Declaration -->
+                <div class="declaration">
+                    <input type="checkbox" id="terms" required checked>
+                    <label for="terms">I hereby declare that the information provided is true and I agree to the <a
+                            href="#" style="color:var(--primary-color);">Terms & Conditions</a>.</label>
+                </div>
+
+                <!-- Buttons -->
+                <div class="action-buttons">
+                    <a href="health_comparison.html" class="btn btn-outline btn-lg">Back</a>
+                    <button type="submit" class="btn btn-primary btn-lg"
+                        style="background:#00d287; border:none; box-shadow:none;">Proceed to Payment <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Interaction for Disease Toggle
+        function toggleDiseases(show) {
+            const list = document.getElementById('disease-list');
+            list.style.display = show ? 'block' : 'none';
+        }
+
+        // Member selection visual toggle
+        const members = document.querySelectorAll('.member-option');
+        members.forEach(m => {
+            m.addEventListener('click', () => {
+                m.classList.toggle('selected');
+                const icon = m.querySelector('i');
+                if (m.classList.contains('selected')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-check');
+                } else {
+                    icon.classList.remove('fa-check');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        });
+
+        // Form Submit
+        document.getElementById('health-application-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validation Logic integration
+            if (typeof ClaimEasyValidation !== 'undefined') {
+                const validation = ClaimEasyValidation.validate();
+                if (!validation.isValid) {
+                    ClaimEasyValidation.showAlert(validation);
+                    return;
+                }
+            }
+
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            const formData = {
+                type: 'Health Insurance',
+                ownerName: document.getElementById('proposerName').value,
+                mobile: document.getElementById('mobileNumber').value,
+                email: document.getElementById('emailAddress').value,
+                dob: document.getElementById('dob').value,
+                city: document.getElementById('city').value,
+                panNumber: document.getElementById('panNumber').value,
+                height: document.getElementById('height').value,
+                weight: document.getElementById('weight').value,
+                premium: window.currentPremium || 14250,
+                status: 'Pending Payment'
+            };
+
+            // Save to LocalStorage for PDF Download
+            localStorage.setItem('health_application_data', JSON.stringify(formData));
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = 'health_payment.html?policyId=' + result.policyId;
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Backend connection failed. ensure server is running on port 5000.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        // Load Plan Details from LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const planData = localStorage.getItem('selected_health_plan');
+            if (planData) {
+                const plan = JSON.parse(planData);
+
+                // Update Premium Sidebar/Box (Health form has a different layout)
+                const premiumBox = document.querySelector('.premium-box');
+                if (premiumBox) {
+                    const h3 = premiumBox.querySelector('h3');
+                    const p = premiumBox.querySelector('p');
+                    const amount = premiumBox.querySelector('.premium-amount');
+
+                    const monthlyPremium = plan.monthlyPremium;
+                    const netMonthly = Math.round(monthlyPremium / 1.18);
+                    const gstMonthly = monthlyPremium - netMonthly;
+
+                    if (h3) h3.textContent = 'Total Monthly Premium';
+                    if (p) {
+                        p.innerHTML = `Plan: ${plan.provider} - ${plan.planName} (${formatMoney(plan.sumInsured)})<br>
+                                        <span style="font-size:0.85rem; opacity:0.9;">(Net: ₹${netMonthly.toLocaleString()} + GST: ₹${gstMonthly.toLocaleString()})</span>`;
+                    }
+                    if (amount) amount.textContent = '₹ ' + monthlyPremium.toLocaleString();
+
+                    // Update internal form global variable
+                    window.currentPremium = monthlyPremium;
+                }
+            }
+        });
+
+        function formatMoney(val) {
+            if (val === '1Cr') return '1 Crore';
+            if (val === '50L') return '50 Lakhs';
+            if (val === '25L') return '25 Lakhs';
+            if (val === '10L') return '10 Lakhs';
+            if (val === '5L') return '5 Lakhs';
+            return val;
+        }
+    </script>
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

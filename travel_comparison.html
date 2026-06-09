@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Travel Insurance - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="comparison_shared.css">
+    <link rel="stylesheet" href="travel_comparison.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Urgency Header -->
+    <div class="urgency-header" role="alert">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Flight delays are common. Secure your trip in 5
+        minutes.
+    </div>
+
+    <!-- Main Header -->
+    <header class="header" role="banner" style="padding: 10px 0; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="index.html" aria-label="ClaimEasy Home">
+                    <span class="logo-text" aria-hidden="true">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">
+                Need Help? <strong style="color:var(--primary-color);">1800-208-8787</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Filter Bar -->
+    <div class="filter-bar-container">
+        <div class="container filter-content">
+            <div class="filters-left">
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="sort-select">
+                        <option value="relevance">Relevance</option>
+                        <option value="price-low">Premium: Low to High</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sum Insured</label>
+                    <select id="sum-insured-filter">
+                        <option value="All">Show All Plans</option>
+                        <option value="50L">₹ 50 Lakhs</option>
+                        <option value="1Cr">₹ 1 Crore</option>
+                        <option value="2Cr">₹ 2 Crores</option>
+                        <option value="3Cr">₹ 3 Crores</option>
+                        <option value="4Cr">₹ 4 Crores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Visa Type</label>
+                    <select id="visa-type-filter">
+                        <option value="Tourist">Tourist</option>
+                        <option value="Student">Student</option>
+                        <option value="Business">Business</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filters-right">
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="adventure-sports">
+                    <label for="adventure-sports">Adventure Sports</label>
+                </div>
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="pre-existing">
+                    <label for="pre-existing">Pre-existing Disease</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trip Details Bar -->
+    <div class="vehicle-details-bar" role="region" aria-label="Trip Details">
+        <div class="container vehicle-info-grid">
+            <div class="vehicle-item">
+                <span>Destination</span>
+                <strong id="trip-dest">USA, Canada</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Travel Dates</span>
+                <strong id="trip-dates">25 Dec - 10 Jan</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Travellers</span>
+                <strong id="trip-travellers">2 Adults, 1 Child</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Age of Eldest</span>
+                <strong id="trip-age">35 Years</strong>
+            </div>
+            <div class="vehicle-item" style="display:flex; align-items:center;">
+                <a href="#" class="edit-link" id="edit-trip-btn" aria-label="Edit Trip Details"><i
+                        class="fas fa-pencil-alt" aria-hidden="true"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="comparison-layout container">
+
+        <!-- Left Column: Plans -->
+        <main class="plans-column" id="main-content">
+            <div class="results-header">
+                <h3>Showing <span id="plan-count">3</span> Travel Insurance Plans</h3>
+                <span style="font-size:0.9rem; color:#666;">Medical &amp; Trip Cancellation Covered</span>
+            </div>
+
+            <div id="travel-plans-container" role="list">
+                <div class="comparison-card" role="listitem">
+
+                    <div class="insurer-logo-round" aria-hidden="true">
+                        <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+                    </div>
+
+                    <div>
+                        <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                        <span
+                            style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Tourist
+                            Visa</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.8rem; color:#888;">Sum Insured</span>
+                        <strong style="font-size:1.1rem; color:#333;">$50,000</strong>
+                    </div>
+                    <div class="plan-features">
+                        <ul aria-label="Plan Features">
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Medical Expenses</li>
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Trip Cancellation</li>
+                        </ul>
+                        <span class="discount-tag">15 Days Trip</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="premium-price" aria-label="Premium: ₹ 950">₹ 950</div>
+                        <button onclick="buyTravelPlan(1)" class="btn btn-primary" style="margin-top:10px; width:100%;"
+                            aria-label="Buy ClaimEasy plan for ₹ 950">Buy Now</button>
+                    </div>
+                </div>
+                <div class="comparison-card" role="listitem">
+
+                    <div class="insurer-logo-round" aria-hidden="true">
+                        <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+                    </div>
+
+                    <div>
+                        <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                        <span
+                            style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Tourist
+                            Visa</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.8rem; color:#888;">Sum Insured</span>
+                        <strong style="font-size:1.1rem; color:#333;">$100,000</strong>
+                    </div>
+                    <div class="plan-features">
+                        <ul aria-label="Plan Features">
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Baggage Loss</li>
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Flight Delay</li>
+                        </ul>
+                        <span class="discount-tag">15 Days Trip</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="premium-price" aria-label="Premium: ₹ 1200">₹ 2<span
+                                style="font-family: Outfit, sans-serif; font-size: 1.6rem;">200</span></div>
+                        <button onclick="buyTravelPlan(2)" class="btn btn-primary" style="margin-top:10px; width:100%;"
+                            aria-label="Buy ClaimEasy plan for ₹ 1200">Buy Now</button>
+                    </div>
+                </div>
+                <div class="comparison-card" role="listitem">
+
+                    <div class="insurer-logo-round" aria-hidden="true">
+                        <span class="logo-claim">Claim</span><span class="logo-easy">Easy</span>
+                    </div>
+
+                    <div>
+                        <strong style="font-size:1.1rem; display:block; margin-bottom:5px;">ClaimEasy</strong>
+                        <span
+                            style="font-size:0.85rem; color:#666; background:#eee; padding:2px 8px; border-radius:4px;">Tourist
+                            Visa</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.8rem; color:#888;">Sum Insured</span>
+                        <strong style="font-size:1.1rem; color:#333;">$500,000</strong>
+                    </div>
+                    <div class="plan-features">
+                        <ul aria-label="Plan Features">
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Covid-19 Cover</li>
+                            <li><i class="fas fa-check" aria-hidden="true"></i> Pre-existing Disease</li>
+                        </ul>
+                        <span class="discount-tag">15 Days Trip</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="premium-price" aria-label="Premium: ₹ 3200">₹ 3200</div>
+                        <button onclick="buyTravelPlan(5)" class="btn btn-primary" style="margin-top:10px; width:100%;"
+                            aria-label="Buy ClaimEasy plan for ₹ 3200">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Column: Sidebar -->
+        <aside aria-label="Features and Help" class="sidebar-column">
+            <!-- Expert Help -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-plane-departure" aria-hidden="true"></i> Travel Assistance</h4>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Get 24x7 global assistance for medical
+                    emergencies.</p>
+                <div class="contact-btns">
+                    <button class="call-btn"><i class="fas fa-phone"></i> Request Call</button>
+                </div>
+            </div>
+
+            <!-- Price Guarantee -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-tags" aria-hidden="true"></i> Best Price Promise</h4>
+                <p style="font-size:0.85rem; color:#666;">We guarantee the lowest premium for your trip.</p>
+                <button class="match-price-btn" aria-label="Match my price request">Match my price</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Edit Trip Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-edit-modal">×</button>
+            <h3>Edit Trip Details</h3>
+            <form id="edit-trip-form">
+                <div class="form-group">
+                    <label>Destination</label>
+                    <input type="text" id="edit-dest-input" required="">
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" id="edit-start-input" required=""
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" id="edit-end-input" required=""
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Save Details</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="travel_comparison.js"></script>
+
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

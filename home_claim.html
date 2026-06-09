@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Home Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="autofill.js" defer></script>
+    <script src="validation.js" defer></script>
+    <style>
+        .claim-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .claim-btn {
+            background: #0056b3;
+            /* Home Blue */
+            color: white;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .claim-btn:hover {
+            background: #004494;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="home_easyclaim.html" class="logo-text">
+                Claim<span class="highlight">Easy</span>
+            </a>
+            <a href="index.html" class="btn btn-outline" style="padding: 8px 16px;">Back to Home</a>
+        </div>
+    </header>
+
+    <div class="claim-container">
+        <div class="form-header">
+            <div style="font-size: 3rem; color: #0056b3; margin-bottom: 15px;"><i class="fas fa-house-damage"></i></div>
+            <h2>File Home Insurance Claim</h2>
+            <p>Report damage or theft for your property.</p>
+        </div>
+
+        <form id="claim-form">
+            <div class="form-group">
+                <label for="policyNumber">Policy Number</label>
+                <input type="text" id="policyNumber" placeholder="Enter Policy Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="incidentType">Type of Incident</label>
+                <select id="incidentType"
+                    style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <option value="">Select Incident Type</option>
+                    <option value="fire">Fire Damage</option>
+                    <option value="burglary">Burglary / Theft</option>
+                    <option value="natural">Natural Calamity (Flood/Storm)</option>
+                    <option value="electrical">Electrical Breakdown</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Registered Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Estimated Claim Amount (â‚¹)</label>
+                <input type="number" id="amount" placeholder="e.g. 100000" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="incidentDate">Date of Incident</label>
+                <input type="date" id="incidentDate" required>
+            </div>
+
+            <!-- Documentation Upload Section -->
+            <div
+                style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #ddd;">
+                <h4 style="margin-bottom: 15px; color: #333;">Upload Documents &amp; Photos</h4>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Photos of Damaged Property / Items</label>
+                    <input type="file" required accept="image/*" multiple style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">FIR / Police Complaint Copy (for Theft)</label>
+                    <input type="file" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Repair Estimates / Invoices of Damaged Items</label>
+                    <input type="file" required accept="image/*,.pdf" multiple style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Fire Brigade Report (if Fire Incident)</label>
+                    <input type="file" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-block claim-btn" style="font-size: 1.1rem; margin-top: 10px;">Initiate
+                Claim</button>
+        </form>
+    </div>
+
+    <script src="upload_utils.js"></script>
+    <script>
+        // Check for pre-filled data from Claim Intimation page
+        document.addEventListener('DOMContentLoaded', () => {
+            const tempClaimDetails = localStorage.getItem('tempClaimDetails');
+            if (tempClaimDetails) {
+                const details = JSON.parse(tempClaimDetails);
+                if (document.getElementById('policyNumber')) document.getElementById('policyNumber').value = details.policyNumber || '';
+                if (document.getElementById('mobile')) document.getElementById('mobile').value = details.mobile || '';
+
+                localStorage.removeItem('tempClaimDetails');
+            }
+        });
+
+        document.getElementById('claim-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Indian Standard Format Validation
+            const validation = ClaimEasyValidation.validate();
+            if (!validation.isValid) {
+                ClaimEasyValidation.showAlert(validation);
+                return;
+            }
+
+            const incidentDateStr = document.getElementById('incidentDate').value;
+            if (incidentDateStr) {
+                const incidentDate = new Date(incidentDateStr);
+                const today = new Date();
+                if (incidentDate > today) {
+                    alert('Incident date cannot be in the future.');
+                    return;
+                }
+            }
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading &amp; Submitting...';
+            btn.disabled = true;
+
+            try {
+                // Upload Files
+                const inputs = document.querySelectorAll('input[type="file"]');
+                const photosFiles = inputs[0].files;
+                const firFile = inputs[1].files[0];
+                const estimatesFiles = inputs[2].files;
+                const fireReportFile = inputs[3].files[0];
+
+                const photosPaths = await uploadFiles(photosFiles);
+                const firPath = firFile ? await uploadFile(firFile) : "Not Uploaded";
+                const estimatesPaths = await uploadFiles(estimatesFiles);
+                const fireReportPath = fireReportFile ? await uploadFile(fireReportFile) : "Not Uploaded";
+
+                const formData = {
+                    type: 'Home',
+                    policyNumber: document.getElementById('policyNumber').value,
+                    amount: document.getElementById('amount').value,
+                    incidentType: document.getElementById('incidentType').value,
+                    mobile: document.getElementById('mobile').value,
+                    incidentDate: document.getElementById('incidentDate').value,
+                    documents: {
+                        photos: photosPaths.length > 0 ? photosPaths : ["Not Uploaded"],
+                        fir: firPath,
+                        estimates: estimatesPaths.length > 0 ? estimatesPaths : ["Not Uploaded"],
+                        fireReport: fireReportPath
+                    }
+                };
+
+                const response = await fetch('http://13.126.167.8:5000/api/claims', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Home Claim Registered! Claim ID: ' + result.claimId);
+                    window.location.href = 'home_easyclaim.html';
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>
+

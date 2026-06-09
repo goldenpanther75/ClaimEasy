@@ -1,0 +1,483 @@
+/* Shared Comparison Styles */
+/* Page-specific CSS should define:
+   :root {
+       --theme-primary: #004c8f;
+       --theme-secondary: #00bcd4;
+       --theme-bg-light: #f0f7ff;
+   }
+*/
+
+:root {
+    --urgency-red: #d32f2f;
+    --urgency-bg: #fff0f0;
+    --card-border: #e1e4ea;
+    --text-dark: #333;
+    --text-grey: #666;
+    --sidebar-bg: #f8f9fa;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Accessibility */
+:focus-visible {
+    outline: 2px solid var(--theme-primary);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--theme-primary);
+    color: white;
+    padding: 8px;
+    z-index: 1000;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Layout */
+.comparison-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 30px;
+    padding-bottom: 60px;
+}
+
+@media(min-width: 992px) {
+    .comparison-layout {
+        grid-template-columns: 3fr 1fr;
+    }
+}
+
+/* Headers & Filter Bars */
+.urgency-header {
+    background: var(--urgency-bg);
+    color: var(--urgency-red);
+    text-align: center;
+    padding: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid #ffcdd2;
+}
+
+.filter-bar-container {
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 70px;
+    z-index: 900;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.filter-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters-left,
+.filters-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-size: 0.75rem;
+    color: var(--text-grey);
+    margin-bottom: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.filter-group select {
+    padding: 8px 30px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-color: white;
+    cursor: pointer;
+    min-width: 140px;
+}
+
+/* Vehicle/Plan Details Bar */
+.vehicle-details-bar {
+    background: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.vehicle-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.vehicle-item span {
+    display: block;
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+}
+
+.vehicle-item strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.edit-link {
+    color: var(--theme-primary);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+/* Plan Cards */
+.plan-card,
+.car-plan-card,
+.travel-plan-card,
+.health-plan-card,
+.comparison-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media(min-width: 768px) {
+
+    .plan-card,
+    .car-plan-card,
+    .travel-plan-card,
+    .health-plan-card,
+    .comparison-card {
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
+        align-items: center;
+    }
+
+    /* Specific override for car/bike/travel/health cards if they had 5 columns */
+    .car-plan-card,
+    .travel-plan-card,
+    .health-plan-card,
+    .comparison-card {
+        grid-template-columns: 100px 1.5fr 1fr 1fr 150px;
+    }
+}
+
+.plan-card:hover,
+.car-plan-card:hover,
+.travel-plan-card:hover,
+.health-plan-card:hover,
+.comparison-card:hover {
+    border-color: var(--theme-primary);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.insurer-logo {
+    max-width: 100px;
+    height: auto;
+    max-height: 45px;
+}
+
+.plan-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.plan-features ul,
+.feature-list-sidebar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.plan-features li {
+    margin-bottom: 5px;
+}
+
+.plan-features li i {
+    color: #2e7d32;
+    /* Standard checkmark green */
+    margin-right: 5px;
+}
+
+/* Pricing */
+.premium-amount,
+.premium-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: block;
+}
+
+.premium-period {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.btn-buy {
+    background: var(--btn-bg-color, var(--theme-primary));
+    color: var(--btn-text-color, white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-buy:hover {
+    filter: brightness(90%);
+}
+
+.btn-details {
+    background: transparent;
+    border: 1px solid var(--theme-primary);
+    color: var(--theme-primary);
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-details:hover {
+    background: var(--theme-bg-light, #f0f7ff);
+}
+
+/* Sidebar Widgets */
+.sidebar-widget,
+.sidebar-box {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-widget h4,
+.sidebar-box h4 {
+    margin-bottom: 15px;
+    color: var(--theme-primary);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contact-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.call-btn,
+.chat-btn {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    color: var(--text-dark);
+}
+
+.call-btn:hover,
+.chat-btn:hover {
+    border-color: var(--theme-primary);
+    color: var(--theme-primary);
+}
+
+/* Common Badges */
+.best-value-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #ffc107;
+    color: #333;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px 0 12px 0;
+    border-radius: 12px 0 12px 0;
+    z-index: 10;
+}
+
+.match-price-btn {
+    background: transparent;
+    border: none;
+    color: var(--theme-primary);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+
+.match-price-btn:hover {
+    color: var(--text-dark);
+    text-decoration: none;
+}
+
+/* Standardized Insurer Logo */
+.insurer-logo-round {
+    width: 60px;
+    height: 60px;
+    background: #f0f4f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 1;
+    border: 1px solid #e1e4ea;
+}
+
+.logo-claim {
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.logo-easy {
+    color: #0065ff;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* --- Standardized Filter Bar Styles (Promoted from Health) --- */
+.filter-bar-container {
+    background: white;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #eee;
+}
+
+.filter-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    /* Default border */
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+    min-width: 140px;
+    background: white;
+}
+
+/* Checkbox Filter Styles */
+.filters-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.checkbox-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #555;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.checkbox-filter input {
+    accent-color: var(--theme-primary);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Discount Tag */
+.discount-tag {
+    display: inline-block;
+    background: #fff3e0;
+    color: #e65100;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid #ffe0b2;
+    margin-top: 5px;
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Insurance - Protect Your Sweet Home</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="promo-page">
+
+    <!-- Simple Promo Header -->
+    <header class="promo-header">
+        <div class="container header-flex">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div class="slogan-container">
+                <a href="home_easyclaim.html"
+                    style="margin-right: 20px; font-weight:600; text-decoration:none; color:var(--dark-bg);">Claims</a>
+                <span class="slogan-text">PROTECT YOUR HOME, PROTECT YOUR PEACE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="promo-hero">
+        <div class="container hero-layout">
+            <!-- Left Side Content -->
+            <div class="promo-content">
+                <h1 class="main-headline">
+                    Secure your Home & Belongings <br>
+                    <span class="highlight-text">Starting @ ₹9/day*</span>
+                </h1>
+
+                <!-- Festive Banner -->
+                <div class="festive-banner shake-animation">
+                    <div class="banner-title">Home Shield Offer</div>
+                    <div class="banner-offer">Flat <span class="big-zero">25%</span> OFF</div>
+                    <div class="banner-sub">On Multi-Year Plans!</div>
+                </div>
+
+                <div class="trust-points">
+                    <p><i class="fas fa-check-circle"></i> Covers Fire, Theft & Natural Calamities</p>
+                    <p><i class="fas fa-check-circle"></i> Protection for Structure & Content</p>
+                    <p><i class="fas fa-check-circle"></i> Instant Policy Issuance</p>
+                </div>
+            </div>
+
+            <!-- Right Side Form -->
+            <div class="promo-form-container">
+                <div class="lead-form-card">
+                    <div class="form-header">
+                        <h3>Get Home Insurance Quote</h3>
+                        <p>Compare plans from top insurers</p>
+                    </div>
+                    <form id="home-quote-form">
+                        <div class="form-group row">
+                            <div class="col-half">
+                                <label class="radio-label">Property Type</label>
+                                <div class="gender-toggle">
+                                    <label class="radio-btn">
+                                        <input type="radio" name="property_type" value="Owned" checked>
+                                        <span>Owned</span>
+                                    </label>
+                                    <label class="radio-btn">
+                                        <input type="radio" name="property_type" value="Rented">
+                                        <span>Rented</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Property Value (approx)</label>
+                            <div class="mobile-input-group">
+                                <div class="currency-symbol"
+                                    style="padding: 10px; background: #f0f0f0; border: 1px solid #ddd; border-right: none; border-radius: 4px 0 0 4px;">
+                                    ₹</div>
+                                <input type="number" id="prop-value-input" placeholder="Value of Structure & Content"
+                                    required style="border-radius: 0 4px 4px 0;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <div class="mobile-input-group">
+                                <select class="country-code">
+                                    <option value="+91">+91 (IND)</option>
+                                    <option value="+1">+1 (USA)</option>
+                                </select>
+                                <input type="tel" placeholder="Mobile Number" required>
+                            </div>
+                        </div>
+
+                        <div class="form-cta">
+                            <button type="submit" class="btn btn-orange btn-block btn-lg" style="width:100%;">View Plans
+                                <i class="fas fa-arrow-right"></i></button>
+                        </div>
+
+                        <div class="form-disclaimer">
+                            <p class="expert-note"><i class="fas fa-home"></i> 1M+ Homes Secured</p>
+                            <label class="whatsapp-optin">
+                                <input type="checkbox" checked>
+                                <span>Get updates on <i class="fab fa-whatsapp text-green"></i> WhatsApp</span>
+                            </label>
+                        </div>
+                    </form>
+                    <script>
+                        document.getElementById('home-quote-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const pType = document.querySelector('input[name="property_type"]:checked').value;
+                            const pValue = document.getElementById('prop-value-input').value;
+
+                            if (pType && pValue) {
+                                localStorage.setItem('home_property_type', pType);
+                                localStorage.setItem('home_property_value', pValue);
+                                window.location.href = 'home_easyclaim.html';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Footer -->
+    <footer class="stats-footer">
+        <div class="container">
+            <div class="stats-header">
+                <h2>India's Most Trusted Home Insurance Platform</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>98%</h3>
+                    <p>Claim Settlement Ratio</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-star"></i>
+                    <h3>4.8/5</h3>
+                    <p>Customer Rating</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-bolt"></i>
+                    <h3>10 Mins</h3>
+                    <p>Fastest Policy Issuance</p>
+                </div>
+            </div>
+            <div class="footer-links-row">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Disclaimers</a>
+            </div>
+            <p class="copyright">© 2024 ClaimEasy. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

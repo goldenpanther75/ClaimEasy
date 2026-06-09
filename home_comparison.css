@@ -1,0 +1,9 @@
+/* Home Comparison Specific Styles */
+:root {
+    --theme-primary: #FF9800;
+    --theme-bg-light: #fff8e1;
+    --btn-bg-color: #ffc107;
+    /* High Contrast Yellow */
+    --btn-text-color: #000;
+    /* Black Text */
+}

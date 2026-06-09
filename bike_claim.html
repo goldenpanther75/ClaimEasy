@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Bike Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="autofill.js" defer></script>
+    <script src="validation.js" defer></script>
+    <style>
+        .claim-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .claim-btn {
+            background: #ff5722;
+            /* Bike Orange */
+            color: white;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .claim-btn:hover {
+            background: #e64a19;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="bike_easyclaim.html" class="logo-text">
+                Claim<span class="highlight">Easy</span>
+            </a>
+            <a href="index.html" class="btn btn-outline" style="padding: 8px 16px;">Back to Home</a>
+        </div>
+    </header>
+
+    <div class="claim-container">
+        <div class="form-header">
+            <div style="font-size: 3rem; color: #ff5722; margin-bottom: 15px;"><i class="fas fa-motorcycle"></i></div>
+            <h2>File Bike Claim</h2>
+            <p>Quick claim settlement for your two-wheeler.</p>
+        </div>
+
+        <form id="claim-form">
+            <div class="form-group">
+                <label for="policyNumber">Policy Number</label>
+                <input type="text" id="policyNumber" placeholder="Enter Policy Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bikeNumber">Bike Number</label>
+                <input type="text" id="bikeNumber" placeholder="e.g. MH01AB1234" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Registered Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Estimated Claim Amount (â‚¹)</label>
+                <input type="number" id="amount" placeholder="e.g. 30000" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="incidentDate">Date &amp; Time of Incident</label>
+                <input type="datetime-local" id="incidentDate" required>
+            </div>
+
+            <!-- FIR Details Section -->
+            <div
+                style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #90caf9;">
+                <h4 style="margin-bottom: 15px; color: #1565c0;">Police FIR Details (If applicable)</h4>
+                <div class="form-group">
+                    <label for="firNumber">FIR Number</label>
+                    <input type="text" id="firNumber" placeholder="Enter FIR Number">
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Softcopy of FIR</label>
+                    <input type="file" required id="firCopy" accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+            </div>
+
+            <!-- Documentation Upload Section -->
+            <div
+                style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #ddd;">
+                <h4 style="margin-bottom: 15px; color: #333;">Upload Documents &amp; Photos</h4>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Photos of Damaged Bike (Various Angles)</label>
+                    <input type="file" required accept="image/*" multiple style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Driving License Copy</label>
+                    <input type="file" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">RC (Registration Certificate) Copy</label>
+                    <input type="file" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Previous Insurance Policy Copy</label>
+                    <input type="file" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-block claim-btn" style="font-size: 1.1rem; margin-top: 10px;">Initiate
+                Claim</button>
+        </form>
+    </div>
+
+    <script src="upload_utils.js"></script>
+    <script>
+        // Check for pre-filled data from Claim Intimation page
+        document.addEventListener('DOMContentLoaded', () => {
+            const tempClaimDetails = localStorage.getItem('tempClaimDetails');
+            if (tempClaimDetails) {
+                const details = JSON.parse(tempClaimDetails);
+                if (document.getElementById('policyNumber')) document.getElementById('policyNumber').value = details.policyNumber || '';
+                if (document.getElementById('mobile')) document.getElementById('mobile').value = details.mobile || '';
+
+                localStorage.removeItem('tempClaimDetails');
+            }
+        });
+
+        document.getElementById('claim-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Indian Standard Format Validation
+            const validation = ClaimEasyValidation.validate();
+            if (!validation.isValid) {
+                ClaimEasyValidation.showAlert(validation);
+                return;
+            }
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading &amp; Submitting...';
+            btn.disabled = true;
+
+            try {
+                // Upload Files
+                const firFile = document.getElementById('firCopy').files[0];
+                const firPath = firFile ? await uploadFile(firFile) : "Not Uploaded";
+
+                const photosFiles = document.querySelector('input[type="file"][multiple]').files;
+                const photosPaths = await uploadFiles(photosFiles);
+
+                const allFiles = document.querySelectorAll('input[type="file"]');
+                const licenseFile = allFiles[2]?.files[0];
+                const rcFile = allFiles[3]?.files[0];
+                const policyFile = allFiles[4]?.files[0];
+
+                const licensePath = licenseFile ? await uploadFile(licenseFile) : "Not Uploaded";
+                const rcPath = rcFile ? await uploadFile(rcFile) : "Not Uploaded";
+                const policyPath = policyFile ? await uploadFile(policyFile) : "Not Uploaded";
+
+                const formData = {
+                    type: 'Bike',
+                    policyNumber: document.getElementById('policyNumber').value,
+                    amount: document.getElementById('amount').value,
+                    bikeNumber: document.getElementById('bikeNumber').value,
+                    mobile: document.getElementById('mobile').value,
+                    incidentDate: document.getElementById('incidentDate').value,
+                    firNumber: document.getElementById('firNumber').value,
+                    documents: {
+                        fir: firPath,
+                        photos: photosPaths.length > 0 ? photosPaths : ["Not Uploaded"],
+                        license: licensePath,
+                        rc: rcPath,
+                        policy: policyPath
+                    }
+                };
+
+                const response = await fetch('http://13.126.167.8:5000/api/claims', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Bike Claim Initiated! Claim ID: ' + result.claimId);
+                    window.location.href = 'bike_easyclaim.html';
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>
+

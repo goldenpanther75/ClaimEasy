@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Insurance Proposal - ClaimEasy</title>
+    <!-- Standardized Scripts -->
+    <script src="auth_guard.js"></script>
+    <script src="autofill.js"></script>
+    <script src="validation.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .proposal-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .form-card.active {
+            border-color: #00bcd4;
+            box-shadow: 0 5px 15px rgba(0, 188, 212, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #00bcd4;
+            outline: none;
+        }
+
+        /* Sidebar */
+        .summary-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .summary-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header" style="padding: 10px 0; border-bottom:1px solid #eee; background:white;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="travel_comparison.html"
+                    style="text-decoration:none; color:#333; display:flex; align-items:center; gap:10px;">
+                    <i class="fas fa-arrow-left"></i> <span class="logo-text">Claim<span
+                            class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">Step 2 of 3</div>
+        </div>
+    </header>
+
+    <div class="proposal-container">
+
+        <!-- Forms -->
+        <main>
+            <h2 style="margin-bottom:20px;">Traveller Details</h2>
+
+            <!-- Traveller 1 -->
+            <div class="form-card active">
+                <div class="section-title">
+                    <h4><i class="fas fa-user-tag" style="color:#00bcd4; margin-right:10px;"></i> Traveller 1 (Primary)
+                    </h4>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="t1Name" placeholder="As per Passport">
+                    </div>
+                    <div class="input-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="t1Dob">
+                    </div>
+                    <div class="input-group">
+                        <label>Passport Number</label>
+                        <input type="text" id="t1Passport" placeholder="Optional">
+                    </div>
+                    <div class="input-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="mobileNumber" placeholder="10 digits">
+                    </div>
+                    <div class="input-group">
+                        <label>Aadhaar Card Number</label>
+                        <input type="text" id="aadhaarNumber" placeholder="12-digit Aadhaar number" pattern="\d{12}"
+                            title="Please enter valid 12 digit Aadhaar number" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="emailAddress" placeholder="email@example.com" required>
+                    </div>
+                </div>
+                <div class="form-grid" style="margin-top:15px;">
+                    <div class="input-group">
+                        <label>Visa Type</label>
+                        <select id="visaType">
+                            <option>Tourist</option>
+                            <option>Business</option>
+                            <option>Student</option>
+                            <option>Employment</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Duration of Trip (Days)</label>
+                        <input type="number" id="tripDuration" placeholder="e.g. 15">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traveller 2 -->
+            <div class="form-card">
+                <div class="section-title">
+                    <h4><i class="fas fa-user-tag" style="color:#00bcd4; margin-right:10px;"></i> Traveller 2</h4>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="t2Name" placeholder="As per Passport">
+                    </div>
+                    <div class="input-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="t2Dob">
+                    </div>
+                    <div class="input-group">
+                        <label>Passport Number</label>
+                        <input type="text" id="t2Passport" placeholder="Optional">
+                    </div>
+                    <div class="input-group">
+                        <label>Relationship</label>
+                        <select>
+                            <option>Spouse</option>
+                            <option>Friend</option>
+                            <option>Parent</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg" style="width:100%; border:none; background-color: #00bcd4;"
+                onclick="submitTravelProposal()">Continue to Payment <i class="fas fa-arrow-right"></i></button>
+
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="summary-sidebar">
+            <div class="summary-header">
+                <strong><i class="fas fa-file-invoice"></i> Plan Summary</strong>
+            </div>
+            <div style="text-align:center; margin-bottom:20px;">
+                <h4 id="insurer-name-summary">ClaimEasy</h4>
+                <div style="font-size:0.85rem; color:#666;">Platinum Plan</div>
+            </div>
+            <div class="summary-row">
+                <span>Sum Insured</span>
+                <strong>$500,000</strong>
+            </div>
+            <div class="summary-row">
+                <span>Travellers</span>
+                <span>2 Adults</span>
+            </div>
+            <div class="summary-row">
+                <span>Net Premium</span>
+                <span>₹ 2,500</span>
+            </div>
+            <div class="summary-row">
+                <span>GST (18%)</span>
+                <span>₹ 450</span>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <span>₹ 2,950</span>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        // Highlight active card on focus
+        document.querySelectorAll('input').forEach(inp => {
+            inp.addEventListener('focus', function () {
+                document.querySelectorAll('.form-card').forEach(c => c.classList.remove('active'));
+                this.closest('.form-card').classList.add('active');
+            });
+        });
+
+        // Load Plan Details from LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const planData = localStorage.getItem('selected_travel_plan');
+            if (planData) {
+                const plan = JSON.parse(planData);
+
+                // Parse Total Premium robustly, handling both Number and String types
+                const totalPremium = typeof plan.premium === 'string'
+                    ? parseInt(plan.premium.replace(/,/g, ''))
+                    : parseInt(plan.premium);
+
+                // Calculate Net and GST (Assuming 18% GST included)
+                const netPremium = Math.round(totalPremium / 1.18);
+                const gstAmount = totalPremium - netPremium;
+
+                // Update Sidebar
+                const insurerName = document.getElementById('insurer-name-summary');
+                const totalSpan = document.querySelector('.summary-total span:last-child');
+
+                if (insurerName) insurerName.textContent = plan.provider;
+
+                // Update Breakdown Rows
+                const summaryRows = document.querySelectorAll('.summary-row');
+                summaryRows.forEach(row => {
+                    const label = row.querySelector('span:first-child').textContent.trim();
+                    const valueSpan = row.querySelector('span:last-child'); // or strong within it
+
+                    if (label.includes('Sum Insured')) {
+                        row.querySelector('strong').textContent = plan.sumInsured;
+                    } else if (label.includes('Net Premium')) {
+                        valueSpan.textContent = '₹ ' + netPremium.toLocaleString('en-IN');
+                    } else if (label.includes('GST')) {
+                        valueSpan.textContent = '₹ ' + gstAmount.toLocaleString('en-IN');
+                    }
+                });
+
+                if (totalSpan) totalSpan.textContent = '₹ ' + totalPremium.toLocaleString('en-IN');
+
+                // Update internal form data
+                window.currentPremium = totalPremium;
+            }
+        });
+
+        async function submitTravelProposal() {
+            // Validation Logic integration
+            if (typeof ClaimEasyValidation !== 'undefined') {
+                const validation = ClaimEasyValidation.validate();
+                if (!validation.isValid) {
+                    ClaimEasyValidation.showAlert(validation);
+                    return;
+                }
+            }
+
+            // Gather Data
+            const formData = {
+                type: 'Travel Insurance',
+                ownerName: document.getElementById('t1Name').value,
+                mobile: document.getElementById('mobileNumber').value,
+                email: document.getElementById('emailAddress').value,
+                dob: document.getElementById('t1Dob').value,
+                passport: document.getElementById('t1Passport').value,
+                traveler2Name: document.getElementById('t2Name').value,
+                traveler2Dob: document.getElementById('t2Dob').value,
+                traveler2Passport: document.getElementById('t2Passport').value,
+                visaType: document.getElementById('visaType').value,
+                tripDuration: document.getElementById('tripDuration').value,
+                premium: window.currentPremium || 2950, // Dynamic or fallback
+                status: 'Pending Payment'
+            };
+
+            // Save to LocalStorage for PDF Download
+            localStorage.setItem('travel_application_data', JSON.stringify(formData));
+
+            const submitBtn = document.querySelector('button[onclick="submitTravelProposal()"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = 'travel_payment.html?policyId=' + result.policyId;
+                } else {
+                    alert('Error saving application: ' + result.error);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Backend connection failed.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

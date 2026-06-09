@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Term Insurance Plans - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="comparison_shared.css">
+    <link rel="stylesheet" href="TermLife_comparison.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Urgency Header -->
+    <div class="urgency-header" role="alert">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Rates increase with age. Lock your premium today.
+    </div>
+
+    <!-- Main Header -->
+    <header class="header" role="banner" style="padding: 10px 0; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="index.html" aria-label="ClaimEasy Home">
+                    <span class="logo-text" aria-hidden="true">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">
+                Need Help? <strong style="color:var(--primary-color);">1800-208-8787</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Filter Bar -->
+    <div class="filter-bar-container">
+        <div class="container filter-content">
+            <div class="filters-left">
+                <div class="filter-group">
+                    <label>Life Cover</label>
+                    <select id="cover-filter">
+                        <option value="All">Show All Plans</option>
+                        <option value="50L">₹ 50 Lakhs</option>
+                        <option value="1Cr" selected>₹ 1 Crore</option>
+                        <option value="2Cr">₹ 2 Crores</option>
+                        <option value="5Cr">₹ 5 Crores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Cover Till Age</label>
+                    <select id="age-filter">
+                        <option value="60">60 Years</option>
+                        <option value="70">70 Years</option>
+                        <option value="80">80 Years</option>
+                        <option value="99">99 Years</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Pay For</label>
+                    <select id="pay-term-filter">
+                        <option value="regular">Regular Pay</option>
+                        <option value="limited">Limited Pay</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filters-right">
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="rop-filter">
+                    <label for="rop-filter">Return of Premium</label>
+                </div>
+                <!-- Add more toggles if needed -->
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Bar (Matching Health's 'vehicle-details-bar' style) -->
+    <div class="vehicle-details-bar" role="region" aria-label="User Details">
+        <div class="container vehicle-info-grid">
+            <div class="vehicle-item">
+                <span>Occupation</span>
+                <strong id="display-occupation">Salaried</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Annual Income</span>
+                <strong id="display-income">5L-7L</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Tobacco</span>
+                <strong id="display-tobacco">No</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>City</span>
+                <strong id="display-city">Mumbai</strong>
+            </div>
+            <div class="vehicle-item" style="display:flex; align-items:center;">
+                <a href="#" class="edit-link" id="edit-details-btn" onclick="openEditModal()"><i
+                        class="fas fa-pencil-alt"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Comparison Section -->
+    <div class="comparison-layout container">
+
+        <!-- Left Column: Plan Cards -->
+        <div class="plans-column">
+            <div class="results-header">
+                <h3>Showing <span id="plan-count">0</span> Plans for You</h3>
+                <div class="sort-options">
+                    <span>Sort by:</span>
+                    <select id="sort-select">
+                        <option value="relevance">Relevance</option>
+                        <option value="premium-low">Premium: Low to High</option>
+                        <option value="csr">Claim Settlement Ratio</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Container for JS injected cards -->
+            <div id="plans-container">
+                <!-- Cards will go here -->
+            </div>
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <aside aria-label="Filters and Features" class="sidebar-column">
+
+            <!-- Talk to Expert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-user-tie" aria-hidden="true"></i> Term Life Experts</h4>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Need help ensuring your family's future? We
+                    are here.</p>
+                <div class="contact-btns">
+                    <button class="call-btn"><i class="fas fa-phone"></i> Request Call</button>
+                    <button class="chat-btn"><i class="fas fa-comment-alt"></i> Chat Now</button>
+                </div>
+            </div>
+
+            <!-- Price Hike Alert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-chart-line" aria-hidden="true"></i> Price Hike Alert!</h4>
+                <p style="font-size:0.9rem; color:#666;">Term insurance premiums are set to increase by up to
+                    <strong>15%</strong> next month.
+                </p>
+                <button class="match-price-btn" style="width:100%; margin-top:10px;">Lock Prise Now</button>
+            </div>
+
+            <!-- Mini Testimonial -->
+            <div class="sidebar-box" style="background:#fff3e0; border-color:#ffe0b2;">
+                <div style="color:#e65100; font-size:1.5rem; margin-bottom:5px;"><i class="fas fa-quote-left"></i></div>
+                <p style="font-size:0.9rem; font-style:italic; color:#555;">"I secured my family's future with a 1 Cr
+                    cover at just ₹490/month. Highly recommended!"</p>
+                <div style="margin-top:10px; font-weight:600; font-size:0.85rem; color:#333;">- Rahul S., Delhi</div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Investment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Details Modal -->
+    <div id="edit-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            <h3>Edit Your Details</h3>
+            <form id="edit-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label>Occupation</label>
+                    <select id="edit-occupation" class="form-control"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Salaried">Salaried</option>
+                        <option value="Self Employed">Self Employed</option>
+                        <option value="Govt Employee">Govt Employee</option>
+                        <option value="Homemaker">Homemaker</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Annual Income</label>
+                    <select id="edit-income" class="form-control"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="<2L">Less than 2 Lac</option>
+                        <option value="2L-5L">2 Lac - 5 Lac</option>
+                        <option value="5L-7L">5 Lac - 7 Lac</option>
+                        <option value="7L-10L">7 Lac - 10 Lac</option>
+                        <option value="10L-15L">10 Lac - 15 Lac</option>
+                        <option value="15L-25L">15 Lac - 25 Lac</option>
+                        <option value="25L+">25 Lac+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tobacco User?</label>
+                    <select id="edit-tobacco" class="form-control"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="edit-city" class="form-control"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+                <div style="margin-top:20px;">
+                    <button type="button" class="btn btn-primary" style="width:100%;" onclick="saveDetails()">Update
+                        Plans</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="TermLife_comparison.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

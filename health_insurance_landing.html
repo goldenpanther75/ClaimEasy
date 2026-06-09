@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance - Secure Your Future</title>
+    <meta name="description"
+        content="Compare and buy the best health insurance plans. Get expert guidance, instant claim support, and tax benefits.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page Specific Styles */
+        .health-hero {
+            background: linear-gradient(120deg, #f0f4f8 0%, #eefcff 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .health-hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .health-hero-text {
+            flex: 1;
+        }
+
+        .health-hero h1 {
+            font-size: 3rem;
+            color: var(--dark-bg);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .health-hero p.sub-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .hero-form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 400px;
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .hero-form-card h3 {
+            margin-bottom: 20px;
+            color: var(--dark-bg);
+            text-align: center;
+        }
+
+        .premium-unlock-note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        /* Trusted By Section */
+        .stats-section {
+            background: white;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        /* Why Choose Us */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .why-card {
+            background: var(--off-white);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .why-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Know More Section */
+        .know-more-section {
+            background: #f8fbff;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eef2f6;
+        }
+
+        .info-item h4 {
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item h4 i {
+            color: var(--primary-color);
+        }
+
+        /* Benefits Section */
+        .benefits-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .benefits-list li {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        .benefits-list li i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        /* Comparison Guide */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin-top: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: var(--dark-bg);
+            color: white;
+            font-weight: 500;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        @media (max-width: 768px) {
+            .health-hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-form-card {
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#" class="nav-link">Insurance Products</a></li>
+                    <li><a href="#" class="nav-link">Renew Policy</a></li>
+                    <li><a href="#" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="#" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                <button class="close-menu"><i class="fas fa-times"></i></button>
+            </div>
+            <ul class="mobile-nav-list">
+                <li><a href="#">Insurance Products</a></li>
+                <li><a href="#">Renew Policy</a></li>
+                <li><a href="#">Claim Assistance</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="health-hero">
+        <div class="container health-hero-content">
+            <div class="health-hero-text">
+                <h1>Comprehensive Health Insurance <br><span class="highlight">For Your Family</span></h1>
+                <p class="sub-text">Get coverage up to ₹1 Crore. Cashless treatment at 10,000+ hospitals. Save tax up to
+                    ₹75,000*.</p>
+                <div class="hero-features">
+                    <div style="margin-bottom: 10px; display:flex; gap:10px; align-items:center;">
+                        <i class="fas fa-check-circle text-green"></i> 30 Minutes Claim Support
+                    </div>
+                    <div style="margin-bottom: 10px; display:flex; gap:10px; align-items:center;">
+                        <i class="fas fa-check-circle text-green"></i> COVID-19 Covered
+                    </div>
+                    <div style="margin-bottom: 10px; display:flex; gap:10px; align-items:center;">
+                        <i class="fas fa-check-circle text-green"></i> Dedicated Claim Manager
+                    </div>
+                </div>
+            </div>
+            <div class="hero-form-card">
+                <h3>Save your progress</h3>
+                <div class="premium-unlock-note">
+                    <i class="fas fa-lock"></i> Unlocks: Comparison, Expert Guide & Smart Filters
+                </div>
+                <form id="health-landing-form" onsubmit="validateAndProceed(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="full-name" placeholder="Enter your name" class="form-control" required
+                            minlength="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="mobile-number" placeholder="10 digit mobile number" class="form-control"
+                            required pattern="[0-9]{10}">
+                    </div>
+                    <!-- Requested Link Button -->
+                    <div style="margin-bottom: 20px;">
+                        <button type="submit" class="btn btn-outline btn-block"
+                            style="text-align:center; background:var(--primary-color); color:white; border:none; width: 100%; cursor: pointer;">Continue</button>
+
+                    </div>
+                    <p style="font-size: 0.75rem; color: #999; text-align: center;">By clicking Continue, you agree to
+                        our Terms & Privacy Policy.</p>
+                </form>
+                <script>
+                    function validateAndProceed(event) {
+                        event.preventDefault(); // Prevent default form submission
+
+                        const name = document.getElementById('full-name').value;
+                        const mobile = document.getElementById('mobile-number').value;
+
+                        // Basic extra validation just in case (HTML5 required/pattern handles most)
+                        if (name.trim() === '' || mobile.trim() === '' || mobile.length !== 10) {
+                            alert('Please enter a valid Name and 10-digit Mobile Number.');
+                            return;
+                        }
+
+                        // Save details if needed
+                        localStorage.setItem('health_temp_name', name);
+                        localStorage.setItem('health_temp_mobile', mobile);
+
+                        // Proceed to next page
+                        window.location.href = 'health_easyclaim.html';
+                    }
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credibility Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4>50 Lakh+</h4>
+                    <p>Registered Consumers</p>
+                </div>
+                <div class="stat-item">
+                    <h4>50+</h4>
+                    <p>Insurance Partners</p>
+                </div>
+                <div class="stat-item">
+                    <h4>10 Lakh+</h4>
+                    <p>Policies Sold</p>
+                </div>
+                <div class="stat-item">
+                    <h4 style="color: #ffb400;">4.8 <i class="fas fa-star" style="font-size:1.5rem;"></i></h4>
+                    <p>Google Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose ClaimEasy?</h2>
+                <p>We make insurance simple, transparent, and affordable.</p>
+            </div>
+            <div class="why-choose-grid">
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-tags"></i></div>
+                    <h3>Affordable Premiums</h3>
+                    <p>Plans starting at just ₹300/month with various discount options.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Dedicated Claim Team</h3>
+                    <p>One-point contact for all your claim related queries and assistance.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon"><i class="fas fa-clock"></i></div>
+                    <h3>30-Min Claim Support</h3>
+                    <p>We ensure your claim is processed within 30 minutes of intimation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Know More -->
+    <section class="know-more-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Know More About Health Insurance</h2>
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4><i class="fas fa-hospital-alt"></i> Medical Expenses</h4>
+                    <p>Covers hospitalization costs including room rent, ICU, and doctor fees.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-wallet"></i> Cashless Treatment</h4>
+                    <p>Avail cashless treatment at over 10,000+ network hospitals countrywide.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-virus"></i> COVID-19 Coverage</h4>
+                    <p>Special protection against COVID-19 related hospitalization expenses.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-blind"></i> Critical Illness</h4>
+                    <p>Lump sum payout for diagnosed critical illnesses like Cancer, Heart attack.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-user-plus"></i> Senior Citizen</h4>
+                    <p>Tailored policies for senior citizens with minimal waiting periods.</p>
+                </div>
+                <div class="info-item">
+                    <h4><i class="fas fa-ambulance"></i> Personal Accident</h4>
+                    <p>Coverage for accidental death and permanent total disability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Benefits</h2>
+            </div>
+            <ul class="benefits-list">
+                <li><i class="fas fa-file-invoice"></i> Medical Bill Coverage</li>
+                <li><i class="fas fa-history"></i> Pre-existing Diseases Covered</li>
+                <li><i class="fas fa-hand-holding-usd"></i> Quick Claim Reimbursement</li>
+                <li><i class="fas fa-receipt"></i> Tax Rebates u/s 80D</li>
+                <li><i class="fas fa-stethoscope"></i> OPD Expenses Covered</li>
+                <li><i class="fas fa-baby"></i> Maternity Benefits</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Comparison Guide -->
+    <section class="section-padding" style="background: #fff;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Comparison Guide</h2>
+                <p>What to look for when buying health insurance</p>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Importance</th>
+                            <th>What to look for</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sum Insured</td>
+                            <td>High</td>
+                            <td>Ideally > ₹5 Lakhs per member</td>
+                        </tr>
+                        <tr>
+                            <td>Policy Premium</td>
+                            <td>Medium</td>
+                            <td>Affordable with max benefits</td>
+                        </tr>
+                        <tr>
+                            <td>Network Hospitals</td>
+                            <td>High</td>
+                            <td>Hospitals near your residence</td>
+                        </tr>
+                        <tr>
+                            <td>Claim Settlement Ratio</td>
+                            <td>High</td>
+                            <td>Look for > 95% CSR</td>
+                        </tr>
+                        <tr>
+                            <td>Waiting Period</td>
+                            <td>Medium</td>
+                            <td>Min waiting for pre-existing diseases</td>
+                        </tr>
+                        <tr>
+                            <td>Co-payment Clause</td>
+                            <td>Medium</td>
+                            <td>Prefer 0% co-payment</td>
+                        </tr>
+                        <tr>
+                            <td>Sub-limits</td>
+                            <td>Low</td>
+                            <td>No room rent capping preferred</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Investment</a></li>
+                        <li><a href="#">Term Insurance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Resources</h4>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Support: help@claimeasy.com</a></li>
+                        <li><a href="#">Call: 1800-200-9999</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

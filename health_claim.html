@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Health Claim - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="autofill.js" defer></script>
+    <script src="validation.js" defer></script>
+    <style>
+        .claim-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .claim-btn {
+            background: #00d287;
+            /* Health Green */
+            color: white;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .claim-btn:hover {
+            background: #00a651;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="health_easyclaim.html" class="logo-text">
+                Claim<span class="highlight">Easy</span>
+            </a>
+            <a href="index.html" class="btn btn-outline" style="padding: 8px 16px;">Back to Home</a>
+        </div>
+    </header>
+
+    <div class="claim-container">
+        <div class="form-header">
+            <div style="font-size: 3rem; color: #00d287; margin-bottom: 15px;"><i class="fas fa-stethoscope"></i></div>
+            <h2>File Health Claim</h2>
+            <p>Get quick approval for cashless or reimbursement claims.</p>
+        </div>
+
+        <form id="claim-form">
+            <div class="form-group">
+                <label for="policyNumber">Policy Number</label>
+                <input type="text" id="policyNumber" placeholder="Enter Policy Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="patientName">Patient Name</label>
+                <input type="text" id="patientName" placeholder="Name of Patient" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Registered Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Mobile Number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hospital">Hospital Name</label>
+                <input type="text" id="hospital" placeholder="Treating Hospital" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Estimated Claim Amount (₹)</label>
+                <input type="number" id="amount" placeholder="e.g. 75000" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="admissionDate">Date of Admission</label>
+                <input type="date" id="admissionDate" required>
+            </div>
+
+            <!-- Documentation Upload Section -->
+            <div
+                style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #ddd;">
+                <h4 style="margin-bottom: 15px; color: #333;">Upload Documents & Photos</h4>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Doctor's Prescription / Discharge Summary</label>
+                    <input type="file" id="prescription" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Medical Bills & Pharmacy Receipts</label>
+                    <input type="file" id="bills" required accept="image/*,.pdf" multiple style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Diagnostic / Lab Reports</label>
+                    <input type="file" id="reports" required accept="image/*,.pdf" multiple style="padding: 5px;">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem;">Health Card Copy / ID Proof</label>
+                    <input type="file" id="healthCard" required accept="image/*,.pdf" style="padding: 5px;">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-block claim-btn" style="font-size: 1.1rem; margin-top: 10px;">Initiate
+                Claim</button>
+        </form>
+    </div>
+
+    <script src="upload_utils.js"></script>
+    <script>
+        // Check for pre-filled data from Claim Intimation page
+        document.addEventListener('DOMContentLoaded', () => {
+            const tempClaimDetails = localStorage.getItem('tempClaimDetails');
+            if (tempClaimDetails) {
+                const details = JSON.parse(tempClaimDetails);
+                if (details.policyNumber && document.getElementById('policyNumber')) 
+                    document.getElementById('policyNumber').value = details.policyNumber;
+                if (details.mobile && document.getElementById('mobile')) 
+                    document.getElementById('mobile').value = details.mobile;
+                if (details.holderName && document.getElementById('patientName')) 
+                    document.getElementById('patientName').value = details.holderName;
+
+                localStorage.removeItem('tempClaimDetails');
+            }
+        });
+
+        document.getElementById('claim-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Indian Standard Format Validation
+            const validation = ClaimEasyValidation.validate();
+            if (!validation.isValid) {
+                ClaimEasyValidation.showAlert(validation);
+                return;
+            }
+
+            const admissionDateStr = document.getElementById('admissionDate').value;
+            if (admissionDateStr) {
+                const admissionDate = new Date(admissionDateStr);
+                const today = new Date();
+                if (admissionDate > today) {
+                    alert('Admission date cannot be in the future.');
+                    return;
+                }
+            }
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading & Submitting...';
+            btn.disabled = true;
+
+            try {
+                // Upload Files
+                const prescriptionFile = document.getElementById('prescription').files[0];
+                const billsFiles = document.getElementById('bills').files;
+                const reportsFiles = document.getElementById('reports').files;
+                const healthCardFile = document.getElementById('healthCard').files[0];
+
+                const prescriptionPath = prescriptionFile ? await uploadFile(prescriptionFile) : "Not Uploaded";
+                const billsPaths = await uploadFiles(billsFiles);
+                const reportsPaths = await uploadFiles(reportsFiles);
+                const healthCardPath = healthCardFile ? await uploadFile(healthCardFile) : "Not Uploaded";
+
+                const formData = {
+                    type: 'Health',
+                    policyNumber: document.getElementById('policyNumber').value,
+                    amount: document.getElementById('amount').value,
+                    patientName: document.getElementById('patientName').value,
+                    mobile: document.getElementById('mobile').value,
+                    hospital: document.getElementById('hospital').value,
+                    admissionDate: document.getElementById('admissionDate').value,
+                    documents: {
+                        prescription: prescriptionPath,
+                        bills: billsPaths.length > 0 ? billsPaths : ["Not Uploaded"],
+                        reports: reportsPaths.length > 0 ? reportsPaths : ["Not Uploaded"],
+                        healthCard: healthCardPath
+                    }
+                };
+
+                const response = await fetch('http://13.126.167.8:5000/api/claims', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Health Claim Initiated! Claim ID: ' + result.claimId);
+                    window.location.href = 'health_easyclaim.html';
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

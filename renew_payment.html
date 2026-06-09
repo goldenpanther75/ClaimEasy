@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renew Policy - ClaimEasy</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .renew-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .section-box {
+            padding: 20px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .detail-label {
+            color: #666;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .amount-box {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #eee;
+            text-align: center;
+        }
+
+        .amount-box h2 {
+            color: #0065ff;
+            font-size: 2rem;
+            margin-top: 5px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .method-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .method-card:hover {
+            border-color: #0065ff;
+            background: #f0f7ff;
+        }
+
+        .method-card.active {
+            border-color: #0065ff;
+            background: #f0f7ff;
+            box-shadow: 0 0 0 1px #0065ff;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .method-card.active .method-icon {
+            background: #0065ff;
+            color: white;
+        }
+
+        .btn-pay {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #0065ff;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-pay:hover {
+            background: #0056d6;
+        }
+
+        @media (max-width: 768px) {
+            .payment-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header style="background: white; padding: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo-text" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                Claim<span class="highlight">Easy</span>
+            </div>
+            <div style="font-weight: 600; color: #666;"><i class="fas fa-lock"></i> Secure Renewal</div>
+        </div>
+    </header>
+
+    <div class="renew-container">
+        <h1 style="margin-bottom: 30px; font-size: 2rem;">Complete Your Renewal</h1>
+
+        <div class="payment-card">
+            <!-- Left: Summary -->
+            <div>
+                <h3 style="margin-bottom: 20px;">Renewal Summary</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Policy Number</span>
+                    <span class="detail-value" id="pol-num">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Policy Holder</span>
+                    <span class="detail-value" id="pol-holder">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Plan Name</span>
+                    <span class="detail-value" id="pol-plan">...</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">New Expiry Date</span>
+                    <span class="detail-value" id="pol-expiry">...</span>
+                </div>
+
+                <div class="amount-box">
+                    <p>Renewal Premium to Pay</p>
+                    <h2 id="pol-premium">₹...</h2>
+                </div>
+            </div>
+
+            <!-- Right: Payment Options -->
+            <div class="section-box">
+                <h3 style="margin-bottom: 20px;">Select Payment Mode</h3>
+                <div class="payment-methods">
+                    <div class="method-card active" onclick="selectMethod(this)">
+                        <div class="method-icon"><i class="fas fa-credit-card"></i></div>
+                        <div>
+                            <strong>Credit / Debit Card</strong><br>
+                            <span style="font-size: 0.8rem; color: #888;">Visa, Mastercard, Rupay</span>
+                        </div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this)">
+                        <div class="method-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div>
+                            <strong>UPI / QR</strong><br>
+                            <span style="font-size: 0.8rem; color: #888;">GPay, PhonePe, Paytm</span>
+                        </div>
+                    </div>
+                    <div class="method-card" onclick="selectMethod(this)">
+                        <div class="method-icon"><i class="fas fa-university"></i></div>
+                        <div>
+                            <strong>Net Banking</strong><br>
+                            <span style="font-size: 0.8rem; color: #888;">All Indian Banks</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-pay" id="pay-btn">Pay Securely</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+        <div
+            style="background:white; padding:40px; border-radius:12px; text-align:center; max-width:400px; width:90%; animation: popIn 0.3s ease-out;">
+            <div style="font-size:4rem; color:#28a745; margin-bottom:20px;"><i class="fas fa-check-circle"></i></div>
+            <h2 style="color:#333; margin-bottom:10px;">Renewal Successful!</h2>
+            <p style="color:#666; margin-bottom:15px;">Your policy has been renewed successfully.</p>
+            <div class="email-alert" style="justify-content:center; margin-top:0;">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Policy & Receipt sent to <strong id="user-email-confirm">your email</strong></span>
+            </div>
+            <button class="btn btn-primary"
+                style="padding:12px 30px; border:none; border-radius:6px; background:#0065ff; color:white; cursor:pointer; margin-top:20px;"
+                onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Load Details
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = JSON.parse(localStorage.getItem('renewalDetails'));
+            if (!data) {
+                alert("No renewal details found. Redirecting...");
+                window.location.href = 'renew.html';
+                return;
+            }
+
+            document.getElementById('pol-num').innerText = data.policyId;
+            document.getElementById('pol-holder').innerText = data.fullName;
+            document.getElementById('pol-plan').innerText = data.planName || 'Insurance Plan';
+            document.getElementById('pol-expiry').innerText = data.newExpiryDate;
+            document.getElementById('pol-premium').innerText = '₹ ' + data.renewalPremium.toLocaleString();
+
+            document.getElementById('pay-btn').innerText = `Pay ₹ ${data.renewalPremium.toLocaleString()}`;
+        });
+
+        function selectMethod(el) {
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        document.getElementById('pay-btn').addEventListener('click', function () {
+            const btn = this;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                try {
+                // Get Renew Data
+                const plan = JSON.parse(localStorage.getItem('selected_renew_plan')) || { planName: 'Renew Insurance', idv: 'N/A' };
+                const user = JSON.parse(localStorage.getItem('renew_application_data')) || JSON.parse(localStorage.getItem('renewalDetails')) || { Phone: 'your number' };
+                const loggedInUser = JSON.parse(localStorage.getItem('user')) || {};
+
+                const finalUserData = { ...user };
+                if (!finalUserData.email && !finalUserData.Email) {
+                    finalUserData.email = loggedInUser.email;
+                }
+
+                // Calculate Policy Schedule (Global Engine)
+                const schedule = ClaimEasyDates.getPolicySchedule(plan.duration || 1);
+
+                // Update Modal UI (if ID exists)
+                if (document.getElementById('policy-start-date')) document.getElementById('policy-start-date').innerText = schedule.formattedStart;
+                if (document.getElementById('policy-end-date')) document.getElementById('policy-end-date').innerText = schedule.formattedEnd;
+                if (document.getElementById('policy-duration-text')) document.getElementById('policy-duration-text').innerText = schedule.durationText;
+                if (document.getElementById('user-email-confirm')) {
+                    const confirmEmail = finalUserData.email || finalUserData.Email || 'your email';
+                    document.getElementById('user-email-confirm').innerText = confirmEmail;
+                }
+
+                // Show Modal
+                const modal = document.getElementById('payment-success-modal') || document.getElementById('success-modal');
+                if (modal) modal.style.display = 'flex';
+
+                // Dispatch Email Receipt Backend Trigger
+                console.log("[Payment] Triggering receipt for:", finalUserData.email);
+
+                fetch('http://13.126.167.8:5000/api/policies/send-receipt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        policyType: 'Renew',
+                        planData: plan,
+                        userData: finalUserData
+                    })
+                })
+                .then(response => {
+                    console.log("[Payment] Receipt API Response:", response.status);
+                    return response.json();
+                })
+                .then(data => console.log("[Payment] Receipt API Data:", data))
+                .catch(err => console.error("[Payment] Receipt API Fetch Error:", err));
+
+                } catch (err) {
+                    console.error("[Payment] Critical Simulation Error:", err);
+                } finally {
+                    btn.innerHTML = 'Pay Securely'; // Renewal button text is simpler
+                    btn.disabled = false;
+                }
+            }, 300);
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

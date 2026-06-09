@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance - Compare & Buy Best Plans | ClaimEasy</title>
+    <meta name="description"
+        content="Compare and buy the best health insurance plans. Get cashless treatment, tax benefits, and comprehensive coverage for your family.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Styles for Health Insurance Page */
+        :root {
+            --health-primary: #00d287;
+            /* Green tone for health */
+            --health-blue: #0065ff;
+        }
+
+        .health-hero {
+            background: linear-gradient(180deg, #eef4ff 0%, #ffffff 100%);
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        .offer-banner {
+            background: #e3fcf0;
+            color: #00854d;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border: 1px solid #cbf7e1;
+            display: inline-block;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title h1 {
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+        }
+
+        .hero-title p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Form Section */
+        .member-form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            border: 1px solid #eee;
+        }
+
+        .form-step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--dark-bg);
+            text-align: center;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .member-checkbox {
+            display: none;
+        }
+
+        .member-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-card:hover {
+            border-color: var(--health-blue);
+            background: #f0f7ff;
+        }
+
+        .member-checkbox:checked+.member-card {
+            border-color: var(--health-blue);
+            background: #eef4ff;
+            color: var(--health-blue);
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 101, 255, 0.15);
+        }
+
+        .member-card i {
+            font-size: 1.5rem;
+            color: #888;
+        }
+
+        .member-checkbox:checked+.member-card i {
+            color: var(--health-blue);
+        }
+
+        .gender-select {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .gender-option {
+            padding: 10px 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .gender-option.active {
+            background: var(--health-blue);
+            color: white;
+            border-color: var(--health-blue);
+        }
+
+        .form-actions {
+            text-align: center;
+        }
+
+        .disclaimer-links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .disclaimer-links a {
+            color: var(--health-blue);
+            margin: 0 5px;
+            text-decoration: none;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 50px 0;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: var(--health-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Plans Section */
+        .plans-section {
+            padding: 60px 0;
+            background: var(--off-white);
+        }
+
+        .plans-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: #fff;
+            padding: 5px;
+            border-radius: 30px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-btn {
+            padding: 10px 30px;
+            border: none;
+            background: transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--health-blue);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 101, 255, 0.2);
+        }
+
+        .filters-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            transition: transform 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .insurer-logo {
+            width: 100px;
+            height: 40px;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .plan-features ul {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .plan-features li {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .plan-features i {
+            color: var(--health-primary);
+        }
+
+        .plan-price {
+            text-align: right;
+        }
+
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+        }
+
+        .price-period {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Why Choose Us */
+        .why-choose-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .differentiator {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .diff-icon {
+            width: 60px;
+            height: 60px;
+            background: #e3fcf0;
+            color: #00854d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 20px;
+        }
+
+        /* Educational Section */
+        .edu-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            color: var(--text-light);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .plan-card {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+
+            .plan-price {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#" class="nav-link">Insurance Products</a></li>
+                    <li><a href="#" class="nav-link">Renew Policy</a></li>
+                    <li><a href="health_easyclaim.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="#" class="nav-link">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn btn-outline small">Log In</a>
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="health-hero">
+        <div class="container">
+            <div class="hero-title">
+                <div class="offer-banner">
+                    <i class="fas fa-percent"></i> Get 0% GST with up to 25% discount on diverse plans
+                </div>
+                <h1>Best Health Insurance Plans for Your Family</h1>
+                <p>Compare & Save big on premium health policies</p>
+            </div>
+
+            <div class="member-form-container">
+                <!-- Step 1: Select Members -->
+                <div id="step-1">
+                    <h3 class="form-step-title">Who would you like to insure?</h3>
+                    <div class="members-grid">
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Self" checked>
+                            <div class="member-card">
+                                <i class="fas fa-user"></i>
+                                <span>Self</span>
+                            </div>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Wife">
+                            <div class="member-card">
+                                <i class="fas fa-user-friends"></i>
+                                <span>Wife</span>
+                            </div>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Son">
+                            <div class="member-card">
+                                <i class="fas fa-child"></i>
+                                <span>Son</span>
+                            </div>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Daughter">
+                            <div class="member-card">
+                                <i class="fas fa-child-dress"></i>
+                                <span>Daughter</span>
+                            </div>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Father">
+                            <div class="member-card">
+                                <i class="fas fa-user-tie"></i>
+                                <span>Father</span>
+                            </div>
+                        </label>
+                        <label>
+                            <input type="checkbox" class="member-checkbox" value="Mother">
+                            <div class="member-card">
+                                <i class="fas fa-user-nurse"></i>
+                                <span>Mother</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="text-center" style="margin-bottom: 20px;">
+                        <p style="font-weight: 500; margin-bottom: 15px;">Select Gender of the Eldest Member</p>
+                        <div class="gender-select">
+                            <div class="gender-option active" onclick="selectGender(this)">Male</div>
+                            <div class="gender-option" onclick="selectGender(this)">Female</div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="startJourney()"
+                            style="padding: 15px 50px; font-size: 1.1rem;">
+                            Continue <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="disclaimer-links">
+                    By clicking on "Continue", you agree to our
+                    <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Disclaimer</a>
+                </div>
+            </div>
+
+            <script>
+                function selectGender(element) {
+                    document.querySelectorAll('.gender-option').forEach(el => el.classList.remove('active'));
+                    element.classList.add('active');
+                }
+
+                function startJourney() {
+                    const selectedMembers = Array.from(document.querySelectorAll('.member-checkbox:checked')).map(cb => cb.value);
+                    const selectedGender = document.querySelector('.gender-option.active').innerText;
+
+                    if (selectedMembers.length === 0) {
+                        alert("Please select at least one family member.");
+                        return;
+                    }
+
+                    // Build Query String
+                    const params = new URLSearchParams();
+                    params.append('members', selectedMembers.join(','));
+                    params.append('gender', selectedGender);
+
+                    // Redirect to ClaimEasy Hub
+                    window.location.href = 'member_ages.html?' + params.toString();
+                }
+            </script>
+        </div>
+    </section>
+
+    <!-- Key Benefits Section (Added for Detail) -->
+    <section class="section-padding" style="background-color: #f8fbff;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Benefits of Health Insurance</h2>
+                <p>Comprehensive coverage for you and your family</p>
+            </div>
+            <ul class="benefits-list"
+                style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-file-invoice" style="color: #0065ff; font-size: 1.2rem;"></i> Medical Bill Coverage
+                </li>
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-history" style="color: #0065ff; font-size: 1.2rem;"></i> Pre-existing Diseases
+                </li>
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-hand-holding-usd" style="color: #0065ff; font-size: 1.2rem;"></i> Quick
+                    Reimbursement
+                </li>
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-receipt" style="color: #0065ff; font-size: 1.2rem;"></i> Tax Rebates u/s 80D
+                </li>
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-stethoscope" style="color: #0065ff; font-size: 1.2rem;"></i> OPD Expenses
+                </li>
+                <li
+                    style="background: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; font-weight: 500; border: 1px solid #eee;">
+                    <i class="fas fa-baby" style="color: #0065ff; font-size: 1.2rem;"></i> Maternity Benefits
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3><i class="fas fa-users"></i> 10M+</h3>
+                    <p>Registered Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3><i class="fas fa-handshake"></i> 50+</h3>
+                    <p>Insurance Partners</p>
+                </div>
+                <div class="stat-item">
+                    <h3><i class="fas fa-file-contract"></i> 15M+</h3>
+                    <p>Policies Sold</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans Section -->
+    <section class="plans-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Top Health Insurance Plans</h2>
+                <p>Customize and compare plans that suit your needs</p>
+            </div>
+
+            <div class="plans-tabs">
+                <button class="tab-btn active">Individual</button>
+                <button class="tab-btn">Family</button>
+                <button class="tab-btn">Parents</button>
+            </div>
+
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label>Cover Amount:</label>
+                    <select style="padding: 5px; border-radius: 4px;">
+                        <option>5 Lakh</option>
+                        <option>10 Lakh</option>
+                        <option>25 Lakh</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Insurer Type:</label>
+                    <select style="padding: 5px; border-radius: 4px;">
+                        <option>All</option>
+                        <option>Private</option>
+                        <option>Public</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="plan-card">
+                <div class="insurer-info">
+                    <div class="insurer-logo">ClaimEasy</div>
+                    <p style="margin-top: 5px; font-weight: 600;">ReAssure 2.0</p>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Cashless Hospitals</li>
+                        <li><i class="fas fa-check-circle"></i> No Claim Bonus</li>
+                        <li><i class="fas fa-check-circle"></i> Health Checkup</li>
+                    </ul>
+                </div>
+                <div class="plan-price">
+                    <div class="price-tag">₹645 <span class="price-period">/mo</span></div>
+                    <button class="btn btn-outline" style="margin-top: 10px;">Get Quote</button>
+                </div>
+            </div>
+
+            <div class="plan-card">
+                <div class="insurer-info">
+                    <div class="insurer-logo">Care Health</div>
+                    <p style="margin-top: 5px; font-weight: 600;">Supreme Direct</p>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> 540+ Day Care Treatments</li>
+                        <li><i class="fas fa-check-circle"></i> Unlimited Restore</li>
+                    </ul>
+                </div>
+                <div class="plan-price">
+                    <div class="price-tag">₹520 <span class="price-period">/mo</span></div>
+                    <button class="btn btn-outline" style="margin-top: 10px;">Get Quote</button>
+                </div>
+            </div>
+
+            <div class="plan-card">
+                <div class="insurer-info">
+                    <div class="insurer-logo">HDFC ERGO</div>
+                    <p style="margin-top: 5px; font-weight: 600;">Optima Secure</p>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> 2X Coverage from Day 1</li>
+                        <li><i class="fas fa-check-circle"></i> 100% Restore Benefit</li>
+                    </ul>
+                </div>
+                <div class="plan-price">
+                    <div class="price-tag">₹780 <span class="price-period">/mo</span></div>
+                    <button class="btn btn-outline" style="margin-top: 10px;">Get Quote</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose ClaimEasy?</h2>
+                <p>We make insurance simple, affordable, and reliable.</p>
+            </div>
+            <div class="why-grid">
+                <div class="differentiator">
+                    <div class="diff-icon"><i class="fas fa-tags"></i></div>
+                    <h3>Affordable Plans</h3>
+                    <p>Get the best quotes from top insurers starting at just ₹300/mo.</p>
+                </div>
+                <div class="differentiator">
+                    <div class="diff-icon"><i class="fas fa-award"></i></div>
+                    <h3>Platinum Partners</h3>
+                    <p>We work with the most trusted insurance providers in the industry.</p>
+                </div>
+                <div class="differentiator">
+                    <div class="diff-icon"><i class="fas fa-clock"></i></div>
+                    <h3>30-Min Claim Support</h3>
+                    <p>Our dedicated team assists you within 30 minutes of claim intimation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Section -->
+    <section class="edu-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Health Insurance FAQs</h2>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Why is Health Insurance important?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Health insurance protects you from high medical costs during emergencies. It covers
+                            hospitalization expenses, day-care procedures, and critical illnesses, ensuring your savings
+                            remain intact.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is cashless hospitalization?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Under cashless hospitalization, the insurance company settles the bill directly with the
+                            network hospital. You do not need to pay cash for covered treatments.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I cover my family in one plan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, Family Floater plans allow you to cover yourself, your spouse, children, and dependent
+                            parents under a single sum insured.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as Index) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Car Insurance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Interaction Script
+        function selectGender(element) {
+            document.querySelectorAll('.gender-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Toggle FAQs
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

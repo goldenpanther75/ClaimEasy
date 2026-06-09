@@ -1,0 +1,7 @@
+/* Car Comparison Specific Styles */
+:root {
+    --theme-primary: #004c8f;
+    --theme-bg-light: #f0f7ff;
+}
+
+/* Re-applying specific overrides if necessary, mainly just the vars now */

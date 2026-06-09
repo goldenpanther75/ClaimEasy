@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .success-msg {
+            color: #28a745;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .error-msg {
+            color: #dc3545;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .btn-admin {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: #f0f7ff;
+            color: #0065ff;
+            border: 1px solid #cce5ff;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-admin:hover {
+            background: #0065ff;
+            color: white;
+            border-color: #0065ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 101, 255, 0.25);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-header">
+                <a href="index.html">
+                    <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                </a>
+                <p id="header-text">Welcome back! Please login to your account.</p>
+            </div>
+
+            <div id="alert-box" class="hidden"></div>
+
+            <!-- STEP 1: Phone / Email Input -->
+            <form id="step-1-form" class="login-form">
+                <div class="form-group" id="email-group">
+                    <label>Enter Email ID</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email-input" placeholder="Enter your email address">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="get-email-otp-btn">Sign in with Email OTP</button>
+
+                <button type="button" class="btn btn-outline btn-block" id="google-btn"
+                    style="background: white; border: 1px solid #ddd; color: #444; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="google_logo.png" alt="Google"
+                        style="width: 20px; height: 20px;"> Sign in with Google
+                </button>
+                <button type="button" class="btn btn-outline btn-block hidden" id="email-btn">
+                    <i class="fas fa-envelope"></i> Sign in with Email
+                </button>
+            </form>
+
+            <!-- STEP 2: OTP Entry -->
+            <form id="step-2-otp" class="login-form hidden">
+                <div class="form-group">
+                    <label>Enter OTP sent to <span id="otp-sent-to" class="highlight"></span></label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="otp-input" placeholder="Enter 6-digit OTP" maxlength="6">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verify OTP</button>
+                <div class="text-center mt-2">
+                    <a href="#" class="text-small" id="resend-otp">Resend OTP</a> |
+                    <a href="#" class="text-small" id="change-contact">Change</a>
+                </div>
+            </form>
+
+            <!-- STEP 3: Registration (New User) -->
+            <!-- STEP 3: Registration (New User) -->
+            <form id="step-3-register" class="login-form hidden" style="max-height: 500px; overflow-y: auto;">
+                <h4>Complete your Profile</h4>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="reg-name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="reg-phone" placeholder="Mobile Number">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Email ID</label>
+                        <input type="email" id="reg-email" placeholder="Email Address">
+                    </div>
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Date of Birth</label>
+                        <input type="date" id="reg-dob" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Gender</label>
+                        <select id="reg-gender" class="form-control"
+                            style="width:100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="reg-address" rows="2" placeholder="House No, Street, Area"
+                        style="width:100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>City</label>
+                        <input type="text" id="reg-city" placeholder="City">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>State</label>
+                        <input type="text" id="reg-state" placeholder="State">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" id="reg-pincode" placeholder="Pincode" maxlength="6">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            </form>
+
+            <div class="login-footer">
+                <p>New to ClaimEasy? <a href="#" class="highlight" id="signup-link">Sign up</a></p>
+                <p style="margin-top: 5px;">
+                    <a href="admin_login.html" class="btn-admin">
+                        <i class="fas fa-user-shield"></i> <span>Login as Admin</span>
+                    </a>
+                </p>
+                <p><a href="#" class="text-small">Privacy Policy</a> &bull; <a href="#" class="text-small">Terms of
+                        Service</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

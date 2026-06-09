@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance Proposal - ClaimEasy</title>
+    <!-- Standardized Scripts -->
+    <script src="auth_guard.js"></script>
+    <script src="autofill.js"></script>
+    <script src="validation.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .proposal-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        /* Form Sections */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .form-card.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 101, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: #fdfdfd;
+        }
+
+        /* Reactive Validation Styles */
+        .input-group.valid input {
+            border-color: #2e7d32;
+            padding-right: 35px;
+        }
+
+        .input-group.valid::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #2e7d32;
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+        }
+
+        .input-group.invalid input {
+            border-color: #d32f2f;
+        }
+
+        .error-msg {
+            font-size: 0.75rem;
+            color: #d32f2f;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-group.invalid .error-msg {
+            display: block;
+        }
+
+        /* Sidebar */
+        .summary-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .summary-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .proposal-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header" style="padding: 10px 0; border-bottom:1px solid #eee; background:white;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="car_comparison.html"
+                    style="text-decoration:none; color:#333; display:flex; align-items:center; gap:10px;">
+                    <i class="fas fa-arrow-left"></i> <span class="logo-text">Claim<span
+                            class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">Step 2 of 3</div>
+        </div>
+    </header>
+
+    <div class="proposal-container">
+
+        <!-- Forms -->
+        <main>
+            <h2 style="margin-bottom:20px;">Owner Details</h2>
+
+            <!-- Personal Details -->
+            <div class="form-card active" id="card-1">
+                <div class="section-title">
+                    <h4><i class="fas fa-user" style="color:var(--primary-color); margin-right:10px;"></i> Personal
+                        Details</h4>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" id="ownerName" placeholder="Enter name as per RC"
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">Name is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" id="mobileNumber" placeholder="10 Digit Mobile No" maxlength="10"
+                            oninput="validateField(this, 'mobile')">
+                        <span class="error-msg">Enter valid 10-digit number</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" id="emailAddress" placeholder="email@example.com"
+                            oninput="validateField(this, 'email')">
+                        <span class="error-msg">Enter valid email</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Aadhaar Card Number</label>
+                        <input type="text" id="aadhaarNumber" placeholder="12 Digit Aadhaar No" maxlength="12"
+                            oninput="validateField(this, 'aadhaar')">
+                        <span class="error-msg">Enter valid 12-digit Aadhaar</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom:20px;">Car Details</h2>
+
+            <!-- Vehicle Details -->
+            <div class="form-card" id="card-2">
+                <div class="section-title">
+                    <h4><i class="fas fa-car" style="color:var(--primary-color); margin-right:10px;"></i> Vehicle
+                        Information</h4>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Registration Number</label>
+                        <input type="text" id="regNumber" value="DL-10-CB-1234" readonly
+                            style="background:#f9f9f9; cursor:not-allowed;">
+                    </div>
+                    <div class="input-group">
+                        <label>Manufacturer</label>
+                        <input type="text" id="carMake" placeholder="e.g. Maruti Suzuki" required
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">Manufacturer is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Car Model</label>
+                        <input type="text" id="carModel" placeholder="e.g. Swift VXI" required
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">Model is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Registration Date</label>
+                        <input type="date" id="regDate" required oninput="validateField(this, 'text')">
+                    </div>
+                    <div class="input-group">
+                        <label>Engine Number</label>
+                        <input type="text" id="engineNumber" placeholder="Max 17 characters" maxlength="17"
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">Engine No. is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Chassis Number</label>
+                        <input type="text" id="chassisNumber" placeholder="Max 17 characters" maxlength="17"
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">Chassis No. is required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance Details (New) -->
+            <div class="form-card" id="card-compliance">
+                <div class="section-title">
+                    <h4><i class="fas fa-clipboard-check" style="color:var(--primary-color); margin-right:10px;"></i>
+                        Compliance Details</h4>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>PUC Number</label>
+                        <input type="text" id="pucNumber" placeholder="Pollution Under Control No." required
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">PUC No. is required</span>
+                    </div>
+                    <div class="input-group">
+                        <label>PUC Expiry Date</label>
+                        <input type="date" id="pucExpiry" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Driving License Number</label>
+                        <input type="text" id="licenseNumber" placeholder="Owner Driver License No." required
+                            oninput="validateField(this, 'text')">
+                        <span class="error-msg">License No. is required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nominee (Collapsible) -->
+            <div class="form-card" id="card-3">
+                <div class="section-title" style="cursor:pointer;" onclick="toggleNominee()">
+                    <h4><i class="fas fa-users" style="color:var(--primary-color); margin-right:10px;"></i> Nominee
+                        Details</h4>
+                    <i class="fas fa-chevron-down" id="nominee-chevron"></i>
+                </div>
+                <div id="nominee-form" style="display:none; margin-top:15px;">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Nominee Name</label>
+                            <input type="text" placeholder="Name">
+                        </div>
+                        <div class="input-group">
+                            <label>Relationship</label>
+                            <select>
+                                <option>Spouse</option>
+                                <option>Father</option>
+                                <option>Mother</option>
+                                <option>Child</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Nominee Age</label>
+                            <input type="number" placeholder="Years">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg" style="width:100%; border:none;"
+                onclick="submitCarProposal()">Continue to Payment <i class="fas fa-arrow-right"></i></button>
+
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="summary-sidebar">
+            <div class="summary-header">
+                <strong><i class="fas fa-file-invoice"></i> Plan Summary</strong>
+            </div>
+            <div style="text-align:center; margin-bottom:20px;">
+                <img src="#" alt="Insurer" id="insurer-logo-summary" style="display:none; max-width:80px;">
+                <h4 id="insurer-name-summary">HDFC ERGO</h4>
+                <div style="font-size:0.85rem; color:#666;">Comprehensive Plan</div>
+            </div>
+            <div class="summary-row">
+                <span>IDV Cover</span>
+                <strong id="summary-idv">₹ 8,75,000</strong>
+            </div>
+            <div class="summary-row">
+                <span>NCB (20%)</span>
+                <span style="color:green;">- ₹ 1,200</span>
+            </div>
+            <div class="summary-row">
+                <span>Net Premium</span>
+                <span>₹ 7,100</span>
+            </div>
+            <div class="summary-row">
+                <span>GST (18%)</span>
+                <span>₹ 1,278</span>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="summary-total">₹ 8,378</span>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        // Simple Interaction and Validation
+
+        function validateField(input, type) {
+            const parent = input.parentElement;
+            let valid = false;
+
+            if (type === 'text') {
+                valid = input.value.length >= 3;
+            } else if (type === 'mobile') {
+                valid = /^[6-9]\d{9}$/.test(input.value);
+            } else if (type === 'email') {
+                valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+            } else if (type === 'aadhaar') {
+                valid = /^\d{12}$/.test(input.value);
+            }
+
+            if (valid) {
+                parent.classList.remove('invalid');
+                parent.classList.add('valid');
+            } else {
+                parent.classList.remove('valid');
+                if (input.value.length > 0) parent.classList.add('invalid');
+            }
+        }
+
+        function toggleNominee() {
+            const form = document.getElementById('nominee-form');
+            const icon = document.getElementById('nominee-chevron');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                form.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        async function submitCarProposal() {
+            // Validation Logic integration
+            if (typeof ClaimEasyValidation !== 'undefined') {
+                const validation = ClaimEasyValidation.validate();
+                if (!validation.isValid) {
+                    ClaimEasyValidation.showAlert(validation);
+                    return;
+                }
+            }
+
+            // Gather Data
+            const formData = {
+                type: 'Car Insurance',
+                ownerName: document.getElementById('ownerName').value,
+                mobile: document.getElementById('mobileNumber').value,
+                email: document.getElementById('emailAddress').value,
+                regNumber: document.getElementById('regNumber').value,
+                carMake: document.getElementById('carMake').value,
+                carModel: document.getElementById('carModel').value,
+                engineNumber: document.getElementById('engineNumber').value,
+                chassisNumber: document.getElementById('chassisNumber').value,
+                regDate: document.getElementById('regDate').value,
+                pucNumber: document.getElementById('pucNumber').value,
+                pucExpiry: document.getElementById('pucExpiry').value,
+                licenseNumber: document.getElementById('licenseNumber').value,
+                premium: window.currentPremium || 7100, // Dynamic or fallback
+                status: 'Pending Payment'
+            };
+
+            // Save to LocalStorage for PDF Download
+            localStorage.setItem('car_application_data', JSON.stringify(formData));
+
+            const submitBtn = document.querySelector('button[onclick="submitCarProposal()"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://13.126.167.8:5000/api/policies', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.href = 'car_payment.html?policyId=' + result.policyId;
+                } else {
+                    alert('Error saving application: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to the server. Is the backend running?');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Highlight active card on focus
+        document.querySelectorAll('input').forEach(inp => {
+            inp.addEventListener('focus', function () {
+                document.querySelectorAll('.form-card').forEach(c => c.classList.remove('active'));
+                this.closest('.form-card').classList.add('active');
+            });
+        });
+
+        // Load Plan Details from LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const planData = localStorage.getItem('selected_car_plan');
+            if (planData) {
+                const plan = JSON.parse(planData);
+
+                // Parse Total Premium robustly, handling both Number and String types
+                const totalPremium = typeof plan.premium === 'string'
+                    ? parseInt(plan.premium.replace(/,/g, ''))
+                    : parseInt(plan.premium);
+
+                // Calculate Net and GST (Assuming 18% GST included in Total)
+                // Net * 1.18 = Total => Net = Total / 1.18
+                const netPremium = Math.round(totalPremium / 1.18);
+                const gstAmount = totalPremium - netPremium;
+
+                // Update Sidebar
+                const insurerName = document.getElementById('insurer-name-summary');
+                const idv = document.getElementById('summary-idv');
+                const totalSpan = document.getElementById('summary-total');
+
+                if (insurerName) insurerName.textContent = plan.provider;
+                if (idv) idv.textContent = plan.idv;
+
+                const summaryRows = document.querySelectorAll('.summary-row');
+
+                // Find and update specific rows by label text
+                summaryRows.forEach(row => {
+                    const label = row.querySelector('span:first-child').textContent.trim();
+                    const valueSpan = row.querySelector('span:last-child');
+
+                    if (label.includes('Net Premium')) {
+                        valueSpan.textContent = '₹ ' + netPremium.toLocaleString('en-IN');
+                    } else if (label.includes('GST')) {
+                        valueSpan.textContent = '₹ ' + gstAmount.toLocaleString('en-IN');
+                    }
+                });
+
+                if (totalSpan) totalSpan.textContent = '₹ ' + totalPremium.toLocaleString('en-IN');
+
+                // Update internal form data
+                window.currentPremium = totalPremium;
+            }
+        });
+    </script>
+    <script src="main.js?v=shield_optimized"></script>
+    <script src="chatbot_widget.js"></script>
+</body>
+
+</html>

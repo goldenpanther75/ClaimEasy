@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Claim Status - ClaimEasy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #f4f7fa;
+        }
+
+        .track-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .status-box {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            display: none;
+            text-align: left;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+
+        .status-step.active {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .status-step.completed {
+            color: #28a745;
+        }
+
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 0.8rem;
+        }
+
+        .status-step.active .step-icon {
+            background: #0065ff;
+            color: white;
+        }
+
+        .status-step.completed .step-icon {
+            background: #28a745;
+            color: white;
+        }
+
+        .rejection-box {
+            background: #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo-text" style="text-decoration:none;">Claim<span
+                    class="highlight">Easy</span></a>
+            <nav class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="claim_intimation.html">File Claim</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="track-container">
+        <h2><i class="fas fa-search"></i> Track Your Claim</h2>
+        <p style="color:#666; margin-bottom: 20px;">Enter your Claim ID to check current status</p>
+
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="track-id" placeholder="Enter Claim ID (e.g., CLM170...)" class="form-control"
+                style="flex:1; padding:12px; border:1px solid #ddd; border-radius:6px;">
+            <button id="track-btn" class="btn btn-primary">Track</button>
+        </div>
+
+        <div id="status-result" class="status-box">
+            <h4 style="margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:10px;">
+                Claim ID: <span id="res-id">...</span>
+                <span id="res-status-badge"
+                    style="float:right; font-size:0.8rem; padding:4px 8px; border-radius:4px;">Pending</span>
+            </h4>
+
+            <div class="status-timeline">
+                <div class="status-step completed">
+                    <div class="step-icon"><i class="fas fa-check"></i></div>
+                    <div>Claim Submitted <div style="font-size:0.7rem; color:#888;" id="date-submit">...</div>
+                    </div>
+                </div>
+                <div class="status-step" id="step-review">
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
+                    <div>Under Review</div>
+                </div>
+                <div class="status-step" id="step-decision">
+                    <div class="step-icon"><i class="fas fa-gavel"></i></div>
+                    <div>Decision Made</div>
+                </div>
+            </div>
+
+            <div id="rejection-reason" class="rejection-box">
+                <strong>Reason:</strong> <span id="reason-text">...</span>
+            </div>
+        </div>
+
+        <p id="error-msg" style="color:red; margin-top:15px; display:none;"></p>
+    </div>
+
+    <script>
+        document.getElementById('track-btn').addEventListener('click', async () => {
+            const id = document.getElementById('track-id').value.trim();
+            const resultBox = document.getElementById('status-result');
+            const errorMsg = document.getElementById('error-msg');
+            const btn = document.getElementById('track-btn');
+
+            if (!id) {
+                alert("Please enter a Claim ID");
+                return;
+            }
+
+            btn.innerText = "Searching...";
+            btn.disabled = true;
+            resultBox.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            try {
+                // Use relative path for robustness across environments
+                const response = await fetch(`/api/claims/${id}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultBox.style.display = 'block';
+                    document.getElementById('res-id').innerText = data.id;
+                    document.getElementById('date-submit').innerText = new Date(data.submittedAt).toLocaleDateString();
+
+                    // Reset Steps
+                    document.getElementById('step-review').className = 'status-step';
+                    document.getElementById('step-decision').className = 'status-step';
+                    document.getElementById('rejection-reason').style.display = 'none';
+
+                    const badge = document.getElementById('res-status-badge');
+
+                    if (data.status === 'Pending') {
+                        badge.innerText = 'Pending';
+                        badge.style.background = '#fff3cd'; badge.style.color = '#856404';
+                        document.getElementById('step-review').classList.add('active');
+                    } else if (data.status === 'Approved') {
+                        badge.innerText = 'Approved';
+                        badge.style.background = '#d4edda'; badge.style.color = '#155724';
+                        document.getElementById('step-review').classList.add('completed');
+                        document.getElementById('step-decision').classList.add('completed');
+                        document.querySelector('#step-decision div:last-child').innerText = "Claim Approved";
+                    } else if (data.status === 'Rejected') {
+                        badge.innerText = 'Rejected';
+                        badge.style.background = '#f8d7da'; badge.style.color = '#721c24';
+                        document.getElementById('step-review').classList.add('completed');
+                        document.getElementById('step-decision').classList.add('completed');
+                        document.querySelector('#step-decision .step-icon').style.background = '#dc3545';
+                        document.querySelector('#step-decision div:last-child').innerText = "Claim Rejected";
+
+                        if (data.notes) {
+                            document.getElementById('rejection-reason').style.display = 'block';
+                            document.getElementById('reason-text').innerText = data.notes;
+                        }
+                    }
+
+                } else {
+                    errorMsg.innerText = data.error || "Claim not found";
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                console.error(err);
+                errorMsg.innerText = "Connection Error";
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.innerText = "Track";
+                btn.disabled = false;
+            }
+        });
+
+        // Auto-search if ID is in URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const claimId = urlParams.get('id');
+            if (claimId) {
+                document.getElementById('track-id').value = claimId;
+                document.getElementById('track-btn').click();
+            }
+        });
+    </script>
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>
+

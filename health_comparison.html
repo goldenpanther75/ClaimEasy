@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Health Insurance Plans - ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="comparison_shared.css">
+    <link rel="stylesheet" href="health_comparison.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to Main Content</a>
+
+    <!-- Urgency Header -->
+    <div class="urgency-header" role="alert">
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Medical inflation is rising. Secure your family's
+        health today.
+    </div>
+
+    <!-- Main Header -->
+    <header class="header" role="banner" style="padding: 10px 0; box-shadow:none; border-bottom:1px solid #eee;">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo">
+                <a href="index.html" aria-label="ClaimEasy Home">
+                    <span class="logo-text" aria-hidden="true">Claim<span class="highlight">Easy</span></span>
+                </a>
+            </div>
+            <div style="font-size:0.9rem; color:#666;">
+                Need Help? <strong style="color:var(--primary-color);">1800-208-8787</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Filter Bar -->
+    <div class="filter-bar-container">
+        <!-- ... (keep existing filter content) ... -->
+        <div class="container filter-content">
+            <div class="filters-left">
+                <div class="filter-group">
+                    <label>Cover For</label>
+                    <select id="members-filter">
+                        <option value="Self">Self</option>
+                        <option value="Husband & Wife">Husband & Wife</option>
+                        <option value="Self + Family">Self + Family</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Sum Insured</label>
+                    <select id="cover-filter">
+                        <option value="All">Show All Plans</option>
+                        <option value="50L">₹ 50 Lakhs</option>
+                        <option value="1Cr">₹ 1 Crore</option>
+                        <option value="2Cr">₹ 2 Crores</option>
+                        <option value="3Cr">₹ 3 Crores</option>
+                        <option value="4Cr" selected>₹ 4 Crores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Tenure</label>
+                    <select id="tenure-filter">
+                        <option value="1">1 Year</option>
+                        <option value="2">2 Years</option>
+                        <option value="3">3 Years</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filters-right">
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="restoration">
+                    <label for="restoration">Restoration Benefit</label>
+                </div>
+                <div class="checkbox-filter">
+                    <input type="checkbox" id="no-copay">
+                    <label for="no-copay">No Co-pay</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Details Bar (Replaces vehicle-details-bar style) -->
+    <div class="vehicle-details-bar" role="region" aria-label="Health Details">
+        <div class="container vehicle-info-grid">
+            <div class="vehicle-item">
+                <span>Members</span>
+                <strong id="health-members">Self, Spouse, 1 Child</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Age of Eldest</span>
+                <strong id="health-age">32 Years</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Pincode</span>
+                <strong id="health-pincode">110001</strong>
+            </div>
+            <div class="vehicle-item">
+                <span>Existing Illness</span>
+                <strong id="health-illness">None</strong>
+            </div>
+            <div class="vehicle-item" style="display:flex; align-items:center;">
+                <a href="#" class="edit-link" id="edit-health-btn"><i class="fas fa-pencil-alt"></i> Edit</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Comparison Section -->
+    <div class="comparison-layout container">
+
+        <!-- Left Column: Plan Cards -->
+        <div class="plans-column">
+            <div class="results-header">
+                <h3>Showing <span id="plan-count">0</span> Plans for You</h3>
+                <div class="sort-options">
+                    <span>Sort by:</span>
+                    <select id="sort-select">
+                        <option value="relevance">Relevance</option>
+                        <option value="premium-low">Premium: Low to High</option>
+                        <option value="hospitals">Network Hospitals</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Container for JS injected cards -->
+            <div id="plans-container">
+                <!-- Cards will go here -->
+            </div>
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <aside aria-label="Filters and Features" class="sidebar-column">
+            <!-- Filters Placeholder (If moved from sticky bar, or additional) -->
+            <!-- Leaving sticky bar as is for now as it's a specific Health feature, but Sidebar needs to match Home style structure -->
+
+            <!-- Talk to Expert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-user-md" aria-hidden="true"></i> Medical Expert Help</h4>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Not sure which health plan fits your
+                    family? Ask our experts.</p>
+                <div class="contact-btns">
+                    <button class="call-btn"><i class="fas fa-phone"></i> Request Call</button>
+                    <button class="chat-btn"><i class="fas fa-comment-medical"></i> Chat Now</button>
+                </div>
+            </div>
+
+            <!-- Medical Inflation Alert -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-chart-line" aria-hidden="true"></i> Medical Inflation</h4>
+                <p style="font-size:0.9rem; color:#666;">Healthcare costs are rising by <strong>14%</strong> annually.
+                    Secure your family today.</p>
+            </div>
+
+            <!-- Price Guarantee -->
+            <div class="sidebar-box">
+                <h4><i class="fas fa-tags" aria-hidden="true"></i> Best Price Promise</h4>
+                <p style="font-size:0.85rem; color:#666;">We guarantee the lowest premium for your health plan.</p>
+                <button class="match-price-btn" aria-label="Match my price request">Match my price</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Life Insurance</a></li>
+                        <li><a href="#">Health Insurance</a></li>
+                        <li><a href="#">Investment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ClaimEasy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Health Details Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-edit-modal">&times;</button>
+            <h3>Edit Health Details</h3>
+            <form id="edit-health-form">
+                <div class="form-group">
+                    <label>Members Insured</label>
+                    <select id="edit-members-input"
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                        <option value="Self">Self Only</option>
+                        <option value="Self + Spouse">Self + Spouse</option>
+                        <option value="Self, Spouse, 1 Child">Self, Spouse, 1 Child</option>
+                        <option value="Self, Spouse, 2 Children">Self, Spouse, 2 Children</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age of Eldest Member</label>
+                    <input type="number" id="edit-age-input" min="18" max="100" required
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" id="edit-pincode-input" required
+                        style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" style="width:100%; margin-top:15px;">Update
+                    Quotes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="health_comparison.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

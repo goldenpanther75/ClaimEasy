@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance - Save up to 85% | ClaimEasy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="car_insurance.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div style="display:flex; align-items:center;">
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text">Claim<span class="highlight">Easy</span></span>
+                    </a>
+                </div>
+                <div class="car-header-tagline">
+                    <i class="fas fa-shield-alt t-shield"></i> Har Family Hogi Insured
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="car_easyclaim.html" class="nav-link">Claim Assistance</a></li>
+                    <li><a href="#" class="nav-link">Support</a></li>
+                    <li><a href="login.html" class="nav-link">Sign In</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="car-hero">
+        <div class="container car-hero-container">
+            <!-- Left Side: Image/Graphic -->
+            <div class="car-hero-image">
+                <div class="blob-bg"></div>
+                <!-- Using a font awesome icon as a placeholder graphic, scalable and clean -->
+                <div style="font-size: 12rem; color: #004c8f; text-align: center;">
+                    <i class="fas fa-car-side"></i>
+                    <div style="font-size: 1.5rem; margin-top: 20px; color: #333; font-weight: 600;">Drive Safe, Pay
+                        Less.</div>
+                </div>
+            </div>
+
+            <!-- Right Side: Form -->
+            <div class="car-hero-content">
+                <h1>Compare & Save up to <span class="highlight-blue">91%+</span> on Car Insurance</h1>
+                <div class="sub-text">
+                    <span class="timer-badge"><i class="fas fa-bolt"></i> 10 Mins Policy</span>
+                    <span>Lowest Price Guarantee*</span>
+                </div>
+
+                <div class="quote-form-card">
+                    <form id="car-quote-form">
+                        <div class="input-group">
+                            <i class="fas fa-car car-icon-input"></i>
+                            <input type="text" class="car-input" id="car-reg-input" placeholder="DL-10-CB-1234" required
+                                style="text-transform: uppercase;">
+                        </div>
+                        <button type="submit" class="btn-view-prices">View Prices &rarr;</button>
+
+                        <div class="form-links">
+                            <a href="#" class="new-car-link">Brand new car? Click here</a>
+                            <a href="#" class="help-link"><i class="fas fa-phone-alt" style="font-size:0.8rem;"></i>
+                                Need help?</a>
+                        </div>
+                    </form>
+                    <script>
+                        document.getElementById('car-quote-form').addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            const regNo = document.getElementById('car-reg-input').value.toUpperCase();
+                            if (regNo) {
+                                localStorage.setItem('car_reg_no', regNo);
+                                window.location.href = 'car_easyclaim.html';
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust/Features Strip -->
+    <section class="features-strip">
+        <div class="container features-container">
+            <div class="feature-box">
+                <div class="feature-icon-box"><i class="fas fa-piggy-bank"></i></div>
+                <div class="feature-text">
+                    <h4>Save up to 85%</h4>
+                    <p>On Own Damage Premium</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon-box"><i class="fas fa-hand-holding-usd"></i></div>
+                <div class="feature-text">
+                    <h4>Cashless Claims</h4>
+                    <p>At 4000+ Garages</p>
+                </div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon-box"><i class="fas fa-headset"></i></div>
+                <div class="feature-text">
+                    <h4>24x7 Support</h4>
+                    <p>Dedicated Claim Assistance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="padding-top: 50px;">
+        <div class="container">
+            <div class="footer-bottom text-center">
+                <p>&copy; 2024 ClaimEasy - Standard Insurance Terms Apply. *Savings based on profile.</p>
+            </div>
+        </div>
+    </footer>
+
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+<script src="chatbot_widget.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>

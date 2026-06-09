@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style.css?v=shield">
+    <script src="auth_guard.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Insurance Quote - Step by Step</title>
+    <link rel="stylesheet" href="TermLife_quote.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="quote-header">
+        <div class="header-content">
+            <a href="index.html" class="logo-text">Claim<span class="highlight">Easy</span></a>
+            <a href="#" class="help-link"><i class="fas fa-headset"></i> Need Help?</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="quote-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="step-indicator">
+                <span id="step-indicator-text">Step 1/6</span>
+                <span><i class="fas fa-lock"></i> Secure Connection</span>
+            </div>
+        </div>
+
+        <!-- Form Steps -->
+        <form id="multi-step-form" onsubmit="return false;">
+
+            <!-- Step 1: Occupation -->
+            <div class="step-content active" id="step-1">
+                <h2 class="step-title">What is your occupation type?</h2>
+                <p class="step-subtitle">This helps us find plans that match your profile.</p>
+
+                <div class="options-grid">
+                    <div class="option-card occupation-option" data-value="Salaried">
+                        <div class="option-icon"><i class="fas fa-briefcase"></i></div>
+                        <div class="option-label">Salaried</div>
+                    </div>
+                    <div class="option-card occupation-option" data-value="Self Employed">
+                        <div class="option-icon"><i class="fas fa-store"></i></div>
+                        <div class="option-label">Self Employed</div>
+                    </div>
+                    <div class="option-card occupation-option" data-value="Govt Employee">
+                        <div class="option-icon"><i class="fas fa-university"></i></div>
+                        <div class="option-label">Govt Employee</div>
+                    </div>
+                    <div class="option-card occupation-option" data-value="Homemaker">
+                        <div class="option-icon"><i class="fas fa-home"></i></div>
+                        <div class="option-label">Homemaker</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Education -->
+            <div class="step-content" id="step-2">
+                <h2 class="step-title">Your Educational Qualification?</h2>
+                <p class="step-subtitle">Select your highest qualification.</p>
+
+                <div class="radio-list">
+                    <label class="radio-option">
+                        <input type="radio" name="education" value="College Graduate & Above">
+                        <span>College Graduate & Above</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="education" value="12th Pass">
+                        <span>12th Pass</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="education" value="10th Pass">
+                        <span>10th Pass</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="education" value="Below 10th">
+                        <span>Below 10th</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Step 3: Annual Income -->
+            <div class="step-content" id="step-3">
+                <h2 class="step-title">Your Annual Income?</h2>
+                <p class="step-subtitle">Select the bracket that matches your gross annual income.</p>
+
+                <div class="income-grid">
+                    <div class="income-card" data-value="<2L">Less than 2 Lac</div>
+                    <div class="income-card" data-value="2L-5L">2 Lac - 5 Lac</div>
+                    <div class="income-card" data-value="5L-7L">5 Lac - 7 Lac</div>
+                    <div class="income-card" data-value="7L-10L">7 Lac - 10 Lac</div>
+                    <div class="income-card" data-value="10L-15L">10 Lac - 15 Lac</div>
+                    <div class="income-card" data-value="15L-25L">15 Lac - 25 Lac</div>
+                    <div class="income-card" data-value="25L+">25 Lac+</div>
+                </div>
+            </div>
+
+            <!-- Step 4: Tobacco -->
+            <div class="step-content" id="step-4">
+                <h2 class="step-title">Do you consume tobacco?</h2>
+                <p class="step-subtitle">Have you smoked or used tobacco products in the last 12 months?</p>
+
+                <div class="yes-no-container">
+                    <button type="button" class="yes-no-btn tobacco-btn" data-value="Yes">Yes</button>
+                    <button type="button" class="yes-no-btn tobacco-btn" data-value="No">No</button>
+                </div>
+            </div>
+
+            <!-- Step 5: City -->
+            <div class="step-content" id="step-5">
+                <h2 class="step-title">Where do you live?</h2>
+                <p class="step-subtitle">Enter your current city of residence.</p>
+
+                <div class="input-wrapper">
+                    <input type="text" class="city-input" id="city-input" placeholder="Start typing city name..."
+                        autocomplete="off">
+                    <div class="city-dropdown" id="city-list"></div>
+                </div>
+            </div>
+
+            <!-- Step 6: Contact Permission -->
+            <div class="step-content" id="step-6">
+                <h2 class="step-title">Can we contact you?</h2>
+                <p class="step-subtitle">Allow our experts to explain the plan benefits.</p>
+
+                <div class="yes-no-container">
+                    <button type="button" class="yes-no-btn contact-btn" data-value="Yes">Yes</button>
+
+                    <button type="button" class="yes-no-btn contact-btn" data-value="Maybe Later">Maybe Later</button>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <button type="button" class="btn-nav btn-back" id="prev-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button type="button" class="btn-nav btn-next" id="next-btn" disabled>
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Promo Footer -->
+    <div class="promo-footer">
+        <div class="promo-items">
+            <div class="promo-item"><i class="fas fa-check-circle"></i> 24x7 Claim Support</div>
+            <div class="promo-item"><i class="fas fa-check-circle"></i> Upto 15% Discount</div>
+            <div class="promo-item"><i class="fas fa-check-circle"></i> Certified Experts</div>
+            <div class="promo-item"><i class="fas fa-check-circle"></i> Best Price Guarantee</div>
+        </div>
+    </div>
+
+    <script src="TermLife_quote.js"></script>
+<script src="main.js?v=shield_optimized"></script>
+<script src="chatbot_widget.js"></script>
+</body>
+
+</html>
